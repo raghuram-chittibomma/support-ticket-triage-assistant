@@ -22,7 +22,7 @@ class TestGetMissingFieldsAgainstFixtures:
     """Every sample ticket's expected_missing_fields must match get_missing_fields exactly.
 
     This is the primary regression guard tying data/sample/tickets.json to the rule
-    implementation, per docs/01_architecture/DATA_MODEL.md Section 4 and ADR-002.
+    implementation, per docs/01_architecture/DATA_MODEL.md Section 5 and ADR-002.
     """
 
     @pytest.mark.parametrize("raw", SAMPLE_TICKETS, ids=[t["ticket_id"] for t in SAMPLE_TICKETS])

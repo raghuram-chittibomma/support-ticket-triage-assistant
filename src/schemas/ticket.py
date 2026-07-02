@@ -30,7 +30,7 @@ class TicketInput(BaseModel):
 
 
 class ReadinessResult(BaseModel):
-    """Deterministic readiness verdict for a ticket. See DATA_MODEL.md Section 1 and Section 4."""
+    """Deterministic readiness verdict for a ticket. See DATA_MODEL.md Section 1 and Section 5."""
 
     is_ready: bool
     missing_fields: list[str] = Field(default_factory=list)

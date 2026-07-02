@@ -23,6 +23,17 @@ Release facts (tags, published artifacts) live in [GitHub Releases](https://gith
 - Revised the documented pipeline order: classification now runs before readiness/missing-info detection.
 - 74 passing pytest unit tests. Independent Code Reviewer subagent pass: approved with minor suggestions; one finding deferred to a tracked follow-up (#39).
 
+## Unreleased — Slice 2: Priority Estimation, LLM-Backed Classification
+
+**Type:** Application code. PR TBD.
+
+- `src/services/priority.py`: deterministic, ordered keyword rule list (Urgent > High > Low(informational/cosmetic) > Medium default) — documented in `DATA_MODEL.md` Section 4. No LLM call.
+- `src/config.py`: `pydantic-settings` `Settings` for `OPENAI_API_KEY` / `OPENAI_MODEL`, loaded from `.env` (see `.env.example`).
+- `src/llm/client.py`: the `LLMClient` extension seam (Protocol) plus the default `OpenAILLMClient` implementation, constructed lazily so no API key is required at import time.
+- `src/services/classifier.py`: deterministic keyword/product-hint pre-filter (`rank_categories`) plus an `LLMClient` call for final category confirmation and explanation; `category_confidence` is a deterministic function of pre-filter/LLM agreement.
+- Unit tests mock `LLMClient` throughout (a `FakeLLMClient`) — no network calls in the fast test suite, per `TEST_STRATEGY.md`. Real classification accuracy is deferred to the evaluation scenario suite (#26), not asserted in unit tests.
+- All 25 sample tickets' `expected_priority` values verified against the new deterministic rules with no dataset changes needed.
+
 ## v0.1 SDLC Demo (in progress)
 
-Will include: the above, plus category classification, priority estimation, keyword-based knowledge retrieval, OpenAI-backed classification explanation and response drafting, confidence scoring, human-review decision logic, FastAPI endpoint, Gradio UI, and evaluation scenarios. Entry will be completed and dated when the milestone closes.
+Will include: the above, plus keyword-based knowledge retrieval, OpenAI-backed response drafting, confidence scoring, human-review decision logic, FastAPI endpoint, Gradio UI, and evaluation scenarios. Entry will be completed and dated when the milestone closes.
