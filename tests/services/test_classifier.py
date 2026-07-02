@@ -50,6 +50,28 @@ class TestRankCategories:
 
         assert first == second
 
+    def test_amp_keyword_does_not_match_inside_unrelated_words(self):
+        """Regression test (independent Code Reviewer subagent finding on PR #40): "amp" must
+        not match inside "sample"/"example", nor "hum" inside "human"."""
+        ticket = TicketInput(
+            subject="Sample question",
+            body="This is just an example of a human interest question, not about any product.",
+        )
+
+        ranked = rank_categories(ticket)
+        scores_by_category = dict(ranked)
+
+        assert scores_by_category[Category.AMP_SPEAKER_COMPATIBILITY] == 0
+        assert scores_by_category[Category.SOUND_QUALITY] == 0
+
+    def test_amp_keyword_still_matches_as_a_standalone_word(self):
+        ticket = TicketInput(subject="Amp question", body="Will this amp work with my speakers?")
+
+        ranked = rank_categories(ticket)
+        top_three = [category for category, _ in ranked[:3]]
+
+        assert Category.AMP_SPEAKER_COMPATIBILITY in top_three
+
 
 class TestClassifyTicket:
     def _ticket(self) -> TicketInput:
@@ -105,6 +127,16 @@ class TestClassifyTicket:
 
         assert result.category == Category.BLUETOOTH_PAIRING
         assert result.category_explanation == "Classified as Bluetooth / Pairing."
+
+    def test_markdown_fenced_json_response_is_parsed(self):
+        llm_client = FakeLLMClient(
+            response='```json\n{"category": "Bluetooth / Pairing", "explanation": "Pairing failure."}\n```'
+        )
+
+        result = classify_ticket(self._ticket(), llm_client)
+
+        assert result.category == Category.BLUETOOTH_PAIRING
+        assert result.category_explanation == "Pairing failure."
 
     def test_prompt_includes_ticket_subject_and_body(self):
         llm_client = FakeLLMClient(

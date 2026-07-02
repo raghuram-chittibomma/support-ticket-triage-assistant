@@ -98,3 +98,64 @@ class TestEstimatePriorityRulePrecedence:
 
         assert priority == Priority.MEDIUM
         assert "default" in reason
+
+
+class TestEstimatePriorityKeywordFalsePositiveRegressions:
+    """Regression tests for word-boundary matching (independent Code Reviewer subagent finding
+    on PR #40): short keywords like "shock" or "dent" must not match inside unrelated words."""
+
+    def test_shockproof_does_not_trigger_safety_urgent(self):
+        ticket = TicketInput(
+            subject="Packaging quality",
+            body="The box says it is shockproof but the corner was a bit dented in shipping.",
+        )
+
+        priority, reason = estimate_priority(ticket)
+
+        assert priority != Priority.URGENT
+        assert "shock" not in reason
+
+    def test_identify_does_not_trigger_dent_low_signal(self):
+        ticket = TicketInput(
+            subject="Odd noise",
+            body=(
+                "My amp has been making a strange clicking noise for the past few days and "
+                "I cannot identify the source."
+            ),
+        )
+
+        priority, _ = estimate_priority(ticket)
+
+        assert priority == Priority.MEDIUM
+
+    def test_from_scratch_does_not_trigger_scratch_low_signal(self):
+        ticket = TicketInput(
+            subject="Sound issue",
+            body="I want to reset my speaker from scratch and start over to see if that helps.",
+        )
+
+        priority, _ = estimate_priority(ticket)
+
+        assert priority == Priority.MEDIUM
+
+    def test_standalone_dent_keyword_still_matches(self):
+        ticket = TicketInput(
+            subject="Subwoofer arrived damaged",
+            body="The cabinet itself has a visible dent on the front panel.",
+        )
+
+        priority, reason = estimate_priority(ticket)
+
+        assert priority == Priority.LOW
+        assert "dent" in reason
+
+    def test_standalone_shock_keyword_still_matches(self):
+        ticket = TicketInput(
+            subject="Amp issue",
+            body="I got a mild shock when I touched the metal casing of my amp.",
+        )
+
+        priority, reason = estimate_priority(ticket)
+
+        assert priority == Priority.URGENT
+        assert "shock" in reason

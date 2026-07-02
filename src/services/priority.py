@@ -4,6 +4,8 @@ No LLM call. An ordered rule list is evaluated top to bottom; the first matching
 and its name/matched keyword is returned as `priority_reason` for explainability.
 """
 
+import re
+
 from src.schemas import Priority, TicketInput
 
 SAFETY_KEYWORDS = [
@@ -79,15 +81,24 @@ LOW_SIGNAL_KEYWORDS = [
     "still have the receipt",
     "dent",
     "dented",
-    "scratch",
+    "a scratch on",
+    "scratched",
     "scuffed",
     "cosmetic",
 ]
 
 
 def _first_match(text: str, keywords: list[str]) -> str | None:
+    """Return the first keyword found as a whole phrase in `text`, or None.
+
+    Uses word-boundary matching rather than plain substring `in` checks — short keywords
+    like "shock" or "dent" would otherwise false-positive inside unrelated words like
+    "shockproof" or "identify"/"resident". `\\b` boundaries around the full (possibly
+    multi-word) phrase correctly require it to appear as standalone words in the text.
+    """
     for keyword in keywords:
-        if keyword in text:
+        pattern = r"\b" + re.escape(keyword) + r"\b"
+        if re.search(pattern, text):
             return keyword
     return None
 
@@ -100,7 +111,7 @@ def estimate_priority(ticket: TicketInput) -> tuple[Priority, str]:
     """Return the deterministic (priority, priority_reason) for a ticket.
 
     Rule precedence (first match wins): Urgent > High > Low(informational/cosmetic) > Medium
-    (default). See DATA_MODEL.md Section 3 for the rule descriptions and Section 4a for the
+    (default). See DATA_MODEL.md Section 3 for the rule descriptions and Section 4 for the
     keyword lists.
     """
     text = _ticket_text(ticket)

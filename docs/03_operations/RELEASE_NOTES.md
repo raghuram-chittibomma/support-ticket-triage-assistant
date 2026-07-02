@@ -19,13 +19,13 @@ Release facts (tags, published artifacts) live in [GitHub Releases](https://gith
 
 - Synthetic data: 8-product NorthPeak Audioworks catalog, 25 sample tickets covering all 13 taxonomy categories, 8 knowledge-base articles (ADR-002 — hand-curated JSON, not generated).
 - `src/schemas/`: `TicketInput`, `TriageResult`, `ReadinessResult`, `Reference`, `Category`, `Priority` Pydantic models.
-- `src/services/missing_info.py` and `readiness.py`: deterministic, keyword-based per-category readiness checking (documented in `DATA_MODEL.md` Section 4).
+- `src/services/missing_info.py` and `readiness.py`: deterministic, keyword-based per-category readiness checking (documented in `DATA_MODEL.md` Section 5 — renumbered from Section 4 in Slice 2 to make room for the new Priority Rule Keyword Detail section).
 - Revised the documented pipeline order: classification now runs before readiness/missing-info detection.
 - 74 passing pytest unit tests. Independent Code Reviewer subagent pass: approved with minor suggestions; one finding deferred to a tracked follow-up (#39).
 
 ## Unreleased — Slice 2: Priority Estimation, LLM-Backed Classification
 
-**Type:** Application code. PR TBD.
+**Type:** Application code. PR [#40](https://github.com/raghuram-chittibomma/support-ticket-triage-assistant/pull/40).
 
 - `src/services/priority.py`: deterministic, ordered keyword rule list (Urgent > High > Low(informational/cosmetic) > Medium default) — documented in `DATA_MODEL.md` Section 4. No LLM call.
 - `src/config.py`: `pydantic-settings` `Settings` for `OPENAI_API_KEY` / `OPENAI_MODEL`, loaded from `.env` (see `.env.example`).

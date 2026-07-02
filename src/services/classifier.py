@@ -12,6 +12,7 @@ the keyword pre-filter, not a further model call — this keeps confidence expla
 """
 
 import json
+import re
 from functools import lru_cache
 
 from pydantic import BaseModel, Field
@@ -77,7 +78,6 @@ CATEGORY_KEYWORDS: dict[Category, list[str]] = {
         "subwoofer",
         "crossover",
         "bass",
-        "sub ",
     ],
     Category.PRODUCT_DEFECT: [
         "defect",
@@ -156,6 +156,12 @@ def _ticket_text(ticket: TicketInput) -> str:
     return f"{ticket.subject} {ticket.body}".lower()
 
 
+def _keyword_present(text: str, keyword: str) -> bool:
+    """Word-boundary match rather than plain substring — short keywords like "amp" or "hum"
+    would otherwise false-positive inside unrelated words like "sample" or "human"."""
+    return re.search(r"\b" + re.escape(keyword) + r"\b", text) is not None
+
+
 @lru_cache(maxsize=1)
 def _product_category_hints() -> dict[str, list[str]]:
     return {product["sku"]: product.get("category_hints", []) for product in load_products()}
@@ -168,7 +174,7 @@ def rank_categories(ticket: TicketInput) -> list[tuple[Category, int]]:
 
     scores: dict[Category, int] = {}
     for category, keywords in CATEGORY_KEYWORDS.items():
-        score = sum(1 for keyword in keywords if keyword in text)
+        score = sum(1 for keyword in keywords if _keyword_present(text, keyword))
         if category.value in hints:
             score += 1
         scores[category] = score
@@ -201,9 +207,18 @@ def _build_user_prompt(ticket: TicketInput, top_candidates: list[Category]) -> s
     )
 
 
+def _strip_markdown_code_fence(raw: str) -> str:
+    """Models sometimes wrap JSON in ```json ... ``` despite instructions not to; strip it."""
+    stripped = raw.strip()
+    if stripped.startswith("```"):
+        stripped = re.sub(r"^```[a-zA-Z]*\n?", "", stripped)
+        stripped = re.sub(r"\n?```$", "", stripped)
+    return stripped.strip()
+
+
 def _parse_llm_response(raw: str, fallback: Category) -> tuple[Category, str]:
     try:
-        data = json.loads(raw)
+        data = json.loads(_strip_markdown_code_fence(raw))
         category = Category(data["category"])
     except (json.JSONDecodeError, KeyError, ValueError, TypeError):
         return (
@@ -219,6 +234,10 @@ def _parse_llm_response(raw: str, fallback: Category) -> tuple[Category, str]:
 
 
 def _compute_confidence(chosen: Category, ranked: list[tuple[Category, int]]) -> float:
+    # `ranked` is never empty (every Category always has an entry, possibly score 0), so
+    # `top_category` is well-defined. When no keywords match anything, `rank_categories`'s
+    # stable sort ties back to CATEGORY_KEYWORDS's insertion order — an intentional,
+    # deterministic tie-break, not a meaningful "best" category.
     top_category = ranked[0][0] if ranked else None
     top_three = {category for category, _ in ranked[:3]}
     if chosen == top_category:
