@@ -1,0 +1,43 @@
+## Python
+__pycache__/
+*.py[cod]
+*$py.class
+*.egg-info/
+.eggs/
+build/
+dist/
+*.egg
+
+## Virtual environments
+.venv/
+venv/
+env/
+
+## Environment/secrets
+.env
+.env.*
+!.env.example
+
+## Testing / coverage
+.pytest_cache/
+.coverage
+.coverage.*
+htmlcov/
+.tox/
+
+## Vector store / generated data (regeneratable, not committed)
+data/generated/*
+!data/generated/.gitkeep
+.chroma/
+
+## IDE
+.vscode/
+.idea/
+*.iml
+
+## OS
+.DS_Store
+Thumbs.db
+
+## Logs
+*.log
