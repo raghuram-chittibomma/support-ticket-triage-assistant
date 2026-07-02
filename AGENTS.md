@@ -36,3 +36,8 @@ This is a synthetic AI support-ticket triage assistant for a fictional hi-fi aud
 - Run `pytest` and ensure it passes.
 - Update relevant docs under `docs/` if architecture, data model, or strategy changed.
 - Do not restate GitHub issue status in local markdown files.
+
+## Before merging a PR
+
+- Do not self-review your own diff and call it done. Launch an independent Code Reviewer subagent (fresh context) per `.agents/code-reviewer.md` and address or explicitly defer its findings before merging.
+- For structural/architecture concerns, also invoke the Refactor Reviewer subagent per `.agents/refactor-reviewer.md` (periodic, not required on every PR).

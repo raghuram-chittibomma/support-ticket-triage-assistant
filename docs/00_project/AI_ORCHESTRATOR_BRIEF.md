@@ -113,8 +113,8 @@ GitHub-native: labels, milestones, Project board, issues, pull requests, release
 3. Issue broken into an implementation slice (Implementation Planner Agent assists).
 4. Main Orchestrator implements the slice on a feature branch named after the issue.
 5. Tests/evals added (Test/Eval Designer Agent assists).
-6. PR opened referencing `Closes #<issue>`; reviewed (Code Reviewer / Refactor Reviewer Agents assist).
-7. CI passes; PR merged; issue closed.
+6. PR opened referencing `Closes #<issue>`; reviewed by an **independent Code Reviewer subagent** (fresh context, not the Main Orchestrator self-reviewing its own diff) — see `.agents/code-reviewer.md` Trigger Mechanism. Refactor Reviewer subagent invoked periodically or when structural concerns arise.
+7. CI passes; findings addressed; PR merged; issue closed.
 8. Docs updated if architecture/behavior changed (Documentation Agent assists).
 9. Release cut and `RELEASE_NOTES.md` updated (Release Manager Agent assists).
 

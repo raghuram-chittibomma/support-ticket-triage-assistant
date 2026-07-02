@@ -9,6 +9,10 @@ Identify code-quality and structural issues (duplication, unclear boundaries bet
 - Periodically as the codebase grows, or when a slice's implementation feels awkward to extend.
 - When considering whether an extension seam (`LLMClient`, `Retriever`, `TriageRepository`) is being respected.
 
+## Trigger Mechanism
+
+Unlike the Code Reviewer, this role is not invoked on every PR — only periodically or when structural concerns arise. When it is invoked, it runs as an independent subagent with fresh context (same rationale as the Code Reviewer: a fresh pass catches structural drift a self-review would miss).
+
 ## Inputs
 
 - Current `src/` structure and `docs/01_architecture/ARCHITECTURE.md`.

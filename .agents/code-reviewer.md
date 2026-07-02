@@ -9,6 +9,10 @@ Review pull request diffs for correctness, adherence to architecture/data-model 
 - Before merging any PR that touches `src/`, `tests/`, or `evals/`.
 - When a PR's scope is unclear or appears to touch unrelated files.
 
+## Trigger Mechanism (required)
+
+This role is **never self-applied** by the Main Orchestrator in the same context that wrote the code — self-review has an obvious blind spot. For every PR touching `src/`, `tests/`, or `evals/`, the Main Orchestrator launches this role as a genuinely independent subagent (fresh context, no memory of writing the diff) before the PR is merged, reports the findings back, and only then merges. This mirrors the built-in Bugbot/Security-Review skills.
+
 ## Inputs
 
 - The PR diff, its linked GitHub issue, and relevant docs (`ARCHITECTURE.md`, `DATA_MODEL.md`, `TEST_STRATEGY.md`).

@@ -23,3 +23,8 @@ Closes #
 
 - [ ] This PR only touches files relevant to the linked issue
 - [ ] Only one agent/role modified application code in this PR (per the one-agent-per-slice rule), unless explicitly an exception
+
+## Review
+
+- [ ] Reviewed by an independent Code Reviewer subagent (fresh context, not self-review) per `.agents/code-reviewer.md`
+- [ ] Findings from that review addressed or explicitly deferred with rationale
