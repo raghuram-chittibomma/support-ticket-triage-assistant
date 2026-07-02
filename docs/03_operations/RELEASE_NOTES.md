@@ -13,6 +13,16 @@ Release facts (tags, published artifacts) live in [GitHub Releases](https://gith
 - Added `AGENTS.md` and build-time SDLC agent/skill definitions under `.agents/` and `.skills/`.
 - Created the initial backlog of GitHub issues for the `v0.1 SDLC Demo` milestone.
 
-## v0.1 SDLC Demo (planned)
+## Unreleased — Slice 1: Data Foundations, Ticket Schema, Readiness
 
-Will include: synthetic product catalog and sample tickets, synthetic knowledge base, ticket schema, deterministic readiness/missing-info/priority/human-review logic, keyword-based retrieval, OpenAI-backed classification and response drafting, FastAPI endpoint, Gradio UI, pytest suite, evaluation scenarios. Entry will be completed and dated when the milestone closes.
+**Type:** Application code (first slice). PR [#38](https://github.com/raghuram-chittibomma/support-ticket-triage-assistant/pull/38), merged 2026-07-02.
+
+- Synthetic data: 8-product NorthPeak Audioworks catalog, 25 sample tickets covering all 13 taxonomy categories, 8 knowledge-base articles (ADR-002 — hand-curated JSON, not generated).
+- `src/schemas/`: `TicketInput`, `TriageResult`, `ReadinessResult`, `Reference`, `Category`, `Priority` Pydantic models.
+- `src/services/missing_info.py` and `readiness.py`: deterministic, keyword-based per-category readiness checking (documented in `DATA_MODEL.md` Section 4).
+- Revised the documented pipeline order: classification now runs before readiness/missing-info detection.
+- 74 passing pytest unit tests. Independent Code Reviewer subagent pass: approved with minor suggestions; one finding deferred to a tracked follow-up (#39).
+
+## v0.1 SDLC Demo (in progress)
+
+Will include: the above, plus category classification, priority estimation, keyword-based knowledge retrieval, OpenAI-backed classification explanation and response drafting, confidence scoring, human-review decision logic, FastAPI endpoint, Gradio UI, and evaluation scenarios. Entry will be completed and dated when the milestone closes.
