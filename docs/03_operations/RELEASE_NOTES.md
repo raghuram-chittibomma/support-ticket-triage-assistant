@@ -36,6 +36,14 @@ Release facts (tags, published artifacts) live in [GitHub Releases](https://gith
 - Independent Code Reviewer subagent pass: requested changes on one blocking bug (short keywords like "shock"/"dent" false-positived via plain substring matching, e.g. "shockproof" incorrectly triggering the Urgent safety rule); fixed with word-boundary matching plus regression tests. One unrelated, pre-existing stale doc reference found during review deferred to a tracked follow-up (#41). 127 passing pytest unit tests after fixes.
 - Story #33 (priority) closed — its Definition of Done is fully met. Story #32 (classification) stays open/in-progress — its Definition of Done additionally requires measuring classification accuracy via the evaluation scenario suite (#26), not yet built.
 
+## Unreleased — Slice 3: Knowledge Retrieval, LLM-Backed Response Drafting
+
+**Type:** Application code. PR TBD.
+
+- `src/retrieval/kb_retriever.py`: `Retriever` extension seam (Protocol) plus `KeywordKBRetriever` — filters `data/knowledge_base/` articles by `category_tags` matching the classified category (the primary relevance signal; categories with no KB coverage correctly return zero references), then ranks same-category candidates by deterministic keyword-overlap + product-tag scoring. No vector database in v0.1.
+- `src/services/response_drafter.py`: an `LLMClient` call that drafts a customer response grounded in retrieved references. A deterministic post-generation check falls back to a safe templated response if the model cites a `doc_id` that wasn't actually retrieved — a citation can never be fabricated even if the model ignores its system prompt instructions.
+- Unit tests mock `LLMClient` throughout; no network calls in the fast test suite. Response quality is deferred to the evaluation scenario suite (#26), per `EVAL_STRATEGY.md`.
+
 ## v0.1 SDLC Demo (in progress)
 
-Will include: the above, plus keyword-based knowledge retrieval, OpenAI-backed response drafting, confidence scoring, human-review decision logic, FastAPI endpoint, Gradio UI, and evaluation scenarios. Entry will be completed and dated when the milestone closes.
+Will include: the above, plus confidence scoring, human-review decision logic, FastAPI endpoint, Gradio UI, and evaluation scenarios. Entry will be completed and dated when the milestone closes.

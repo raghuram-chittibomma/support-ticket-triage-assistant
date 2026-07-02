@@ -1,0 +1,95 @@
+from src.schemas import Category, Reference, TicketInput
+from src.services.response_drafter import draft_response
+
+
+class FakeLLMClient:
+    def __init__(self, response: str):
+        self.response = response
+        self.calls: list[dict] = []
+
+    def complete(self, *, system_prompt: str, user_prompt: str) -> str:
+        self.calls.append({"system_prompt": system_prompt, "user_prompt": user_prompt})
+        return self.response
+
+
+def _ticket() -> TicketInput:
+    return TicketInput(
+        subject="Speaker won't reconnect to Wi-Fi",
+        body="My speaker stopped reconnecting to Wi-Fi after the last firmware update.",
+        product_sku="SUM1-ACT",
+    )
+
+
+def _reference() -> Reference:
+    return Reference(
+        doc_id="KB-WIFI-004",
+        title="Resolving Wi-Fi reconnect issues after firmware updates",
+        excerpt="Power-cycle the device, confirm the router band, then re-run network setup.",
+    )
+
+
+class TestDraftResponseGroundedCase:
+    def test_clean_response_citing_a_retrieved_doc_id_passes_through_unchanged(self):
+        llm_client = FakeLLMClient(
+            "Sorry about the trouble! Please power-cycle your speaker and re-run network "
+            "setup from the companion app (KB-WIFI-004). Let us know if that resolves it."
+        )
+
+        result = draft_response(_ticket(), Category.WIFI_NETWORK, [_reference()], llm_client)
+
+        assert result == llm_client.response
+        assert len(llm_client.calls) == 1
+
+    def test_clean_response_with_no_doc_id_citation_passes_through_unchanged(self):
+        llm_client = FakeLLMClient("Sorry about the trouble! Please try power-cycling your speaker.")
+
+        result = draft_response(_ticket(), Category.WIFI_NETWORK, [_reference()], llm_client)
+
+        assert result == llm_client.response
+
+    def test_prompt_includes_ticket_and_reference_doc_ids(self):
+        llm_client = FakeLLMClient("Some helpful reply.")
+        ticket = _ticket()
+        reference = _reference()
+
+        draft_response(ticket, Category.WIFI_NETWORK, [reference], llm_client)
+
+        user_prompt = llm_client.calls[0]["user_prompt"]
+        assert ticket.subject in user_prompt
+        assert ticket.body in user_prompt
+        assert reference.doc_id in user_prompt
+
+
+class TestDraftResponseFabricationGuard:
+    def test_fabricated_doc_id_triggers_fallback(self):
+        llm_client = FakeLLMClient(
+            "As explained in our detailed guide (KB-MADE-UP-999), please try resetting the device."
+        )
+
+        result = draft_response(_ticket(), Category.WIFI_NETWORK, [_reference()], llm_client)
+
+        assert "KB-MADE-UP-999" not in result
+        assert _reference().title in result
+
+    def test_fabricated_doc_id_with_no_references_triggers_generic_fallback(self):
+        llm_client = FakeLLMClient("Please see (KB-NONEXISTENT-001) for details.")
+
+        result = draft_response(_ticket(), Category.WIFI_NETWORK, [], llm_client)
+
+        assert "KB-NONEXISTENT-001" not in result
+        assert "follow up" in result.lower()
+
+    def test_empty_llm_response_triggers_fallback(self):
+        llm_client = FakeLLMClient("   ")
+
+        result = draft_response(_ticket(), Category.WIFI_NETWORK, [_reference()], llm_client)
+
+        assert result
+        assert _reference().title in result
+
+    def test_clean_response_with_no_references_and_no_citation_passes_through(self):
+        llm_client = FakeLLMClient("Thanks for reaching out, here is some general guidance.")
+
+        result = draft_response(_ticket(), Category.GENERAL_QUESTION, [], llm_client)
+
+        assert result == llm_client.response
