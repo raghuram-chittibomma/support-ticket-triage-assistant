@@ -2,6 +2,16 @@
 
 Used by: Implementation Planner Agent (primarily), Main Orchestrator.
 
+## Story-Task Hierarchy (required)
+
+Do not create flat, architecture-shaped task lists. Every piece of user-facing work must trace to a **user story** before it becomes technical **tasks**:
+
+1. Identify the functional requirement (FR) in `docs/00_project/PRODUCT_BRIEF.md` the work serves.
+2. If no story issue exists for that FR yet, create one first: title `Story: <capability> (FR<n>)`, labeled `type:story`, with a persona-based "As a / I want / so that" narrative and Given/When/Then acceptance criteria written in user-observable terms (no schema/interface details).
+3. Create the technical task issue(s) as usual, then link each as a **GitHub sub-issue** of the story (`gh api repos/{owner}/{repo}/issues/{story}/sub_issues -X POST -F sub_issue_id=<task's numeric id>`).
+4. Non-user-facing enabling work (data generation, shared infrastructure) that doesn't map to a single FR is grouped under an **epic** issue (`type:epic`) instead of a story.
+5. Update the traceability table in `PRODUCT_BRIEF.md` when a new story is added.
+
 ## Checklist
 
 - [ ] Issue has a clear, action-oriented title (e.g. "Implement deterministic readiness checker", not "Readiness").

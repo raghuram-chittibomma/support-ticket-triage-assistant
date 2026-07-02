@@ -14,7 +14,7 @@ This is a synthetic AI support-ticket triage assistant for a fictional hi-fi aud
 4. **Prefer deterministic logic for rules, LLM reasoning for language tasks.** Readiness checks, missing-information detection, priority scoring, and routing should be deterministic and explainable. Use an LLM for classification explanation, response drafting, summarization, and ambiguity handling.
 5. **PostgreSQL only if it earns its place.** Do not introduce PostgreSQL (or any database) unless a specific requirement needs relational persistence. If/when adopted, manage schema changes through migration files under `db/migrations/` — never ad hoc manual schema edits. Do not use SQLite for application persistence except as clearly justified, temporary local testing.
 6. **One agent modifies code per implementation slice**, unless a task explicitly says otherwise. Avoid touching files outside the scope of the current issue/slice.
-7. **Every change traces back to a GitHub issue.** Branch names should reference the issue (e.g. `issue-12-ticket-schema`), and PRs should include `Closes #<issue-number>`.
+7. **Every change traces back to a GitHub issue, and every task traces back to a user story.** Backlog issues follow a Story -> Task hierarchy (see `.skills/github-backlog-creation.md`) linked via GitHub sub-issues, not a flat, architecture-shaped task list. Branch names should reference the task issue (e.g. `issue-14-readiness-checker`), and PRs should include `Closes #<issue-number>`.
 8. **Tests/evals are part of the definition of done.** New runtime behavior needs corresponding tests under `tests/` and, where relevant, eval scenarios under `evals/`.
 
 ## Where things live

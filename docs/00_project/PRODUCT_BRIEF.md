@@ -61,6 +61,23 @@ NorthPeak Audioworks support agents manually re-read each incoming ticket, judge
 
 *(Refined from the original brainstormed list by merging Billing/Payment and Account Management into a single "Order / Account / Billing" category to reduce overlap for a small v0.1 taxonomy; may be re-split later if warranted by real usage data from evaluation scenarios.)*
 
+## Traceability to Backlog
+
+Each functional requirement maps to a GitHub **user story** issue, which in turn parents the technical **task** issues that implement it (via GitHub sub-issues). This keeps the backlog organized around user-observable capability rather than only around architecture components:
+
+- FR1 -> Story: Submit a support ticket for triage ([#30](https://github.com/raghuram-chittibomma/support-ticket-triage-assistant/issues/30))
+- FR2 -> Story: Know if a ticket has enough information to act on ([#31](https://github.com/raghuram-chittibomma/support-ticket-triage-assistant/issues/31))
+- FR3 -> Story: Automatically classify a ticket's category ([#32](https://github.com/raghuram-chittibomma/support-ticket-triage-assistant/issues/32))
+- FR4 -> Story: Estimate ticket priority ([#33](https://github.com/raghuram-chittibomma/support-ticket-triage-assistant/issues/33))
+- FR5 -> Story: Surface relevant knowledge for a ticket ([#34](https://github.com/raghuram-chittibomma/support-ticket-triage-assistant/issues/34))
+- FR6 -> Story: Get a draft customer response ([#35](https://github.com/raghuram-chittibomma/support-ticket-triage-assistant/issues/35))
+- FR7 -> Story: Know how much to trust the result ([#36](https://github.com/raghuram-chittibomma/support-ticket-triage-assistant/issues/36))
+- FR8 -> Story: See the complete triage result in one place ([#37](https://github.com/raghuram-chittibomma/support-ticket-triage-assistant/issues/37))
+
+Foundational, non-user-facing work (synthetic data, ticket schema) is tracked as an enabler epic ([#29](https://github.com/raghuram-chittibomma/support-ticket-triage-assistant/issues/29)) rather than a story, since it doesn't map to a single FR on its own.
+
+This table is a pointer, not a duplicate of GitHub - status, task-level detail, and acceptance-criteria checkboxes live on the issues themselves.
+
 ## In Scope (v0.1)
 
 Single-ticket triage workflow (FR1–FR8 above), synthetic data (catalog, tickets, KB), deterministic readiness/priority/human-review logic, OpenAI-backed classification explanation and response drafting, keyword-based retrieval, FastAPI endpoint, Gradio UI, pytest suite, evaluation scenarios, release notes.
