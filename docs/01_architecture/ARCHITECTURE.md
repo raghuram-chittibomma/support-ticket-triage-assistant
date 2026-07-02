@@ -54,6 +54,8 @@ To avoid a rewrite later, v0.1 code is written behind small interfaces:
 
 See `docs/01_architecture/DATA_MODEL.md` for schemas and `docs/00_project/PRODUCT_BRIEF.md` for functional requirements. Workflow sequence:
 
-Ticket intake → input validation → readiness check → missing-information detection → category classification → priority estimation → knowledge-base retrieval (if applicable) → response drafting → confidence scoring → human-review decision → output formatting.
+Ticket intake → input validation → category classification → readiness check → missing-information detection → priority estimation → knowledge-base retrieval (if applicable) → response drafting → confidence scoring → human-review decision → output formatting.
+
+**Note (revised during Slice 1 implementation of #14/#15):** classification runs *before* readiness/missing-information detection, not after as originally sketched — the per-category required-field rules in `DATA_MODEL.md` Section 4 need to know the category to know which fields to check for. `readiness.py` and `missing_info.py` both take the classified `Category` as an explicit parameter alongside the `TicketInput`, keeping them deterministic, unit-testable in isolation, and unaware of how the category was produced.
 
 No persistence step occurs in v0.1; a persistence extension point is documented but unimplemented.

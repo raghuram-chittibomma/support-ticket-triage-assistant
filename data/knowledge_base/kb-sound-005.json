@@ -1,0 +1,9 @@
+{
+  "doc_id": "KB-SOUND-005",
+  "title": "Diagnosing distortion and crackling at higher volumes",
+  "type": "troubleshooting",
+  "category_tags": ["Sound Quality / Distortion", "Amplifier / Speaker Compatibility"],
+  "product_tags": ["SUM1-BK", "SUM1-ACT", "CDR200-AMP"],
+  "content": "Distortion that only appears at higher volume is usually one of three things: 1) Amplifier clipping - if the amplifier's power rating is close to or below the speaker's recommended range, raise the amp's headroom by reducing the source volume and raising the amp volume instead. 2) A loose speaker wire connection at the binding post, which can buzz under higher excursion. 3) Placement too close to a wall or corner, causing boundary reinforcement that sounds like distortion at certain frequencies. Ask the customer which input/source they are using and at what approximate volume level (e.g. a percentage or a 1-10 scale) the distortion starts, since that narrows down clipping vs. a wiring/placement issue.",
+  "last_updated": "2026-05-22"
+}

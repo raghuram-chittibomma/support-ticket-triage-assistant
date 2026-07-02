@@ -1,0 +1,9 @@
+{
+  "doc_id": "KB-SUB-003",
+  "title": "Subwoofer crossover and placement guide",
+  "type": "faq",
+  "category_tags": ["Subwoofer Setup"],
+  "product_tags": ["RIDGE-SUB8"],
+  "content": "For most rooms under 400 square feet, start with a crossover of 80Hz and adjust up if the transition to your main speakers sounds boomy, or down if there's a gap in the bass. Placement: corner placement boosts output but can cause uneven bass; try the 'subwoofer crawl' method (place the sub at your listening position, walk around the room, and put it where the bass sounds most even). If output still seems weak after adjusting crossover and placement, confirm the subwoofer's wireless pairing status - a dropped wireless link can silently mute the sub while the main speakers keep playing.",
+  "last_updated": "2026-03-30"
+}

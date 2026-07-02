@@ -1,0 +1,9 @@
+{
+  "doc_id": "KB-FW-010",
+  "title": "How firmware updates work and what to do if one fails",
+  "type": "firmware_notes",
+  "category_tags": ["Firmware Update"],
+  "product_tags": ["SUM1-ACT", "CDR-STRM-MINI"],
+  "content": "Firmware updates are delivered through the companion app and install automatically when the device is idle and connected to Wi-Fi, unless automatic updates are disabled in Settings. If an update becomes stuck or fails partway through: 1) Do not unplug the device while 'Updating...' is shown. 2) If it fails and shows an error, power-cycle the device and retry from Settings > Firmware > Check for Updates. 3) Updates typically take 5-10 minutes; if a specific version consistently fails after three attempts, note the exact version numbers involved (current and target) so a hardware fallback path can be checked. Recent release notes: v3.2.0 improved Wi-Fi reconnect reliability; v2.3.1 fixed a Bluetooth audio sync issue.",
+  "last_updated": "2026-06-10"
+}
