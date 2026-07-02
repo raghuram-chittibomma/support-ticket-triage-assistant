@@ -1,0 +1,146 @@
+[
+  {
+    "sku": "SUM1-BK",
+    "name": "Summit One Bookshelf",
+    "product_type": "Passive bookshelf speaker",
+    "category_hints": [
+      "Sound Quality / Distortion",
+      "Amplifier / Speaker Compatibility",
+      "Returns / Refunds",
+      "General Product Question"
+    ],
+    "short_description": "Two-way passive bookshelf speaker designed for stand-mount or bookshelf placement, paired with an external amplifier.",
+    "common_issues": [
+      "Distorted or buzzing sound at higher volumes",
+      "Uncertainty about amplifier wattage/impedance matching",
+      "Requesting a return after purchase",
+      "General questions about placement and specifications"
+    ]
+  },
+  {
+    "sku": "SUM1-ACT",
+    "name": "Summit One Active",
+    "product_type": "Powered bookshelf speaker",
+    "category_hints": [
+      "Wi-Fi / Network Connectivity",
+      "Bluetooth / Pairing",
+      "Setup / Installation",
+      "Firmware Update"
+    ],
+    "short_description": "Powered bookshelf speaker with built-in Wi-Fi streaming, Bluetooth, and companion app setup.",
+    "common_issues": [
+      "Wi-Fi reconnect failures after a firmware update",
+      "Bluetooth pairing drops or fails to pair",
+      "App setup fails to discover the speaker",
+      "Firmware update stuck or fails to install"
+    ]
+  },
+  {
+    "sku": "CDR200-AMP",
+    "name": "Cedar 200 Integrated Amp",
+    "product_type": "Integrated amplifier",
+    "category_hints": [
+      "Sound Quality / Distortion",
+      "Amplifier / Speaker Compatibility",
+      "Product Defect / Hardware Issue",
+      "Warranty / Registration"
+    ],
+    "short_description": "Integrated stereo amplifier with multiple analog and digital inputs, driving passive speakers.",
+    "common_issues": [
+      "Audible hum or ground loop noise",
+      "Uncertainty about which input to use for a given source",
+      "Speaker terminal or protection relay seems defective",
+      "Registering the amp for warranty coverage"
+    ]
+  },
+  {
+    "sku": "CDR-STRM-MINI",
+    "name": "Cedar Stream Mini",
+    "product_type": "Network streamer",
+    "category_hints": [
+      "Wi-Fi / Network Connectivity",
+      "Firmware Update",
+      "Order / Account / Billing",
+      "General Product Question"
+    ],
+    "short_description": "Compact network streamer supporting Spotify Connect and AirPlay over a home Wi-Fi network.",
+    "common_issues": [
+      "Spotify Connect or AirPlay fails to discover the device",
+      "Network dropout during playback",
+      "Billing question about a subscription-linked purchase",
+      "General question about supported streaming services"
+    ]
+  },
+  {
+    "sku": "AERO-DAC2",
+    "name": "AeroDAC 2",
+    "product_type": "USB/Bluetooth DAC",
+    "category_hints": [
+      "Bluetooth / Pairing",
+      "Product Defect / Hardware Issue",
+      "Order / Account / Billing",
+      "General Product Question"
+    ],
+    "short_description": "USB and Bluetooth digital-to-analog converter for connecting a computer or phone to an amplifier.",
+    "common_issues": [
+      "USB DAC not recognized by a connected computer",
+      "Bluetooth codec or audio quality questions",
+      "DAC stopped outputting audio on one channel",
+      "Question about which order includes the DAC"
+    ]
+  },
+  {
+    "sku": "RIDGE-SUB8",
+    "name": "RidgeSub 8",
+    "product_type": "Compact subwoofer",
+    "category_hints": [
+      "Subwoofer Setup",
+      "Shipping / Damaged Delivery",
+      "Returns / Refunds",
+      "General Product Question"
+    ],
+    "short_description": "Compact 8-inch powered subwoofer with wireless pairing to compatible Summit speakers.",
+    "common_issues": [
+      "Wireless pairing with main speakers fails",
+      "Crossover frequency and placement guidance",
+      "Box arrived damaged or dented in shipping",
+      "Requesting a refund for a subwoofer"
+    ]
+  },
+  {
+    "sku": "PEAK-STND24",
+    "name": "PeakStand 24",
+    "product_type": "Speaker stand",
+    "category_hints": [
+      "Setup / Installation",
+      "Shipping / Damaged Delivery",
+      "Returns / Refunds",
+      "Product Defect / Hardware Issue"
+    ],
+    "short_description": "24-inch fillable speaker stand pair designed for the Summit One speaker line.",
+    "common_issues": [
+      "Assembly instructions unclear",
+      "Compatibility question with a specific speaker model",
+      "Missing hardware or parts in the box",
+      "Stand arrived with a cracked column"
+    ]
+  },
+  {
+    "sku": "ROOMTUNE-MIC",
+    "name": "RoomTune Mic",
+    "product_type": "Room calibration microphone",
+    "category_hints": [
+      "Warranty / Registration",
+      "General Product Question",
+      "Product Defect / Hardware Issue",
+      "Setup / Installation"
+    ],
+    "short_description": "USB measurement microphone used with the companion app to calibrate room acoustics.",
+    "common_issues": [
+      "App fails to recognize the calibration microphone",
+      "Calibration process setup guidance",
+      "Registering the microphone for warranty",
+      "Microphone appears unresponsive or defective"
+    ]
+  }
+]

@@ -1,0 +1,9 @@
+{
+  "doc_id": "KB-BT-002",
+  "title": "Fixing Bluetooth pairing drops and failed pairing",
+  "type": "troubleshooting",
+  "category_tags": ["Bluetooth / Pairing"],
+  "product_tags": ["SUM1-ACT", "AERO-DAC2"],
+  "content": "If Bluetooth pairing fails or repeatedly drops: 1) Remove the device from your phone or computer's Bluetooth list entirely, then put the speaker/DAC into pairing mode again (hold the Bluetooth button for 5 seconds until the indicator flashes). 2) Keep the paired device within 3 feet during the initial pairing handshake. 3) Turn off Wi-Fi temporarily on the paired device to rule out 2.4GHz interference. 4) Confirm the device's firmware is current, since several past releases specifically addressed Bluetooth stability. 5) If drops happen only during playback, try a different audio source app to isolate whether the issue is source-side.",
+  "last_updated": "2026-04-18"
+}

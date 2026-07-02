@@ -8,9 +8,9 @@ Status: v0.1 (Option A — Simple architecture). See `docs/01_architecture/DECIS
 flowchart TD
     UI["Gradio UI (src/ui)"] --> API["FastAPI service (src/api)"]
     API --> Pipeline["Triage Pipeline (src/workflows/triage_pipeline.py)"]
+    Pipeline --> Classifier["Ticket Classifier"]
     Pipeline --> Readiness["Readiness Checker"]
     Pipeline --> MissingInfo["Missing-Info Detector"]
-    Pipeline --> Classifier["Ticket Classifier"]
     Pipeline --> Priority["Priority Estimator"]
     Pipeline --> Retriever["KB Retriever"]
     Pipeline --> Drafter["Response Drafter"]
@@ -28,9 +28,9 @@ flowchart TD
 - **UI layer** (`src/ui/`): Gradio app for manual demo use; calls the API layer (or the pipeline directly in-process for the simplest v0.1 wiring).
 - **API/service layer** (`src/api/`): FastAPI app exposing `POST /triage`, request/response validated via Pydantic schemas.
 - **Schemas** (`src/schemas/`): `TicketInput`, `TriageResult`, `Category`, `Priority`, `ReadinessResult`, `Reference`.
-- **Ticket readiness checker** (`src/services/readiness.py`): deterministic — does the ticket contain enough information to triage confidently?
+- **Ticket classifier** (`src/services/classifier.py`): keyword/rule pre-filter plus an OpenAI call for category confirmation and a human-readable explanation. Runs before readiness/missing-info detection (see Runtime Workflow note below).
+- **Ticket readiness checker** (`src/services/readiness.py`): deterministic — does the ticket contain enough information to triage confidently for its classified category?
 - **Missing information detector** (`src/services/missing_info.py`): deterministic, per-category required-field rules (e.g. Wi-Fi issues need product model + network type + firmware version).
-- **Ticket classifier** (`src/services/classifier.py`): keyword/rule pre-filter plus an OpenAI call for category confirmation and a human-readable explanation.
 - **Priority estimator** (`src/services/priority.py`): deterministic rules based on safety keywords, functional impact, urgency language, and time sensitivity.
 - **Knowledge retrieval layer** (`src/retrieval/kb_retriever.py`): keyword/tag-based matching over the synthetic knowledge base (no vector database in v0.1).
 - **Response drafting layer** (`src/services/response_drafter.py`): OpenAI call that drafts a customer response grounded in retrieved references.
@@ -54,6 +54,8 @@ To avoid a rewrite later, v0.1 code is written behind small interfaces:
 
 See `docs/01_architecture/DATA_MODEL.md` for schemas and `docs/00_project/PRODUCT_BRIEF.md` for functional requirements. Workflow sequence:
 
-Ticket intake → input validation → readiness check → missing-information detection → category classification → priority estimation → knowledge-base retrieval (if applicable) → response drafting → confidence scoring → human-review decision → output formatting.
+Ticket intake → input validation → category classification → readiness check → missing-information detection → priority estimation → knowledge-base retrieval (if applicable) → response drafting → confidence scoring → human-review decision → output formatting.
+
+**Note (revised during Slice 1 implementation of #14/#15):** classification runs *before* readiness/missing-information detection, not after as originally sketched — the per-category required-field rules in `DATA_MODEL.md` Section 4 need to know the category to know which fields to check for. `readiness.py` and `missing_info.py` both take the classified `Category` as an explicit parameter alongside the `TicketInput`, keeping them deterministic, unit-testable in isolation, and unaware of how the category was produced.
 
 No persistence step occurs in v0.1; a persistence extension point is documented but unimplemented.

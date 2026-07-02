@@ -1,0 +1,9 @@
+{
+  "doc_id": "KB-WIFI-004",
+  "title": "Resolving Wi-Fi reconnect issues after firmware updates",
+  "type": "troubleshooting",
+  "category_tags": ["Wi-Fi / Network Connectivity", "Firmware Update"],
+  "product_tags": ["SUM1-ACT", "CDR-STRM-MINI"],
+  "content": "If your speaker or streamer does not reconnect to Wi-Fi after a firmware update: 1) Power-cycle the device by unplugging it for 15 seconds. 2) Confirm your router is broadcasting on the same band (2.4GHz or 5GHz) the device was originally set up on - some routers change bands automatically after a firmware update on their end too. 3) Open the companion app, go to Device Settings > Network, and re-run network setup if the device does not reappear within two minutes. 4) If the issue persists, check for a second, newer firmware update that may address the regression.",
+  "last_updated": "2026-05-01"
+}
