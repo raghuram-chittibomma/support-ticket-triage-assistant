@@ -1,7 +1,7 @@
 """Deterministic per-category missing-information detection.
 
 Rules and keyword lists here are the implementation of docs/01_architecture/DATA_MODEL.md
-Section 4 ("Per-Category Required-Field Rules"). That doc is the source of truth for the
+Section 5 ("Per-Category Required-Field Rules"). That doc is the source of truth for the
 rule *design*; this module is the source of truth for the exact keyword strings, and the
 two must be kept in sync (see ADR-002).
 
