@@ -55,5 +55,10 @@ Architecture: [`docs/01_architecture/ENTERPRISE_SDLC_MCP.md`](docs/01_architectu
 
 ## Before merging a PR
 
-- Do not self-review your own diff and call it done. Launch an independent Code Reviewer subagent (fresh context) via MCP (`get_agent("code-reviewer")` + `get_skill("pr-code-review")`, or prompt `independent_code_review`) and address or explicitly defer its findings before merging.
-- For structural/architecture concerns, also invoke the Refactor Reviewer subagent via MCP (`get_agent("refactor-reviewer")`) periodically — not required on every PR.
+- Do not self-review your own diff and call it done. Launch an independent Code Reviewer subagent (fresh context) via **Enterprise SDLC MCP** and address or explicitly defer its findings before merging.
+- **Required review path (this repo):**
+  1. Call MCP `get_agent("code-reviewer")` and `get_skill("pr-code-review")`, **or** use the MCP prompt `independent_code_review`.
+  2. Launch a **fresh-context subagent** with that resolved role + checklist and the PR diff.
+  3. Address or explicitly defer findings; only then merge.
+- **Do not** use Cursor's `review-bugbot` skill or Bugbot subagent for pre-merge review in this repository unless the user explicitly asks for Bugbot by name. That path bypasses the Enterprise SDLC MCP catalog this project is meant to consume.
+- For structural/architecture concerns, also invoke the Refactor Reviewer subagent via MCP (`get_agent("refactor-reviewer")` + `get_skill("architecture-review")`) periodically — not required on every PR.

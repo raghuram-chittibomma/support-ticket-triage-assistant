@@ -26,5 +26,5 @@ Closes #
 
 ## Review
 
-- [ ] Reviewed by an independent Code Reviewer subagent (fresh context, not self-review) via Enterprise SDLC MCP (`get_agent("code-reviewer")`)
+- [ ] Reviewed by an independent Code Reviewer subagent (fresh context, not self-review) via Enterprise SDLC MCP — `get_agent("code-reviewer")` + `get_skill("pr-code-review")` or prompt `independent_code_review` (not Bugbot unless explicitly requested)
 - [ ] Findings from that review addressed or explicitly deferred with rationale
