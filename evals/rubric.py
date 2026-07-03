@@ -8,7 +8,7 @@ from __future__ import annotations
 import re
 from dataclasses import dataclass, field
 
-from src.schemas import Reference, TriageResult
+from src.schemas import TriageResult
 
 _DOC_ID_PATTERN = re.compile(r"\bKB-[A-Za-z0-9-]+\b", re.IGNORECASE)
 _PLACEHOLDER_PATTERN = re.compile(r"\b(TODO|TBD|\[INSERT|\[insert|lorem ipsum)\b", re.IGNORECASE)
@@ -91,7 +91,6 @@ def evaluate_response_rubric(ticket_id: str, subject: str, result: TriageResult)
         )
     )
 
-    subject_words = _significant_words(subject)
     checks.append(
         RubricCheck(
             name="addresses_stated_issue",

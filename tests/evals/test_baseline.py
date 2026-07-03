@@ -5,8 +5,6 @@ from __future__ import annotations
 import json
 from pathlib import Path
 
-import pytest
-
 from evals.fixture_llm import PerScenarioScriptedLLM
 from evals.loader import load_eval_scenarios
 from evals.runner import run_eval_suite
