@@ -10,25 +10,41 @@ This is a synthetic AI support-ticket triage assistant for a fictional hi-fi aud
 
 1. **GitHub is the source of truth for delivery tracking.** Issues, the Project board, milestones, and PRs track backlog and status. Do not create local markdown files that duplicate issue tracking. Local docs are only for durable artifacts (architecture, ADRs, strategy, brief, runbook, release notes).
 2. **Synthetic data only.** Never introduce real customer, employer, company, production, or proprietary content. All product names (e.g. Summit One Bookshelf, Cedar 200 Integrated Amp), customers, tickets, and KB articles are fictional and invented for this project.
-3. **Build-time SDLC agents are not runtime product components.** Roles defined under `.agents/` (Product Analyst, Solution Architect, Implementation Planner, Test/Eval Designer, Code Reviewer, Refactor Reviewer, Documentation Agent, Release Manager) assist with *building* this project. They are never part of the deployed application. Runtime components (classifier, priority estimator, retriever, response drafter, etc.) live under `src/` and are designed independently — see `docs/01_architecture/ARCHITECTURE.md`.
+3. **Build-time SDLC agents are not runtime product components.** Enterprise agent roles (Product Analyst, Solution Architect, Implementation Planner, Test/Eval Designer, Code Reviewer, Refactor Reviewer, Documentation Agent, Release Manager) are served by the **Enterprise SDLC MCP** server — not imported by `src/`. Runtime components (classifier, priority estimator, retriever, response drafter, etc.) live under `src/` — see `docs/01_architecture/ARCHITECTURE.md`.
 4. **Prefer deterministic logic for rules, LLM reasoning for language tasks.** Readiness checks, missing-information detection, priority scoring, and routing should be deterministic and explainable. Use an LLM for classification explanation, response drafting, summarization, and ambiguity handling.
 5. **PostgreSQL only if it earns its place.** Do not introduce PostgreSQL (or any database) unless a specific requirement needs relational persistence. If/when adopted, manage schema changes through migration files under `db/migrations/` — never ad hoc manual schema edits. Do not use SQLite for application persistence except as clearly justified, temporary local testing.
 6. **One agent modifies code per implementation slice**, unless a task explicitly says otherwise. Avoid touching files outside the scope of the current issue/slice.
-7. **Every change traces back to a GitHub issue, and every task traces back to a user story.** Backlog issues follow a Story -> Task hierarchy (see `.skills/github-backlog-creation.md`) linked via GitHub sub-issues, not a flat, architecture-shaped task list. Branch names should reference the task issue (e.g. `issue-14-readiness-checker`), and PRs should include `Closes #<issue-number>`.
+7. **Every change traces back to a GitHub issue, and every task traces back to a user story.** Backlog issues follow a Story -> Task hierarchy (MCP skill: `github-backlog-creation`) linked via GitHub sub-issues, not a flat, architecture-shaped task list. Branch names should reference the task issue (e.g. `issue-14-readiness-checker`), and PRs should include `Closes #<issue-number>`.
 8. **Tests/evals are part of the definition of done.** New runtime behavior needs corresponding tests under `tests/` and, where relevant, eval scenarios under `evals/`.
+
+## Enterprise SDLC MCP (build-time agents and skills)
+
+Generic build-time agent roles and SDLC skills are **not** duplicated locally. Fetch them from the Enterprise SDLC MCP server configured in `.cursor/mcp.json`:
+
+| Need | MCP call |
+|------|----------|
+| Agent role definition | `get_agent("<id>")` — e.g. `code-reviewer`, `solution-architect` |
+| Generic SDLC checklist | `get_skill("<id>")` — e.g. `pr-code-review`, `architecture-review` |
+| Domain-specific checklist | `get_project_skill("<filename>")` from project overlay |
+| Launch independent review | Prompt `independent_code_review` |
+
+Project manifest: `sdlc.project.yaml` (resolves `{{project.*}}` placeholders in catalog templates).
+
+Architecture: [`docs/01_architecture/ENTERPRISE_SDLC_MCP.md`](docs/01_architecture/ENTERPRISE_SDLC_MCP.md).
 
 ## Where things live
 
 - `docs/00_project/` — project initiation brief, charter, product brief.
-- `docs/01_architecture/` — architecture, data model, ADRs.
+- `docs/01_architecture/` — architecture, data model, ADRs, enterprise MCP design.
 - `docs/02_testing/` — test strategy, evaluation strategy.
 - `docs/03_operations/` — runbook, release notes.
 - `src/` — runtime application code only.
 - `tests/`, `evals/` — test and evaluation code.
 - `data/sample/`, `data/knowledge_base/`, `data/generated/` — synthetic data.
 - `scripts/` — synthetic data generation utilities.
-- `.agents/` — build-time SDLC agent role definitions (reference only, not imported by application code).
-- `.skills/` — reusable build-time checklists used during delivery.
+- `enterprise_sdlc_mcp/` — Enterprise SDLC MCP server and catalog (separate program from runtime product).
+- `.skills/` — **project overlay only** (domain-specific checklists for NorthPeak triage).
+- `sdlc.project.yaml` — project manifest for MCP placeholder resolution.
 
 ## Before opening a PR
 
@@ -39,5 +55,5 @@ This is a synthetic AI support-ticket triage assistant for a fictional hi-fi aud
 
 ## Before merging a PR
 
-- Do not self-review your own diff and call it done. Launch an independent Code Reviewer subagent (fresh context) per `.agents/code-reviewer.md` and address or explicitly defer its findings before merging.
-- For structural/architecture concerns, also invoke the Refactor Reviewer subagent per `.agents/refactor-reviewer.md` (periodic, not required on every PR).
+- Do not self-review your own diff and call it done. Launch an independent Code Reviewer subagent (fresh context) via MCP (`get_agent("code-reviewer")` + `get_skill("pr-code-review")`, or prompt `independent_code_review`) and address or explicitly defer its findings before merging.
+- For structural/architecture concerns, also invoke the Refactor Reviewer subagent via MCP (`get_agent("refactor-reviewer")`) periodically — not required on every PR.

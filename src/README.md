@@ -26,4 +26,4 @@ src/
   (none — runtime application code complete for v0.1 demo; evals/ and CI remain)
 ```
 
-Do not place build-time SDLC agent definitions here — those live under `.agents/` at the repo root.
+Do not place build-time SDLC agent definitions here — those are served by Enterprise SDLC MCP (`enterprise_sdlc_mcp/`).

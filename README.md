@@ -2,7 +2,7 @@
 
 An AI-assisted support ticket triage demo built for **NorthPeak Audioworks**, a fully fictional premium hi-fi audio company. This project doubles as a portfolio demonstration of running a complete, GitHub-first SDLC with the help of AI agents.
 
-> **Status:** SDLC foundation in progress. No application code has been written yet — see the roadmap below.
+> **Status:** v0.1 runtime demo complete (pipeline, API, Gradio UI). Enterprise SDLC MCP v1 adds reusable build-time agents/skills via MCP.
 
 ## What this project is
 
@@ -42,8 +42,9 @@ evals/        AI evaluation scenarios and runner
 data/         synthetic product catalog, tickets, and knowledge base
 scripts/      synthetic data generation scripts
 db/migrations/  reserved for PostgreSQL migrations if/when adopted (not used in v0.1)
-.agents/      build-time SDLC agent role definitions (not part of the application runtime)
-.skills/      reusable build-time checklists/skills used during delivery
+enterprise_sdlc_mcp/  Enterprise SDLC MCP server and catalog (build-time, not runtime)
+.skills/      project overlay skills (domain-specific checklists only)
+sdlc.project.yaml  project manifest for MCP placeholder resolution
 .github/      issue/PR templates and CI workflows
 ```
 

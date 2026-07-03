@@ -1,0 +1,12 @@
+{
+  "mcpServers": {
+    "enterprise-sdlc": {
+      "command": "python",
+      "args": ["-m", "enterprise_sdlc_mcp.server"],
+      "env": {
+        "PYTHONPATH": ".",
+        "SDLC_PROJECT_MANIFEST": "sdlc.project.yaml"
+      }
+    }
+  }
+}

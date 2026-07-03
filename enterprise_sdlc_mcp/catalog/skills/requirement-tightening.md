@@ -10,6 +10,6 @@ Used by: Product Analyst Agent (primarily), Main Orchestrator.
 - [ ] Are in-scope and out-of-scope boundaries stated?
 - [ ] Are assumptions called out explicitly rather than left implicit?
 - [ ] Are open questions listed separately from settled requirements?
-- [ ] Does it reference the correct category taxonomy / schema fields from `docs/01_architecture/DATA_MODEL.md` rather than inventing new ones ad hoc?
+- [ ] Does it reference the correct taxonomy / schema fields from `{{project.docs.data_model}}` rather than inventing new ones ad hoc?
 - [ ] Is it small enough to map to a single GitHub issue (or clearly split into multiple)?
 - [ ] Does it avoid duplicating content already tracked in an existing GitHub issue?

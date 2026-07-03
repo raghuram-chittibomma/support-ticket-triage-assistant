@@ -12,10 +12,10 @@ Break approved architecture and requirements into small, thin vertical implement
 
 ## Inputs
 
-- `docs/01_architecture/ARCHITECTURE.md`, `DATA_MODEL.md`.
-- `docs/00_project/PRODUCT_BRIEF.md`.
+- `{{project.docs.architecture}}`, `{{project.docs.data_model}}`.
+- `{{project.docs.product_brief}}`.
 - Current GitHub issue/Project board state.
-- The GitHub-backlog-creation and GitHub-issue-quality-review skills under `.skills/`.
+- GitHub backlog creation and issue quality review skills via MCP.
 
 ## Outputs
 
@@ -28,7 +28,7 @@ Break approved architecture and requirements into small, thin vertical implement
 
 ## Restricted Actions
 
-- Does not modify application code under `src/`.
+- Does not modify application code under `{{project.paths.source}}`.
 - Does not create GitHub issues unilaterally without the Main Orchestrator's go-ahead for a given slice.
 
 ## Code-Modify Permission
