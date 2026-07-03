@@ -38,11 +38,13 @@ Release facts (tags, published artifacts) live in [GitHub Releases](https://gith
 
 ## Unreleased — Slice 3: Knowledge Retrieval, LLM-Backed Response Drafting
 
-**Type:** Application code. PR TBD.
+**Type:** Application code. PR [#42](https://github.com/raghuram-chittibomma/support-ticket-triage-assistant/pull/42), merged 2026-07-02.
 
 - `src/retrieval/kb_retriever.py`: `Retriever` extension seam (Protocol) plus `KeywordKBRetriever` — filters `data/knowledge_base/` articles by `category_tags` matching the classified category (the primary relevance signal; categories with no KB coverage correctly return zero references), then ranks same-category candidates by deterministic keyword-overlap + product-tag scoring. No vector database in v0.1.
 - `src/services/response_drafter.py`: an `LLMClient` call that drafts a customer response grounded in retrieved references. A deterministic post-generation check falls back to a safe templated response if the model cites a `doc_id` that wasn't actually retrieved — a citation can never be fabricated even if the model ignores its system prompt instructions.
 - Unit tests mock `LLMClient` throughout; no network calls in the fast test suite. Response quality is deferred to the evaluation scenario suite (#26), per `EVAL_STRATEGY.md`.
+- Independent Code Reviewer subagent pass: retrieval layer (#18) approved with no findings; response drafter (#19) requested changes on one blocking bug — the fabrication guard had case-sensitivity and numeric-suffix-shape bypasses letting a fabricated citation slip through undetected (including with zero retrieved references). Fixed with a looser, case-insensitive doc_id pattern plus regression tests. 173 passing pytest unit tests after fixes.
+- Story #34 (retrieval) closed — its Definition of Done is fully met. Story #35 (response drafting) stays open/in-progress — its Definition of Done additionally requires applying the response-quality rubric via the evaluation scenario suite (#26), not yet built.
 
 ## v0.1 SDLC Demo (in progress)
 
