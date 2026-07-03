@@ -1,6 +1,17 @@
 # Runbook — Support Ticket Triage Assistant
 
-Status: Slice 1 (synthetic data, ticket schema, readiness/missing-info checks), Slice 2 (priority estimation, LLM-backed classification), Slice 3 (knowledge-base retrieval, LLM-backed response drafting), and Slice 4 (deterministic confidence scoring, human-review decision logic) implemented. API/UI/pipeline-orchestration pieces land in later slices.
+Status: Slice 1 (synthetic data, ticket schema, readiness/missing-info checks), Slice 2 (priority estimation, LLM-backed classification), Slice 3 (knowledge-base retrieval, LLM-backed response drafting), Slice 4 (deterministic confidence scoring, human-review decision logic), and Slice 5 (full triage pipeline orchestration) implemented. API/UI pieces land in later slices.
+
+## Running the Pipeline Directly (Python)
+
+```python
+from src.schemas import TicketInput
+from src.workflows import run_triage_pipeline
+
+ticket = TicketInput(subject="Speaker won't reconnect to Wi-Fi", body="...")
+result = run_triage_pipeline(ticket)  # requires OPENAI_API_KEY in the environment
+print(result.model_dump_json(indent=2))
+```
 
 ## Local Setup
 

@@ -172,3 +172,11 @@ Implemented in `src/services/human_review.py`. No LLM call — an ordered, expla
 3. **`confidence_level` is `low` →** flagged.
 4. **`confidence_level` is `medium` AND the ticket is not ready →** flagged (the combination of moderate uncertainty and missing information is treated as more risky than either alone).
 5. **Otherwise →** not flagged.
+
+## 14. Response Drafting Output Structure (`likely_issue` / `suggested_next_action` / `suggested_response`)
+
+`TriageResult`'s `likely_issue` and `suggested_next_action` fields (Section 1) have no dedicated backlog item of their own — `docs/00_project/PRODUCT_BRIEF.md`'s FR8 only lists them as part of the aggregate result. They are populated by `src/services/response_drafter.py`'s single `LLMClient` call, alongside `suggested_response`, via a structured `DraftResult` (`{likely_issue, suggested_next_action, suggested_response}`) rather than a second LLM call — all three require the same contextual understanding of the ticket, and NFR5 (interactive-demo latency) favors one call over two. The citation-fabrication guard (Section 8) applies to all three fields, not just `suggested_response`, and falls back to a safe default for the whole draft if parsing fails, any field is empty, or any field cites a `doc_id` that wasn't actually retrieved.
+
+## 15. Triage Pipeline Orchestration
+
+`src/workflows/triage_pipeline.py`'s `run_triage_pipeline(ticket, llm_client=None, retriever=None) -> TriageResult` is the single entry point that sequences every service into one result, per the Runtime Workflow order in `ARCHITECTURE.md`: classification → readiness/missing-info → priority estimation → retrieval → drafting → confidence scoring → human-review decision → output formatting. A plain function (no LangGraph in v0.1, per ADR-001); `llm_client`/`retriever` default to `OpenAILLMClient`/`KeywordKBRetriever` but are injectable for testing or future provider swaps.

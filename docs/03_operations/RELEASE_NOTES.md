@@ -56,6 +56,16 @@ Release facts (tags, published artifacts) live in [GitHub Releases](https://gith
 - Independent Code Reviewer subagent pass: requested changes on one blocking bug — IEEE-754 float drift (e.g. `0.7 - 0.25 + 0.05 == 0.49999999999999994`) could push a score mathematically exactly at the documented `0.5`/`0.75` threshold into the bucket below it, with the printed reason string contradicting the returned level. Fixed by rounding the clamped score to 2 decimals before thresholding, plus boundary regression tests and an added Urgent-vs-low-confidence precedence test. 195 passing pytest unit tests after fixes.
 - Story #36 (confidence/human-review) closed — its Definition of Done is fully met (both sub-issues closed, unit-tested per level and per flagged/non-flagged case).
 
+## Unreleased — Slice 5: Triage Pipeline Orchestration
+
+**Type:** Application code. PR [#44](https://github.com/raghuram-chittibomma/support-ticket-triage-assistant/pull/44), merged 2026-07-02.
+
+- `src/workflows/triage_pipeline.py`: `run_triage_pipeline()`, the single entry point sequencing every Slice 1-4 service into one schema-valid `TriageResult` — classification → readiness/missing-info → priority → retrieval → drafting → confidence → human-review → output formatting (`DATA_MODEL.md` Section 15). A plain function, per ADR-001 (no LangGraph in v0.1); `llm_client`/`retriever` are injectable for testing.
+- `src/services/response_drafter.py` extended: now produces a structured `DraftResult` (`likely_issue`, `suggested_next_action`, `suggested_response`) from a single LLM call, filling a gap where those first two fields had no dedicated backlog item of their own (`DATA_MODEL.md` Section 14). The citation-fabrication guard now covers all three fields.
+- Extracted `strip_markdown_code_fence` (previously private/duplicated logic in `classifier.py`) to a shared `src/llm/utils.py` helper, now reused by both LLM-backed services.
+- Integration tests (`tests/workflows/test_triage_pipeline.py`) run the full pipeline against all 25 `data/sample/tickets.json` fixtures with a scripted `LLMClient`, asserting deterministic fields (category, priority, readiness) exactly and LLM-backed fields for shape/presence only, per #22's acceptance criteria.
+- Independent Code Reviewer subagent pass: approved with minor, non-blocking suggestions (a `str(None)` → literal `"None"` edge case in the draft-parsing null handling, a couple of under-specified test assertions, missing direct unit tests for the new `strip_markdown_code_fence` helper). All addressed with fixes and new regression tests. 234 passing pytest unit/integration tests after fixes.
+
 ## v0.1 SDLC Demo (in progress)
 
-Will include: the above, plus FastAPI endpoint, Gradio UI, pipeline orchestration, and evaluation scenarios. Entry will be completed and dated when the milestone closes.
+Will include: the above, plus FastAPI endpoint, Gradio UI, and evaluation scenarios. Entry will be completed and dated when the milestone closes.
