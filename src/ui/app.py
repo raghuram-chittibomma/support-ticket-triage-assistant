@@ -67,6 +67,11 @@ def triage_from_form(
             "Set `OPENAI_API_KEY` in your environment or `.env` file (see `.env.example`) "
             "and restart the UI."
         )
+    except Exception as exc:
+        return (
+            f"**Unexpected error while triaging this ticket:** {exc}\n\n"
+            "Check the server logs for details."
+        )
 
     return format_triage_result(result)
 

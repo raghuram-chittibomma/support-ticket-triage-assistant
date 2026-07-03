@@ -1,3 +1,7 @@
+import pytest
+
+from pydantic import ValidationError
+
 from src.schemas import Category, Priority, ReadinessResult, Reference, TriageResult
 from src.ui.app import build_ticket_input, triage_from_form
 from src.ui.formatting import format_triage_result
@@ -114,6 +118,19 @@ class TestTriageFromForm:
 
         assert "Configuration error" in result
         assert "OPENAI_API_KEY" in result
+
+    def test_unexpected_pipeline_error_surfaces_friendly_message(self):
+        def fake_pipeline(_ticket):
+            raise RuntimeError("upstream service unavailable")
+
+        result = triage_from_form("S", "B", "", "", "", run_pipeline=fake_pipeline)
+
+        assert "Unexpected error" in result
+        assert "upstream service unavailable" in result
+
+    def test_invalid_channel_from_build_ticket_input_surfaces_validation_error(self):
+        with pytest.raises(ValidationError):
+            build_ticket_input("S", "B", "", "", "carrier-pigeon")
 
 
 class TestBuildDemo:

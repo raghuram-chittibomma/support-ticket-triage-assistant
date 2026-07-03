@@ -55,7 +55,7 @@ Automated coverage: `tests/ui/test_app.py` exercises the form handler, formattin
 
 ## Troubleshooting
 
-- **Missing OpenAI API key:** `OpenAILLMClient.complete()` raises a `RuntimeError` with a clear message; the classifier and response drafter need it to run for real. Deterministic services (readiness, missing-info, priority, retrieval, confidence, human-review) do not require it, and the unit test suite never needs it since it mocks `LLMClient`.
+- **Missing OpenAI API key:** `OpenAILLMClient.complete()` raises `MissingAPIKeyError` with a clear message; the classifier and response drafter need it to run for real. The FastAPI layer converts this to a `500` response; the Gradio UI surfaces it as a configuration error in the output panel. Deterministic services (readiness, missing-info, priority, retrieval, confidence, human-review) do not require it, and the unit test suite never needs it since it mocks `LLMClient`.
 - **Unexpected `human_review_required`/`confidence_level` results:** check `docs/01_architecture/DATA_MODEL.md` Sections 12–13 for the exact scoring formula and rule precedence before assuming a bug.
 - **`POST /triage` returns a 500 mentioning `OPENAI_API_KEY`:** the server process itself is missing the key (see Local Setup step 3) — this is a deliberate, clear error from a `MissingAPIKeyError` exception handler in `src/api/main.py`, not a bug.
 - **`StarletteDeprecationWarning: Using httpx with starlette.testclient is deprecated; install httpx2 instead` during `pytest`:** a harmless warning from the `fastapi`/`starlette` versions currently pinned; does not affect test correctness. Safe to ignore for v0.1; revisit if/when `httpx2` is adopted upstream.
