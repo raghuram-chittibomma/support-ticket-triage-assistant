@@ -19,6 +19,7 @@ from pydantic import BaseModel, Field
 
 from src.data_access import load_products
 from src.llm import LLMClient
+from src.llm.utils import strip_markdown_code_fence
 from src.schemas import Category, TicketInput
 
 CATEGORY_KEYWORDS: dict[Category, list[str]] = {
@@ -207,18 +208,9 @@ def _build_user_prompt(ticket: TicketInput, top_candidates: list[Category]) -> s
     )
 
 
-def _strip_markdown_code_fence(raw: str) -> str:
-    """Models sometimes wrap JSON in ```json ... ``` despite instructions not to; strip it."""
-    stripped = raw.strip()
-    if stripped.startswith("```"):
-        stripped = re.sub(r"^```[a-zA-Z]*\n?", "", stripped)
-        stripped = re.sub(r"\n?```$", "", stripped)
-    return stripped.strip()
-
-
 def _parse_llm_response(raw: str, fallback: Category) -> tuple[Category, str]:
     try:
-        data = json.loads(_strip_markdown_code_fence(raw))
+        data = json.loads(strip_markdown_code_fence(raw))
         category = Category(data["category"])
     except (json.JSONDecodeError, KeyError, ValueError, TypeError):
         return (
