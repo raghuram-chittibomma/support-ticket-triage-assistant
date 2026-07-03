@@ -107,6 +107,14 @@ def _ticket_text(ticket: TicketInput) -> str:
     return f"{ticket.subject} {ticket.body}".lower()
 
 
+def detect_escalation_language(subject: str, body: str) -> str | None:
+    """Public helper for other services (e.g. `human_review.py`) that need to check for
+    escalation language independent of the overall priority rule precedence — reuses
+    `ESCALATION_KEYWORDS` rather than duplicating the list, so the two stay in sync by
+    construction. Returns the matched keyword, or None."""
+    return _first_match(f"{subject} {body}".lower(), ESCALATION_KEYWORDS)
+
+
 def estimate_priority(ticket: TicketInput) -> tuple[Priority, str]:
     """Return the deterministic (priority, priority_reason) for a ticket.
 

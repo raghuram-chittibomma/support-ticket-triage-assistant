@@ -46,6 +46,14 @@ Release facts (tags, published artifacts) live in [GitHub Releases](https://gith
 - Independent Code Reviewer subagent pass: retrieval layer (#18) approved with no findings; response drafter (#19) requested changes on one blocking bug — the fabrication guard had case-sensitivity and numeric-suffix-shape bypasses letting a fabricated citation slip through undetected (including with zero retrieved references). Fixed with a looser, case-insensitive doc_id pattern plus regression tests. 173 passing pytest unit tests after fixes.
 - Story #34 (retrieval) closed — its Definition of Done is fully met. Story #35 (response drafting) stays open/in-progress — its Definition of Done additionally requires applying the response-quality rubric via the evaluation scenario suite (#26), not yet built.
 
+## Unreleased — Slice 4: Confidence Scoring, Human-Review Decision Logic
+
+**Type:** Application code. PR TBD.
+
+- `src/services/confidence.py`: deterministic combination of classifier `category_confidence`, readiness, and retrieval match strength into `confidence_level` (high/medium/low) — resolves the confidence-weighting open question from `AI_ORCHESTRATOR_BRIEF.md` Section 16 (documented in `DATA_MODEL.md` Section 12). No LLM call.
+- `src/services/human_review.py`: deterministic, ordered rule list — Urgent priority or escalation language always flag review; otherwise low confidence, or medium confidence combined with an incomplete ticket, flags review (documented in `DATA_MODEL.md` Section 13). No LLM call. Reuses `priority.py`'s `ESCALATION_KEYWORDS` (via a new `detect_escalation_language` helper) rather than duplicating the list.
+- Both services take already-computed upstream signals as plain arguments (no LLM/network dependency), so unit tests need no mocking.
+
 ## v0.1 SDLC Demo (in progress)
 
-Will include: the above, plus confidence scoring, human-review decision logic, FastAPI endpoint, Gradio UI, and evaluation scenarios. Entry will be completed and dated when the milestone closes.
+Will include: the above, plus FastAPI endpoint, Gradio UI, pipeline orchestration, and evaluation scenarios. Entry will be completed and dated when the milestone closes.

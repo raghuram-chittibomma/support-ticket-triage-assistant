@@ -150,3 +150,25 @@ If PostgreSQL is adopted, the following tables are anticipated (introduced via m
 ## 11. Data Rule
 
 No real customer, employer, production, proprietary, or sensitive data may be used anywhere in this repository. All values in the examples above are fictional.
+
+## 12. Confidence Scoring Formula (deterministic)
+
+Implemented in `src/services/confidence.py`. Resolves the open question in `docs/00_project/AI_ORCHESTRATOR_BRIEF.md` Section 16 ("exact weighting formula for the confidence score"). No LLM call — a deterministic combination of three already-computed upstream signals:
+
+1. Start from the classifier's `category_confidence` (0.0–1.0, from `src/services/classifier.py` — see `DATA_MODEL.md`'s classifier design and `ARCHITECTURE.md`).
+2. **Readiness penalty:** if `readiness.is_ready` is `False`, subtract `0.25`. Missing required information directly reduces how much the result can be trusted/acted on.
+3. **Retrieval bonus:** if the retriever (`src/retrieval/kb_retriever.py`) returned one or more references, add `0.05`. Grounding in a real knowledge-base article is a (small) positive signal. An **empty** reference list is treated as *neutral*, not negative — KB coverage is intentionally partial (only 9 of 13 categories have any articles as of Slice 3, per ADR-002's synthetic-data scope), so "no references" is expected and unrelated to classification/readiness quality for those categories.
+4. Clamp the combined score to `[0.0, 1.0]`.
+5. Map to `confidence_level`: `high` if score ≥ `0.75`; `medium` if score ≥ `0.5`; otherwise `low`.
+
+These thresholds are a starting point for the v0.1 demo, not empirically tuned — revisit once the evaluation scenario suite (#26) provides real accuracy/calibration data (see `docs/02_testing/EVAL_STRATEGY.md`'s "Confidence calibration" dimension).
+
+## 13. Human-Review Decision Rules (deterministic)
+
+Implemented in `src/services/human_review.py`. No LLM call — an ordered, explainable rule list (first matching rule wins), consuming already-computed `priority`, `confidence_level`, and `readiness`, plus a direct escalation-language check against the ticket text:
+
+1. **Priority is Urgent →** always flagged. `Priority.URGENT` is only reached via safety-related language or total-failure-plus-deadline (`DATA_MODEL.md` Section 4), both of which unconditionally warrant a human's judgment.
+2. **Escalation language detected in the ticket text →** always flagged, independent of which priority tier resulted. Reuses the same `ESCALATION_KEYWORDS` list from `src/services/priority.py` (via `detect_escalation_language`) rather than duplicating it, so it stays in sync with the priority rules by construction.
+3. **`confidence_level` is `low` →** flagged.
+4. **`confidence_level` is `medium` AND the ticket is not ready →** flagged (the combination of moderate uncertainty and missing information is treated as more risky than either alone).
+5. **Otherwise →** not flagged.

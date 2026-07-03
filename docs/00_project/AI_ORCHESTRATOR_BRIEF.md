@@ -128,7 +128,7 @@ GitHub-native: labels, milestones, Project board, issues, pull requests, release
 
 ## 16. Open Questions
 
-- Exact weighting formula for the confidence score (classifier confidence vs. readiness vs. retrieval match strength) — to be resolved during Slice 2–4 design.
+- ~~Exact weighting formula for the confidence score (classifier confidence vs. readiness vs. retrieval match strength) — to be resolved during Slice 2–4 design.~~ **Resolved in Slice 4:** `src/services/confidence.py` starts from classifier `category_confidence`, applies a `-0.25` penalty if the ticket isn't ready and a `+0.05` bonus if the retriever found any references (an empty reference list is neutral, not negative, since KB coverage is intentionally partial), then maps the clamped score to high/medium/low at `0.75`/`0.5` thresholds. See `docs/01_architecture/DATA_MODEL.md` Section 12 for full rationale. These weights/thresholds are a v0.1 starting point, not empirically tuned — worth revisiting once the evaluation scenario suite (#26) provides real calibration data.
 - Whether a v0.2 needs PostgreSQL for evaluation-run history/audit trail, or whether file-based eval logs remain sufficient longer.
 - Whether semantic (vector) retrieval becomes worthwhile once the knowledge base grows beyond a small curated set.
 - Whether LangGraph becomes worthwhile if the pipeline gains branching/looping behavior (e.g., iterative clarification with the user).
