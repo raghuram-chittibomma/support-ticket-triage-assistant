@@ -22,13 +22,13 @@ Backlog, PRs, and release facts live in **GitHub** — not duplicated in local m
 
 ```mermaid
 flowchart LR
-  MO[Main Orchestrator] --> GH[GitHub Issues / Project]
-  MO --> MCP[Enterprise SDLC MCP]
-  MCP --> ROLES[Analyst / Architect / Planner / Test Designer]
-  MO --> CODE[Feature branch + slice PR]
-  CODE --> CR[Independent Code Reviewer]
-  CR --> CI[pytest + fixture eval baseline]
-  CI --> REL[v0.1.0 tag]
+  MO["Main Orchestrator"] --> GH["GitHub Issues and Project"]
+  MO --> MCP["Enterprise SDLC MCP"]
+  MCP --> ROLES["SDLC agent roles"]
+  MO --> CODE["Feature branch and PR"]
+  CODE --> CR["Independent Code Reviewer"]
+  CR --> CI["pytest and fixture baseline"]
+  CI --> REL["v0.1.0 release"]
 ```
 
 | Track | Where to look |

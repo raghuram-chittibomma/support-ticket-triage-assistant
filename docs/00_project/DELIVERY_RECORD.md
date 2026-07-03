@@ -48,17 +48,17 @@ The MCP program was spun up mid-stream (2026-07-03) and dogfooded for pre-merge 
 
 ```mermaid
 flowchart LR
-  MO[Main Orchestrator] --> GH[GitHub Issues / Project]
-  MO --> MCP[Enterprise SDLC MCP]
-  MCP --> PA[Product Analyst]
-  MCP --> SA[Solution Architect]
-  MCP --> IP[Implementation Planner]
-  MCP --> TED[Test/Eval Designer]
-  MO --> CODE[Code changes on feature branch]
-  CODE --> PR[Pull request]
-  PR --> CR[Code Reviewer subagent]
-  CR -->|findings addressed| MERGE[Merge + close issue]
-  MERGE --> CI[GitHub Actions pytest]
+  MO["Main Orchestrator"] --> GH["GitHub Issues and Project"]
+  MO --> MCP["Enterprise SDLC MCP"]
+  MCP --> PA["Product Analyst"]
+  MCP --> SA["Solution Architect"]
+  MCP --> IP["Implementation Planner"]
+  MCP --> TED["Test Eval Designer"]
+  MO --> CODE["Code on feature branch"]
+  CODE --> PR["Pull request"]
+  PR --> CR["Code Reviewer subagent"]
+  CR --> MERGE["Merge and close issue"]
+  MERGE --> CI["GitHub Actions pytest"]
 ```
 
 Roles are advisory except the orchestrator (implementation) and the Code Reviewer (fresh-context gate). See `AGENTS.md` and `docs/01_architecture/ENTERPRISE_SDLC_MCP.md`.
