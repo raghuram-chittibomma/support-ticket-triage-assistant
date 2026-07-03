@@ -88,6 +88,7 @@ These remain manual if you want the portfolio story complete for external viewer
 
 ## Related docs
 
+- [`PORTFOLIO_TOUR.md`](PORTFOLIO_TOUR.md) — guided path for external reviewers (start here when sharing)
 - [`AI_ORCHESTRATOR_BRIEF.md`](AI_ORCHESTRATOR_BRIEF.md) — operating rules for agents
 - [`RELEASE_NOTES.md`](../03_operations/RELEASE_NOTES.md) — per-slice factual log (includes reviewer findings)
 - [`evals/baselines/README.md`](../../evals/baselines/README.md) — baseline policy

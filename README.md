@@ -1,8 +1,12 @@
 # Support Ticket Triage Assistant
 
-An AI-assisted support ticket triage demo built for **NorthPeak Audioworks**, a fully fictional premium hi-fi audio company. This repository is primarily a **portfolio demonstration of GitHub-first, agent-assisted delivery** — the triage app is the demo vehicle.
+**Portfolio case study:** GitHub-first, agent-assisted SDLC — thin vertical slices, independent agent code review, pytest + eval baselines, CI, release. The NorthPeak Audioworks triage demo is the **proof the process ran**, not the thesis.
 
-> **Status:** **v0.1.0 released** (2026-07-03). See [GitHub Release v0.1.0](https://github.com/raghuram-chittibomma/support-ticket-triage-assistant/releases/tag/v0.1.0) and [`docs/00_project/DELIVERY_RECORD.md`](docs/00_project/DELIVERY_RECORD.md) for how the milestone was delivered.
+> **New here?** Start with the [**5-stop portfolio tour**](docs/00_project/PORTFOLIO_TOUR.md) → [`DELIVERY_RECORD.md`](docs/00_project/DELIVERY_RECORD.md) → example PRs [#38](https://github.com/raghuram-chittibomma/support-ticket-triage-assistant/pull/38) · [#43](https://github.com/raghuram-chittibomma/support-ticket-triage-assistant/pull/43) · [#51](https://github.com/raghuram-chittibomma/support-ticket-triage-assistant/pull/51) · [v0.1.0 release](https://github.com/raghuram-chittibomma/support-ticket-triage-assistant/releases/tag/v0.1.0)
+
+An AI-assisted support ticket triage demo built for **NorthPeak Audioworks**, a fully fictional premium hi-fi audio company.
+
+> **Status:** **v0.1.0 released** (2026-07-03). Delivery index: [`DELIVERY_RECORD.md`](docs/00_project/DELIVERY_RECORD.md).
 
 ## What this project is
 
@@ -18,7 +22,7 @@ All product, customer, ticket, and knowledge-base data in this repository is **s
 
 ## Delivery (portfolio focus)
 
-Backlog, PRs, and release facts live in **GitHub** — not duplicated in local markdown. [`DELIVERY_RECORD.md`](docs/00_project/DELIVERY_RECORD.md) is a close-out index added at v0.1.0 with links, dates, and metrics pulled from git/GitHub.
+Backlog, PRs, and release facts live in **GitHub** — not duplicated in local markdown. [`DELIVERY_RECORD.md`](docs/00_project/DELIVERY_RECORD.md) is a close-out index with links, dates, and metrics from git/GitHub. [`PORTFOLIO_TOUR.md`](docs/00_project/PORTFOLIO_TOUR.md) is the guided path for external reviewers.
 
 ```mermaid
 flowchart LR
@@ -33,15 +37,17 @@ flowchart LR
 
 | Track | Where to look |
 |-------|----------------|
-| Backlog & status | [Issues](https://github.com/raghuram-chittibomma/support-ticket-triage-assistant/issues) · [Project board](https://github.com/users/raghuram-chittibomma/projects) |
+| **Guided tour** | [`PORTFOLIO_TOUR.md`](docs/00_project/PORTFOLIO_TOUR.md) |
+| Backlog and status | [Issues](https://github.com/raghuram-chittibomma/support-ticket-triage-assistant/issues) · [Project board](https://github.com/users/raghuram-chittibomma/projects) |
 | Per-slice facts | [`RELEASE_NOTES.md`](docs/03_operations/RELEASE_NOTES.md) (includes reviewer findings) |
 | Eval baselines | [`evals/baselines/`](evals/baselines/) · [`QUALITY_BAR.md`](evals/baselines/QUALITY_BAR.md) |
 | Build-time agents | [`enterprise_sdlc_mcp/`](enterprise_sdlc_mcp/) · [`AGENTS.md`](AGENTS.md) |
 
 ## Start here
 
-- [`docs/00_project/DELIVERY_RECORD.md`](docs/00_project/DELIVERY_RECORD.md) — **portfolio readers start here** (v0.1 delivery index).
-- [`docs/00_project/AI_ORCHESTRATOR_BRIEF.md`](docs/00_project/AI_ORCHESTRATOR_BRIEF.md) — project intent, scope, and operating rules (AI agents: read this first).
+- [`docs/00_project/PORTFOLIO_TOUR.md`](docs/00_project/PORTFOLIO_TOUR.md) — **external reviewers start here** (5-stop tour).
+- [`docs/00_project/DELIVERY_RECORD.md`](docs/00_project/DELIVERY_RECORD.md) — v0.1 delivery index.
+- [`docs/00_project/AI_ORCHESTRATOR_BRIEF.md`](docs/00_project/AI_ORCHESTRATOR_BRIEF.md) — operating rules (AI agents: read this first).
 - [`docs/00_project/PROJECT_CHARTER.md`](docs/00_project/PROJECT_CHARTER.md) — goals, scope, stakeholders.
 - [`docs/00_project/PRODUCT_BRIEF.md`](docs/00_project/PRODUCT_BRIEF.md) — personas, requirements, taxonomy.
 - [`docs/01_architecture/ARCHITECTURE.md`](docs/01_architecture/ARCHITECTURE.md) — runtime architecture.
@@ -78,4 +84,4 @@ Python 3.12+, FastAPI, Gradio, Pydantic, pytest, OpenAI (classification explanat
 
 ## License
 
-TBD.
+[MIT](LICENSE)
