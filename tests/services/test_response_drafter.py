@@ -72,6 +72,14 @@ class TestDraftResponseGroundedCase:
 
         assert result == DraftResult.model_validate_json(expected)
 
+    def test_markdown_fenced_json_is_parsed_correctly(self):
+        expected = _draft_json()
+        llm_client = FakeLLMClient(f"```json\n{expected}\n```")
+
+        result = draft_response(_ticket(), Category.WIFI_NETWORK, [_reference()], llm_client)
+
+        assert result == DraftResult.model_validate_json(expected)
+
     def test_prompt_includes_ticket_and_reference_doc_ids(self):
         llm_client = FakeLLMClient(_draft_json())
         ticket = _ticket()
@@ -137,6 +145,31 @@ class TestDraftResponseFabricationGuard:
         result = draft_response(_ticket(), Category.WIFI_NETWORK, [_reference()], llm_client)
 
         assert _reference().title in result.suggested_response
+
+    def test_empty_string_field_triggers_fallback(self):
+        llm_client = FakeLLMClient(_draft_json(suggested_next_action=""))
+
+        result = draft_response(_ticket(), Category.WIFI_NETWORK, [_reference()], llm_client)
+
+        assert _reference().title in result.suggested_response
+
+    def test_null_field_triggers_fallback_instead_of_literal_none_string(self):
+        """Regression test from code review: `str(None)` would otherwise produce the literal
+        text "None", which is non-empty and would silently pass through into TriageResult."""
+        llm_client = FakeLLMClient(
+            json.dumps(
+                {
+                    "likely_issue": None,
+                    "suggested_next_action": "Follow up with the customer.",
+                    "suggested_response": "A reply.",
+                }
+            )
+        )
+
+        result = draft_response(_ticket(), Category.WIFI_NETWORK, [_reference()], llm_client)
+
+        assert _reference().title in result.suggested_response
+        assert result.likely_issue != "None"
 
     def test_clean_response_with_no_references_and_no_citation_passes_through(self):
         expected = _draft_json(suggested_response="Thanks for reaching out, here is some general guidance.")

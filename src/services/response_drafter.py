@@ -102,9 +102,9 @@ def _fallback_draft(references: list[Reference]) -> DraftResult:
 def _parse_draft_response(raw: str, references: list[Reference]) -> DraftResult:
     try:
         data = json.loads(strip_markdown_code_fence(raw))
-        likely_issue = str(data["likely_issue"]).strip()
-        suggested_next_action = str(data["suggested_next_action"]).strip()
-        suggested_response = str(data["suggested_response"]).strip()
+        likely_issue = str(data["likely_issue"] or "").strip()
+        suggested_next_action = str(data["suggested_next_action"] or "").strip()
+        suggested_response = str(data["suggested_response"] or "").strip()
     except (json.JSONDecodeError, KeyError, ValueError, TypeError):
         return _fallback_draft(references)
 

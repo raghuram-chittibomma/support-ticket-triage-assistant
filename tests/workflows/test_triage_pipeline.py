@@ -114,8 +114,9 @@ class TestRunTriagePipelineDefaults:
         result = run_triage_pipeline(ticket, llm_client=llm_client)
 
         # The default KeywordKBRetriever should find at least one Wi-Fi article for a
-        # well-formed Wi-Fi ticket, proving the default wasn't silently skipped.
-        assert isinstance(result.references, list)
+        # well-formed Wi-Fi ticket, proving the default wasn't silently skipped in favor of
+        # e.g. an accidentally-empty retriever.
+        assert len(result.references) > 0
 
     def test_default_llm_client_propagates_missing_api_key_error(self):
         ticket = TicketInput(subject="Wi-Fi issue", body="My speaker keeps dropping Wi-Fi.")
