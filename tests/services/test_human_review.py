@@ -23,6 +23,16 @@ class TestEvaluateHumanReviewFlaggedCases:
 
         assert required is True
 
+    def test_urgent_priority_reason_wins_even_when_confidence_is_also_low(self):
+        """Regression test from code review: pins down that the Urgent rule's early return
+        takes precedence and its reason is the one surfaced, not the low-confidence reason,
+        when both conditions happen to be true simultaneously."""
+        required, reason = evaluate_human_review(_ticket(), Priority.URGENT, "low", NOT_READY)
+
+        assert required is True
+        assert "Urgent" in reason
+        assert "confidence" not in reason.lower()
+
     def test_escalation_language_flagged_even_with_high_priority_confidence_and_ready(self):
         ticket = _ticket(
             subject="Still not fixed",

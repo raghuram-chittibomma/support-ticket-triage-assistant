@@ -39,7 +39,11 @@ def score_confidence(
         score += HAS_REFERENCES_BONUS
         reasons.append(f"+{HAS_REFERENCES_BONUS:.2f} relevant knowledge-base reference(s) found")
 
-    score = max(0.0, min(1.0, score))
+    # Round before clamping/thresholding: all weights (0.25, 0.05) and thresholds (0.75, 0.5)
+    # are two-decimal values, but IEEE-754 float arithmetic can otherwise leave a
+    # mathematically-exact threshold value (e.g. 0.7 - 0.25 + 0.05 == 0.49999999999999994)
+    # a hair below the boundary, silently flipping the bucket the docs promise.
+    score = round(max(0.0, min(1.0, score)), 2)
 
     if score >= HIGH_THRESHOLD:
         level: ConfidenceLevel = "high"
