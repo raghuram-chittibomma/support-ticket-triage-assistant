@@ -13,6 +13,7 @@ without appropriate async handling").
 from fastapi import FastAPI, Request
 from fastapi.responses import JSONResponse
 
+from src.llm import MissingAPIKeyError
 from src.schemas import TicketInput, TriageResult
 from src.workflows import run_triage_pipeline
 
@@ -35,16 +36,16 @@ def triage(ticket: TicketInput) -> TriageResult:
     `ticket` is validated against `TicketInput` automatically by FastAPI/Pydantic before
     this function is ever called — a malformed request body (missing/empty required
     fields, wrong types, invalid `channel` value, etc.) short-circuits to a 422 response
-    without reaching pipeline code. Configuration (OpenAI key, model) comes from
-    `src/config.py` via the default `LLMClient`/`Retriever` constructed inside
-    `run_triage_pipeline()` — never hardcoded here.
+    without reaching pipeline code.     Configuration (OpenAI key, model) comes from `src/config.py` via the default
+    `LLMClient`/`Retriever` constructed inside `run_triage_pipeline()` — never hardcoded
+    here. A missing API key surfaces as a `MissingAPIKeyError`, handled below.
     """
     return run_triage_pipeline(ticket)
 
 
-@app.exception_handler(RuntimeError)
-async def runtime_error_handler(request: Request, exc: RuntimeError) -> JSONResponse:
-    # In practice this is OpenAILLMClient's "OPENAI_API_KEY is not set" error — a server
-    # configuration problem, not a malformed request — surfaced as a clear 500 with the
-    # actual message rather than an unhandled-exception traceback.
+@app.exception_handler(MissingAPIKeyError)
+async def missing_api_key_error_handler(request: Request, exc: MissingAPIKeyError) -> JSONResponse:
+    # Scoped to this specific configuration-error subclass (not a bare RuntimeError) so an
+    # unrelated bug elsewhere in the pipeline can't be silently masked as "missing API key"
+    # — see the independent Code Reviewer subagent finding on PR #45.
     return JSONResponse(status_code=500, content={"detail": str(exc)})

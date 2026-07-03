@@ -68,14 +68,14 @@ Release facts (tags, published artifacts) live in [GitHub Releases](https://gith
 
 ## Unreleased — Slice 6: FastAPI `/triage` Endpoint
 
-**Type:** Application code. PR TBD.
+**Type:** Application code. PR [#45](https://github.com/raghuram-chittibomma/support-ticket-triage-assistant/pull/45), merged 2026-07-03.
 
 - `src/api/main.py`: `POST /triage` (request/response validated via `TicketInput`/`TriageResult`) and `GET /health`. The path operation is a plain `def`, letting FastAPI run the pipeline's blocking LLM calls in its external threadpool automatically rather than on the event loop, per `.skills/fastapi-service-review.md`.
-- A `RuntimeError` exception handler converts `OpenAILLMClient`'s missing-API-key error into a clear `500` response instead of an unhandled-exception traceback.
+- A dedicated `MissingAPIKeyError` (`src/llm/client.py`, a `RuntimeError` subclass) exception handler converts `OpenAILLMClient`'s missing-API-key error into a clear `500` response instead of an unhandled-exception traceback.
 - Malformed requests (missing/empty required fields, invalid `channel`, non-JSON body) never reach pipeline code — FastAPI/Pydantic short-circuits to a `422` first.
 - Integration tests (`tests/api/test_main.py`) use FastAPI's `TestClient`, faking the LLM by patching `OpenAILLMClient` where `run_triage_pipeline` looks it up — no real network calls.
 - Manually smoke-tested with a real `uvicorn` process: `/health` and `/triage`'s validation-error path both confirmed working end-to-end.
-- 245 passing pytest unit/integration tests.
+- Independent Code Reviewer subagent pass: approved with no blocking bugs. The reviewer independently verified the async/blocking-threadpool claim against the actually-installed `starlette` version and probed the running app with edge-case payloads. Non-blocking suggestion adopted: scoped the missing-API-key exception handler to a dedicated `MissingAPIKeyError` type rather than a bare `RuntimeError`, so an unrelated future bug can't be silently masked as a "missing key" problem. 246 passing pytest unit/integration tests after fixes.
 
 ## v0.1 SDLC Demo (in progress)
 

@@ -17,6 +17,14 @@ class LLMClient(Protocol):
         ...
 
 
+class MissingAPIKeyError(RuntimeError):
+    """Raised when an LLMClient implementation needs an API key that wasn't configured.
+
+    A dedicated subclass (rather than a bare RuntimeError) so callers like
+    src/api/main.py's exception handler can catch specifically this configuration problem
+    without also silently catching-and-masking an unrelated RuntimeError as if it were one."""
+
+
 class OpenAILLMClient:
     """Default v0.1 LLMClient implementation, backed by the OpenAI Chat Completions API."""
 
@@ -30,7 +38,7 @@ class OpenAILLMClient:
             from openai import OpenAI
 
             if not self._api_key:
-                raise RuntimeError(
+                raise MissingAPIKeyError(
                     "OPENAI_API_KEY is not set. Set it in your environment or .env file "
                     "(see .env.example) before using OpenAILLMClient."
                 )

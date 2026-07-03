@@ -2,7 +2,7 @@ from unittest.mock import MagicMock, patch
 
 import pytest
 
-from src.llm.client import OpenAILLMClient
+from src.llm.client import MissingAPIKeyError, OpenAILLMClient
 
 
 class TestOpenAILLMClient:
@@ -10,6 +10,14 @@ class TestOpenAILLMClient:
         client = OpenAILLMClient(api_key="", model="gpt-4o-mini")
 
         with pytest.raises(RuntimeError, match="OPENAI_API_KEY"):
+            client.complete(system_prompt="sys", user_prompt="user")
+
+    def test_missing_key_error_is_specifically_a_missing_api_key_error(self):
+        """A dedicated subclass, not a bare RuntimeError, so callers (e.g. src/api/main.py)
+        can catch this configuration problem specifically without masking unrelated bugs."""
+        client = OpenAILLMClient(api_key="", model="gpt-4o-mini")
+
+        with pytest.raises(MissingAPIKeyError):
             client.complete(system_prompt="sys", user_prompt="user")
 
     def test_complete_sends_expected_request_and_returns_content(self):

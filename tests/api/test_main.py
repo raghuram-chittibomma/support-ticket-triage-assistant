@@ -74,6 +74,11 @@ class TestTriageEndpointSuccess:
         assert isinstance(data["references"], list)
         assert data["confidence_level"] in ("high", "medium", "low")
         assert isinstance(data["human_review_required"], bool)
+        # Regression guard for the class of bug flagged in the Slice 5 review (str(None) ->
+        # literal "None"): a non-flagged result must serialize human_review_reason as JSON
+        # null, never the string "None".
+        if not data["human_review_required"]:
+            assert data["human_review_reason"] is None
 
     def test_triage_response_validates_against_triage_result_schema(self):
         with patch(
@@ -138,6 +143,10 @@ class TestTriageEndpointValidation:
 
 
 class TestTriageEndpointErrorHandling:
+    """Exception handling is scoped to `MissingAPIKeyError` specifically (not a bare
+    `RuntimeError`) so an unrelated bug elsewhere in the pipeline can't be silently masked
+    as a "missing API key" configuration problem — see PR #45's review discussion."""
+
     def test_missing_api_key_returns_clear_500_not_a_raw_traceback(self):
         with patch(
             "src.workflows.triage_pipeline.OpenAILLMClient",
