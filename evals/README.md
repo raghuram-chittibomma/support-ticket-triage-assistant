@@ -15,6 +15,17 @@ Optional flags:
 
 Reports are written under `data/generated/` (gitignored).
 
+## Release baselines
+
+Pinned snapshots for regression checks live under [`baselines/`](baselines/). Record or refresh:
+
+```powershell
+python -m evals.record_baseline --mode fixture --tag v0.1.0
+python -m evals.record_baseline --mode live --tag v0.1.0   # requires OPENAI_API_KEY
+```
+
+See [`baselines/README.md`](baselines/README.md) and [`baselines/QUALITY_BAR.md`](baselines/QUALITY_BAR.md).
+
 ## Rubric
 
 See [`RUBRIC.md`](RUBRIC.md) for the response-quality checks applied to every drafted response.

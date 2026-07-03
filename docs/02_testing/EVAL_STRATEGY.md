@@ -18,11 +18,11 @@ A curated set of synthetic tickets under `data/sample/tickets.json`, each with g
 
 ## Runner
 
-`evals/` contains an evaluation scenario runner that loads the ticket dataset, runs each ticket through the pipeline, compares deterministic fields exactly, and produces a summary report (accuracy per dimension, list of mismatches for manual review). Output is written to a local report file, not committed as generated data (see `data/generated/` handling in `.gitignore`).
+`evals/` contains an evaluation scenario runner that loads the ticket dataset, runs each ticket through the pipeline, compares deterministic fields exactly, and produces a summary report (accuracy per dimension, list of mismatches for manual review). Ephemeral output goes to `data/generated/` (gitignored). **Release snapshots** are recorded under `evals/baselines/` via `python -m evals.record_baseline` — see `evals/baselines/README.md` and `QUALITY_BAR.md`.
 
 ## When Evaluations Run
 
-Run manually during development of classification/drafting-related slices, and optionally as a non-blocking CI job (since it depends on an LLM API key and has non-deterministic output). Evaluation results are not restated in `docs/` — the runner's report output and any linked GitHub issue/PR discussion are the source of truth for a given evaluation run.
+Run manually during development of classification/drafting-related slices. **Fixture baselines** (`--mode fixture`) run in CI and require no API key. **Live baselines** (`--mode live`) are optional at release and compared to `evals/baselines/QUALITY_BAR.md`.
 
 ## Relationship to Tests
 

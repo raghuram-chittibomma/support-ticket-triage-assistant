@@ -7,6 +7,7 @@ import os
 
 import pytest
 
+from evals.fixture_llm import PerScenarioScriptedLLM
 from evals.loader import load_eval_scenarios
 from evals.report import format_markdown_report, write_report
 from evals.rubric import evaluate_response_rubric
@@ -74,7 +75,7 @@ class TestLoadEvalScenarios:
 class TestRunEvalSuite:
     def test_perfect_scores_with_scripted_llm(self):
         scenarios = load_eval_scenarios()[:3]
-        run = run_eval_suite(_PerScenarioScriptedLLM(), scenarios=scenarios)
+        run = run_eval_suite(PerScenarioScriptedLLM(), scenarios=scenarios)
 
         assert run.category_accuracy == 1.0
         assert run.priority_accuracy == 1.0
@@ -88,32 +89,11 @@ class TestRunEvalSuite:
 
     def test_report_writes_json_and_markdown(self, tmp_path):
         scenarios = load_eval_scenarios()[:2]
-        run = run_eval_suite(_PerScenarioScriptedLLM(), scenarios=scenarios)
+        run = run_eval_suite(PerScenarioScriptedLLM(), scenarios=scenarios)
         json_path, md_path = write_report(run, tmp_path / "eval-test")
         assert json_path.is_file()
         assert md_path.is_file()
         assert "Category accuracy" in md_path.read_text(encoding="utf-8")
-
-
-class _PerScenarioScriptedLLM:
-    """Routes classification to each scenario's expected category."""
-
-    def complete(self, *, system_prompt: str, user_prompt: str) -> str:
-        if "Choose exactly one category" not in system_prompt:
-            return json.dumps(
-                {
-                    "likely_issue": "Issue described in ticket.",
-                    "suggested_next_action": "Follow up with customer.",
-                    "suggested_response": "Thanks for reaching out — we can help with your speaker issue.",
-                }
-            )
-        for scenario in load_eval_scenarios():
-            if scenario.ticket.subject in user_prompt or scenario.ticket.body[:40] in user_prompt:
-                category = scenario.expected_category.value
-                break
-        else:
-            category = Category.GENERAL_QUESTION.value
-        return json.dumps({"category": category, "explanation": f"Matches {category}."})
 
 
 class TestResponseRubric:
