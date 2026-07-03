@@ -1,6 +1,6 @@
 # Runbook — Support Ticket Triage Assistant
 
-Status: Slice 1 (synthetic data, ticket schema, readiness/missing-info checks), Slice 2 (priority estimation, LLM-backed classification), Slice 3 (knowledge-base retrieval, LLM-backed response drafting), Slice 4 (deterministic confidence scoring, human-review decision logic), Slice 5 (full triage pipeline orchestration), and Slice 6 (FastAPI `/triage` endpoint) implemented. The Gradio UI lands in a later slice.
+Status: Slice 1 (synthetic data, ticket schema, readiness/missing-info checks), Slice 2 (priority estimation, LLM-backed classification), Slice 3 (knowledge-base retrieval, LLM-backed response drafting), Slice 4 (deterministic confidence scoring, human-review decision logic), Slice 5 (full triage pipeline orchestration), Slice 6 (FastAPI `/triage` endpoint), and Slice 7 (Gradio demo UI) implemented. Evaluation scenarios and CI land in later slices.
 
 ## Running the Pipeline Directly (Python)
 
@@ -28,14 +28,24 @@ print(result.model_dump_json(indent=2))
 
 - API: `uvicorn src.api.main:app --reload` — then `POST http://127.0.0.1:8000/triage` with a `TicketInput` JSON body, or `GET http://127.0.0.1:8000/health` for a liveness check. Requires `OPENAI_API_KEY` in the environment/`.env` to actually classify/draft (a missing key surfaces as a clear `500` with an `OPENAI_API_KEY` message, not a raw traceback).
 - Interactive API docs: `http://127.0.0.1:8000/docs` (FastAPI's auto-generated Swagger UI).
-- UI: `python -m src.ui.app` or `gradio src/ui/app.py` (added in the Gradio UI slice, planned).
+- UI: `python -m src.ui` (or `python -m src.ui.app`) — opens the Gradio demo at `http://127.0.0.1:7860`. Requires `OPENAI_API_KEY` in the environment/`.env` to actually classify/draft (a missing key surfaces as a clear configuration error in the UI output panel, not a raw traceback).
 
 ## Running Tests
 
 - `.venv\Scripts\python.exe -m pytest` runs the full suite, including the classifier, since its unit tests mock `LLMClient` and make no real network calls.
 - `pytest -m llm` for genuinely LLM-dependent tests (e.g. evaluation-style tests hitting the real OpenAI API), once added (requires `OPENAI_API_KEY`). No such tests exist yet as of Slice 2.
 
-## Running Evaluations (planned)
+## UI Smoke Check (Slice 7)
+
+Performed manually during Slice 7 implementation (2026-07-03):
+
+1. `python -m src.ui` — Gradio server started and served `http://127.0.0.1:7860/` (HTTP 200).
+2. Form renders subject/body/SKU/persona/channel inputs and a **Triage ticket** button.
+3. Submitting a ticket with a valid `OPENAI_API_KEY` set runs the full pipeline and displays all nine result sections (category, priority, readiness, likely issue, next action, draft response, references, confidence, human-review flag) in the output panel.
+4. Submitting with an empty subject or body shows a clear inline validation error without calling the pipeline.
+5. Submitting without `OPENAI_API_KEY` shows a clear configuration error message in the output panel.
+
+Automated coverage: `tests/ui/test_app.py` exercises the form handler, formatting, and demo construction without launching a browser (full UI automation is out of scope for v0.1, per `TEST_STRATEGY.md`).
 
 - `python -m evals.run_evals` (added in the evaluation scenario slice) — produces an accuracy report comparing pipeline output to the synthetic ground-truth dataset.
 
@@ -45,12 +55,12 @@ print(result.model_dump_json(indent=2))
 
 ## Troubleshooting
 
-- **Missing OpenAI API key:** `OpenAILLMClient.complete()` raises a `RuntimeError` with a clear message; the classifier and response drafter need it to run for real. Deterministic services (readiness, missing-info, priority, retrieval, confidence, human-review) do not require it, and the unit test suite never needs it since it mocks `LLMClient`.
+- **Missing OpenAI API key:** `OpenAILLMClient.complete()` raises `MissingAPIKeyError` with a clear message; the classifier and response drafter need it to run for real. The FastAPI layer converts this to a `500` response; the Gradio UI surfaces it as a configuration error in the output panel. Deterministic services (readiness, missing-info, priority, retrieval, confidence, human-review) do not require it, and the unit test suite never needs it since it mocks `LLMClient`.
 - **Unexpected `human_review_required`/`confidence_level` results:** check `docs/01_architecture/DATA_MODEL.md` Sections 12–13 for the exact scoring formula and rule precedence before assuming a bug.
 - **`POST /triage` returns a 500 mentioning `OPENAI_API_KEY`:** the server process itself is missing the key (see Local Setup step 3) — this is a deliberate, clear error from a `MissingAPIKeyError` exception handler in `src/api/main.py`, not a bug.
 - **`StarletteDeprecationWarning: Using httpx with starlette.testclient is deprecated; install httpx2 instead` during `pytest`:** a harmless warning from the `fastapi`/`starlette` versions currently pinned; does not affect test correctness. Safe to ignore for v0.1; revisit if/when `httpx2` is adopted upstream.
 - **Unexpected category/priority results:** check `docs/01_architecture/DATA_MODEL.md` for the rule definitions before assuming a bug in the LLM-backed classifier.
-- **`pip install -e ".[dev]"` fails building `pillow` on Python 3.14 (pulled in by `gradio`):** Pillow does not yet ship prebuilt Windows wheels for Python 3.14, and building from source requires zlib headers. This does not block Slice 1 (only `pydantic`/`pydantic-settings`/`pytest`/`httpx` are needed so far). To be resolved before the Gradio UI slice — options: install a Python 3.11–3.13 interpreter for this project's venv, or move to a newer `gradio`/`pillow` release once Windows wheels for 3.14 are published.
+- **`pip install -e ".[dev]"` fails building `pillow` on Python 3.14 with `gradio>=4,<5`:** Gradio 4.x pins `pillow<11`, which has no prebuilt Windows wheels for Python 3.14. **Resolved in Slice 7:** `pyproject.toml` now pins `gradio>=5,<6`, which pulls in `pillow>=11` with Python 3.14-compatible wheels. If you still hit build failures, use a Python 3.11–3.13 interpreter for this project's venv.
 
 ## Operational Boundaries
 

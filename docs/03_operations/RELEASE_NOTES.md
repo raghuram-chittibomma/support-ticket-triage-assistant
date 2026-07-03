@@ -77,6 +77,17 @@ Release facts (tags, published artifacts) live in [GitHub Releases](https://gith
 - Manually smoke-tested with a real `uvicorn` process: `/health` and `/triage`'s validation-error path both confirmed working end-to-end.
 - Independent Code Reviewer subagent pass: approved with no blocking bugs. The reviewer independently verified the async/blocking-threadpool claim against the actually-installed `starlette` version and probed the running app with edge-case payloads. Non-blocking suggestion adopted: scoped the missing-API-key exception handler to a dedicated `MissingAPIKeyError` type rather than a bare `RuntimeError`, so an unrelated future bug can't be silently masked as a "missing key" problem. 246 passing pytest unit/integration tests after fixes.
 
+## Unreleased — Slice 7: Gradio Demo UI
+
+**Type:** Application code. PR [#46](https://github.com/raghuram-chittibomma/support-ticket-triage-assistant/pull/46), merged 2026-07-03.
+
+- `src/ui/app.py`: Gradio demo UI — paste a ticket (subject, body, optional SKU/persona/channel) and view the full triage result in one screen. **v0.1 wiring choice:** calls `run_triage_pipeline()` in-process rather than the FastAPI `/triage` endpoint, so the demo runs with a single `python -m src.ui` command (documented in `ARCHITECTURE.md`).
+- `src/ui/formatting.py`: renders a `TriageResult` as readable Markdown covering all nine Story #37 result fields.
+- `pyproject.toml`: bumped `gradio` pin from `>=4.36,<5` to `>=5,<6` — Gradio 5 pulls in `pillow>=11` with Python 3.14-compatible Windows wheels, resolving the long-standing Pillow build failure noted in `RUNBOOK.md`.
+- Manual smoke check performed and documented in `RUNBOOK.md` (UI Smoke Check section).
+- `tests/ui/test_app.py`: tests form validation, formatting, error handling, and demo construction without browser automation.
+- Independent Code Reviewer subagent pass: approved with no blocking bugs; adopted suggestions for a generic unexpected-error handler in the UI, a ValidationError unit test, and corrected stale `MissingAPIKeyError` wording in `RUNBOOK.md`. 257 passing pytest unit/integration tests after fixes.
+
 ## v0.1 SDLC Demo (in progress)
 
-Will include: the above, plus the Gradio UI and evaluation scenarios. Entry will be completed and dated when the milestone closes.
+Will include: the above, plus evaluation scenarios and CI. Entry will be completed and dated when the milestone closes.
