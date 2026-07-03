@@ -26,7 +26,7 @@ flowchart TD
 ## Layers
 
 - **UI layer** (`src/ui/`): Gradio app for manual demo use; calls the API layer (or the pipeline directly in-process for the simplest v0.1 wiring).
-- **API/service layer** (`src/api/`): FastAPI app exposing `POST /triage`, request/response validated via Pydantic schemas.
+- **API/service layer** (`src/api/`, implemented in Slice 6): FastAPI app (`src/api/main.py`) exposing `POST /triage` (request/response validated via `TicketInput`/`TriageResult`) and `GET /health`. The `/triage` path operation is a plain `def`, not `async def` — `run_triage_pipeline` makes blocking HTTP calls internally, and FastAPI automatically runs synchronous path operations in an external threadpool rather than on the event loop, so no extra async plumbing is needed. A `RuntimeError` exception handler converts `OpenAILLMClient`'s missing-API-key error into a clear 500 response instead of an unhandled-exception traceback.
 - **Schemas** (`src/schemas/`): `TicketInput`, `TriageResult`, `Category`, `Priority`, `ReadinessResult`, `Reference`.
 - **Ticket classifier** (`src/services/classifier.py`, implemented in Slice 2): deterministic keyword/product-hint pre-filter (`rank_categories`) plus an `LLMClient` call for category confirmation and a human-readable explanation. `category_confidence` is a deterministic function of pre-filter/LLM agreement, not a further model call. Runs before readiness/missing-info detection (see Runtime Workflow note below).
 - **Ticket readiness checker** (`src/services/readiness.py`): deterministic — does the ticket contain enough information to triage confidently for its classified category?

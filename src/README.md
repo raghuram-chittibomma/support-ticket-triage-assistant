@@ -15,13 +15,13 @@ src/
   config.py       pydantic-settings Settings (OPENAI_API_KEY, OPENAI_MODEL) (Slice 2)
   retrieval/      KeywordKBRetriever (#18, Slice 3)
   workflows/      run_triage_pipeline (#22, Slice 5) — single entry point sequencing every service above
+  api/            FastAPI app: POST /triage, GET /health (#23, Slice 6)
 ```
 
 Still planned (see `docs/01_architecture/ARCHITECTURE.md`):
 
 ```
 src/
-  api/            FastAPI app and routes
   ui/             Gradio demo UI
 ```
 
