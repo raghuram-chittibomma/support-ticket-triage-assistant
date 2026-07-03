@@ -47,6 +47,12 @@ def test_get_agent_resolves_for_project(manifest_path: Path) -> None:
     assert "src/" in content
 
 
+def test_get_agent_resolves_relative_manifest_path() -> None:
+    content = get_agent("code-reviewer", "sdlc.project.yaml")
+    assert "Code Reviewer" in content
+    assert "src/" in content
+
+
 def test_get_skill_resolves_for_project(manifest_path: Path) -> None:
     content = get_skill("pr-code-review", str(manifest_path))
     assert "Closes #<n>" in content

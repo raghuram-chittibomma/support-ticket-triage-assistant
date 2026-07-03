@@ -1,7 +1,7 @@
 {
   "mcpServers": {
     "enterprise-sdlc": {
-      "command": ".venv/Scripts/python.exe",
+      "command": "python",
       "args": ["-m", "enterprise_sdlc_mcp.server"],
       "env": {
         "PYTHONPATH": ".",

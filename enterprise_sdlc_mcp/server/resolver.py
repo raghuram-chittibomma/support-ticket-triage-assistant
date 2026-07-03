@@ -19,13 +19,17 @@ def catalog_root() -> Path:
     return Path(__file__).resolve().parent.parent / "catalog"
 
 
+def resolve_manifest_path(manifest_path: str | Path) -> Path:
+    path = Path(manifest_path)
+    if not path.is_absolute():
+        path = repo_root() / path
+    return path.resolve()
+
+
 def default_manifest_path() -> Path | None:
     env_path = os.environ.get(DEFAULT_MANIFEST_ENV)
     if env_path:
-        path = Path(env_path)
-        if not path.is_absolute():
-            path = repo_root() / path
-        return path.resolve()
+        return resolve_manifest_path(env_path)
     for candidate in (repo_root() / "sdlc.project.yaml", Path.cwd() / "sdlc.project.yaml"):
         if candidate.is_file():
             return candidate.resolve()

@@ -14,6 +14,7 @@ from enterprise_sdlc_mcp.server.resolver import (
     load_project_manifest,
     project_skills_dir,
     read_catalog_file,
+    resolve_manifest_path,
     resolve_template,
 )
 
@@ -22,7 +23,7 @@ mcp = FastMCP("enterprise-sdlc")
 
 def _manifest_path_arg(manifest_path: str | None) -> Path:
     if manifest_path:
-        return Path(manifest_path).resolve()
+        return resolve_manifest_path(manifest_path)
     path = default_manifest_path()
     if path is None:
         raise FileNotFoundError("Project manifest not found.")

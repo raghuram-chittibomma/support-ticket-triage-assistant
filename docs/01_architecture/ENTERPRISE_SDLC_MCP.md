@@ -100,7 +100,9 @@ Resolution is deterministic string substitution — no LLM involved.
 1. Enable MCP server in `.cursor/mcp.json` (points at `enterprise-sdlc-mcp` package).
 2. Set `SDLC_PROJECT_MANIFEST` to the repo's `sdlc.project.yaml` (configured in mcp.json `env`).
 3. Main Orchestrator calls `get_agent("code-reviewer")` before merge instead of reading `.agents/code-reviewer.md`.
-4. Domain skills remain local; call `get_project_skill("hifi-audio-support-taxonomy-design")` when needed.
+4. Domain skills remain local; call `get_project_skill("hifi-audio-support-taxonomy-design.md")` when needed.
+
+Use the project's Python interpreter (e.g. activate `.venv` first, or point `command` at `.venv/Scripts/python.exe` on Windows / `.venv/bin/python` on Linux/macOS if Cursor does not pick up the venv automatically).
 
 ## GitHub program differentiation
 
