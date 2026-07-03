@@ -88,6 +88,49 @@ Release facts (tags, published artifacts) live in [GitHub Releases](https://gith
 - `tests/ui/test_app.py`: tests form validation, formatting, error handling, and demo construction without browser automation.
 - Independent Code Reviewer subagent pass: approved with no blocking bugs; adopted suggestions for a generic unexpected-error handler in the UI, a ValidationError unit test, and corrected stale `MissingAPIKeyError` wording in `RUNBOOK.md`. 257 passing pytest unit/integration tests after fixes.
 
-## v0.1 SDLC Demo (in progress)
+## Unreleased — Slice 8: Evaluation Scenario Suite
 
-Will include: the above, plus evaluation scenarios and CI. Entry will be completed and dated when the milestone closes.
+**Type:** Test/eval infrastructure. PR [#52](https://github.com/raghuram-chittibomma/support-ticket-triage-assistant/pull/52), merged 2026-07-03.
+
+- `evals/`: scenario loader, runner, response-quality rubric (`evals/RUBRIC.md`), JSON/Markdown report writer, and `python -m evals.run_evals` CLI.
+- Loads all 25 tickets from `data/sample/tickets.json`, runs the full pipeline, compares `expected_*` ground truth, and applies a heuristic response rubric to every draft.
+- `@pytest.mark.llm` smoke test for optional live OpenAI runs; fast CI suite excludes it via `pytest -m "not llm"`.
+- Independent Code Reviewer subagent pass (Bugbot): approved with no bugs. 271 passing pytest tests after merge.
+
+## Unreleased — Slice 9: GitHub Actions CI
+
+**Type:** Delivery infrastructure. PR [#54](https://github.com/raghuram-chittibomma/support-ticket-triage-assistant/pull/54), merged 2026-07-03.
+
+- `.github/workflows/ci.yml`: runs `pytest -m "not llm"` on every PR and push to `main` (Python 3.12, Ubuntu).
+- `.github/workflows/README.md`: documents the workflow and branch-protection setup.
+- Independent Code Reviewer via Enterprise SDLC MCP: approved; CI check **pytest (fast suite)** passed on the PR.
+
+## Unreleased — Enterprise SDLC MCP v1 (separate program)
+
+**Type:** Build-time tooling (not runtime product). PR [#51](https://github.com/raghuram-chittibomma/support-ticket-triage-assistant/pull/51), merged 2026-07-03. Tracked under `program:enterprise-sdlc`, not the triage product milestone deliverables.
+
+- `enterprise_sdlc_mcp/`: MCP server exposing 8 parameterized agent roles and 13 generic SDLC skills.
+- `sdlc.project.yaml`, `.cursor/mcp.json`, and MCP-first pre-merge review guidance (`AGENTS.md`, `.cursor/rules/enterprise-sdlc-pr-review.mdc`).
+
+## v0.1.0 — SDLC Demo
+
+**Released:** 2026-07-03. **Tag:** `v0.1.0`. **Milestone:** v0.1 SDLC Demo.
+
+### Summary
+
+First complete release of the NorthPeak Audioworks support-ticket triage assistant demo and the GitHub-first SDLC case study that built it.
+
+**Runtime product:** End-to-end triage pipeline (classification, readiness, priority, KB retrieval, response drafting, confidence, human-review) exposed via FastAPI (`POST /triage`) and a Gradio demo UI. All data synthetic; deterministic rules for gates/scoring; LLM for classification explanation and response drafting only.
+
+**Quality gates:** 271-test pytest suite (fast/mocked by default), evaluation scenario runner with response rubric, GitHub Actions CI on every PR.
+
+**Delivery model:** Story → task GitHub backlog, thin vertical slices, independent Code Reviewer before merge (Enterprise SDLC MCP from Slice 9 onward).
+
+### Deferred post-v0.1.0
+
+- **#39** — Harden missing-info keyword rules against realistic phrasing (P2; tracked follow-up from Slice 1 review).
+- **#41** — Stale doc reference in PostgreSQL schema review skill (P3; enterprise MCP catalog path).
+
+### How to run
+
+See `docs/03_operations/RUNBOOK.md`. Quick start: `python -m src.ui` (UI) or `uvicorn src.api.main:app` (API). Requires `OPENAI_API_KEY` for live classification/drafting.
