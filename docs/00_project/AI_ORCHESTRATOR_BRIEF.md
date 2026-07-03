@@ -102,7 +102,7 @@ All data in this repository — product catalog, customer personas, support tick
 
 ## 13. Expected Project Artifacts
 
-Local (version-controlled): this brief, `PROJECT_CHARTER.md`, `PRODUCT_BRIEF.md`, `DELIVERY_RECORD.md` (v0.1 close-out index), `ARCHITECTURE.md`, `DATA_MODEL.md`, ADRs, `TEST_STRATEGY.md`, `EVAL_STRATEGY.md`, `RUNBOOK.md`, `RELEASE_NOTES.md`, `AGENTS.md`, `sdlc.project.yaml`, domain overlay under `.skills/`, eval release baselines under `evals/baselines/`. Enterprise agent roles and generic SDLC skills are served via Enterprise SDLC MCP (`enterprise_sdlc_mcp/`).
+Local (version-controlled): this brief, `PROJECT_CHARTER.md`, `PRODUCT_BRIEF.md`, `DELIVERY_RECORD.md` (v0.1 close-out index), `PORTFOLIO_TOUR.md` (external reviewer path), `ARCHITECTURE.md`, `DATA_MODEL.md`, ADRs, `TEST_STRATEGY.md`, `EVAL_STRATEGY.md`, `RUNBOOK.md`, `RELEASE_NOTES.md`, `AGENTS.md`, `sdlc.project.yaml`, domain overlay under `.skills/`, eval release baselines under `evals/baselines/`. Enterprise agent roles and generic SDLC skills are served via Enterprise SDLC MCP (`enterprise_sdlc_mcp/`).
 
 GitHub-native: labels, milestones, Project board, issues, pull requests, releases.
 
