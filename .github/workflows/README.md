@@ -14,4 +14,4 @@ The LLM-marked test (`tests/evals/test_runner.py::test_live_eval_smoke`) is excl
 
 ### Require CI on merge
 
-In GitHub **Settings → Branches → Branch protection rules** for `main`, enable **Require status checks to pass** and select **pytest (fast suite)**.
+**Enabled on `main` (2026-07-03):** branch protection requires **pytest (fast suite)** to pass before merge (`strict` — branch must be up to date with `main`).

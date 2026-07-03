@@ -69,10 +69,11 @@ Roles are advisory except the orchestrator (implementation) and the Code Reviewe
 |------|-----------|-----------|
 | Deterministic logic | `pytest -m "not llm"` | Yes (CI) |
 | Fixture eval baseline | `evals/baselines/v0.1.0/fixture-baseline.json` | Yes (CI, from this close-out) |
-| Live LLM eval | `python -m evals.record_baseline --mode live` | No — manual; see `evals/baselines/QUALITY_BAR.md` |
-| Pre-merge review | Enterprise SDLC MCP Code Reviewer | Process (documented; branch protection optional) |
+| Live LLM eval | `evals/baselines/v0.1.0/live-baseline.json` | No — manual refresh; recorded 2026-07-03 (`gpt-4o-mini`) |
+| Pre-merge review | Enterprise SDLC MCP Code Reviewer | Process (documented) |
+| Branch protection | **pytest (fast suite)** required on `main` | Yes (GitHub, 2026-07-03) |
 
-**Note:** A live OpenAI baseline was not committed at v0.1.0 tag — only the reproducible fixture snapshot. Run `--mode live` locally when you have `OPENAI_API_KEY` and compare to `QUALITY_BAR.md`.
+**Live baseline (v0.1.0):** category/priority/missing-fields 100%; rubric check pass rate 99.2% (24/25 fully passed). Meets [`QUALITY_BAR.md`](../../evals/baselines/QUALITY_BAR.md). One rubric nit on `TCK-0018` (`addresses_stated_issue`) — see `live-baseline.md`.
 
 ## Backlog shape
 
@@ -80,10 +81,8 @@ Requirements trace FR1–FR8 → user stories → technical tasks (`docs/00_proj
 
 ## Owner actions not captured in git
 
-These remain manual if you want the portfolio story complete for external viewers:
-
-1. **Branch protection** — require **pytest (fast suite)** on `main` ([`.github/workflows/README.md`](../../.github/workflows/README.md))
-2. **Live eval snapshot** — `python -m evals.record_baseline --mode live --tag v0.1.0` and commit under `evals/baselines/v0.1.0/` if metrics meet `QUALITY_BAR.md`
+1. ~~**Branch protection**~~ — done (2026-07-03): **pytest (fast suite)** required on `main`
+2. ~~**Live eval snapshot**~~ — done (2026-07-03): [`live-baseline.json`](../../evals/baselines/v0.1.0/live-baseline.json) under `evals/baselines/v0.1.0/`
 3. **Demo recording** — short screen capture of `python -m src.ui` linked from README or GitHub Release
 
 ## Related docs

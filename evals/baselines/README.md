@@ -19,7 +19,7 @@ evals/baselines/
   v0.1.0/
     fixture-baseline.json
     fixture-baseline.md
-    live-baseline.*       optional; add when you run --mode live
+    live-baseline.*       recorded 2026-07-03 (gpt-4o-mini); refresh with --mode live
 ```
 
 Ephemeral runs still go to `data/generated/` (gitignored). Only deliberate release snapshots live here.
