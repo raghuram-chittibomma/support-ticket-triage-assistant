@@ -32,8 +32,8 @@ flowchart TD
 - **Ticket readiness checker** (`src/services/readiness.py`): deterministic — does the ticket contain enough information to triage confidently for its classified category?
 - **Missing information detector** (`src/services/missing_info.py`): deterministic, per-category required-field rules (e.g. Wi-Fi issues need product model + network type + firmware version).
 - **Priority estimator** (`src/services/priority.py`, implemented in Slice 2): deterministic, ordered keyword rule list based on safety keywords, functional impact, urgency/escalation language, and informational/cosmetic signals (see `DATA_MODEL.md` Sections 3-4). No LLM call.
-- **Knowledge retrieval layer** (`src/retrieval/kb_retriever.py`): keyword/tag-based matching over the synthetic knowledge base (no vector database in v0.1).
-- **Response drafting layer** (`src/services/response_drafter.py`): OpenAI call that drafts a customer response grounded in retrieved references.
+- **Knowledge retrieval layer** (`src/retrieval/kb_retriever.py`, implemented in Slice 3): `KeywordKBRetriever` filters KB articles by `category_tags` matching the classified category (the primary relevance signal — categories with no KB coverage correctly return zero references), then ranks same-category candidates by deterministic keyword-overlap + product-tag scoring. No vector database in v0.1.
+- **Response drafting layer** (`src/services/response_drafter.py`, implemented in Slice 3): an `LLMClient` call that drafts a customer response grounded in retrieved references. A deterministic post-generation check rejects (falls back on) any response that cites a `doc_id` not actually present in the retrieved references, so a citation can never be fabricated even if the model ignores its instructions.
 - **Confidence scoring** (`src/services/confidence.py`): deterministic combination of classifier confidence, readiness, and retrieval match strength.
 - **Human-review decision logic** (`src/services/human_review.py`): deterministic threshold and escalation-keyword gate.
 - **Evaluation layer** (`evals/`): scenario runner comparing pipeline output to expected ground truth in the synthetic ticket dataset.
@@ -47,7 +47,7 @@ flowchart TD
 To avoid a rewrite later, v0.1 code is written behind small interfaces:
 
 - `LLMClient` (implemented, `src/llm/client.py`) — wraps the OpenAI call; a future provider can implement the same Protocol without touching `classifier.py` or `response_drafter.py`.
-- `Retriever` (not yet built) — wraps keyword retrieval; a future `ChromaRetriever` can implement the same interface for semantic search.
+- `Retriever` (implemented, `src/retrieval/kb_retriever.py`) — wraps keyword retrieval; a future `ChromaRetriever` can implement the same Protocol for semantic search without changing callers.
 - `TriageRepository` — not implemented in v0.1; a future PostgreSQL-backed implementation can persist tickets/results/audit trail without changing the pipeline's calling code.
 - `triage_pipeline.py` is a plain function/class today; if the workflow gains branching or looping (e.g. iterative clarification), it can be reimplemented as a LangGraph graph without changing the service/API layer's contract.
 
