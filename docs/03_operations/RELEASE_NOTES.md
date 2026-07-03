@@ -46,6 +46,16 @@ Release facts (tags, published artifacts) live in [GitHub Releases](https://gith
 - Independent Code Reviewer subagent pass: retrieval layer (#18) approved with no findings; response drafter (#19) requested changes on one blocking bug — the fabrication guard had case-sensitivity and numeric-suffix-shape bypasses letting a fabricated citation slip through undetected (including with zero retrieved references). Fixed with a looser, case-insensitive doc_id pattern plus regression tests. 173 passing pytest unit tests after fixes.
 - Story #34 (retrieval) closed — its Definition of Done is fully met. Story #35 (response drafting) stays open/in-progress — its Definition of Done additionally requires applying the response-quality rubric via the evaluation scenario suite (#26), not yet built.
 
+## Unreleased — Slice 4: Confidence Scoring, Human-Review Decision Logic
+
+**Type:** Application code. PR [#43](https://github.com/raghuram-chittibomma/support-ticket-triage-assistant/pull/43), merged 2026-07-02.
+
+- `src/services/confidence.py`: deterministic combination of classifier `category_confidence`, readiness, and retrieval match strength into `confidence_level` (high/medium/low) — resolves the confidence-weighting open question from `AI_ORCHESTRATOR_BRIEF.md` Section 16 (documented in `DATA_MODEL.md` Section 12). No LLM call.
+- `src/services/human_review.py`: deterministic, ordered rule list — Urgent priority or escalation language always flag review; otherwise low confidence, or medium confidence combined with an incomplete ticket, flags review (documented in `DATA_MODEL.md` Section 13). No LLM call. Reuses `priority.py`'s `ESCALATION_KEYWORDS` (via a new `detect_escalation_language` helper) rather than duplicating the list.
+- Both services take already-computed upstream signals as plain arguments (no LLM/network dependency), so unit tests need no mocking.
+- Independent Code Reviewer subagent pass: requested changes on one blocking bug — IEEE-754 float drift (e.g. `0.7 - 0.25 + 0.05 == 0.49999999999999994`) could push a score mathematically exactly at the documented `0.5`/`0.75` threshold into the bucket below it, with the printed reason string contradicting the returned level. Fixed by rounding the clamped score to 2 decimals before thresholding, plus boundary regression tests and an added Urgent-vs-low-confidence precedence test. 195 passing pytest unit tests after fixes.
+- Story #36 (confidence/human-review) closed — its Definition of Done is fully met (both sub-issues closed, unit-tested per level and per flagged/non-flagged case).
+
 ## v0.1 SDLC Demo (in progress)
 
-Will include: the above, plus confidence scoring, human-review decision logic, FastAPI endpoint, Gradio UI, and evaluation scenarios. Entry will be completed and dated when the milestone closes.
+Will include: the above, plus FastAPI endpoint, Gradio UI, pipeline orchestration, and evaluation scenarios. Entry will be completed and dated when the milestone closes.

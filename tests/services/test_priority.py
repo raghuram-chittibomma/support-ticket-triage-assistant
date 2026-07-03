@@ -2,7 +2,7 @@ import pytest
 
 from src.data_access import load_sample_tickets
 from src.schemas import Priority, TicketInput
-from src.services.priority import estimate_priority
+from src.services.priority import detect_escalation_language, estimate_priority
 
 SAMPLE_TICKETS = load_sample_tickets()
 
@@ -159,3 +159,19 @@ class TestEstimatePriorityKeywordFalsePositiveRegressions:
 
         assert priority == Priority.URGENT
         assert "shock" in reason
+
+
+class TestDetectEscalationLanguage:
+    """Public helper reused by src/services/human_review.py."""
+
+    def test_returns_matched_keyword_when_present(self):
+        result = detect_escalation_language(
+            "Still broken", "I've called multiple times about this and nothing has changed."
+        )
+
+        assert result == "called multiple times"
+
+    def test_returns_none_when_absent(self):
+        result = detect_escalation_language("Quick question", "How do I clean the speaker grille?")
+
+        assert result is None
