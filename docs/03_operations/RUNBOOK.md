@@ -1,6 +1,6 @@
 # Runbook — Support Ticket Triage Assistant
 
-Status: Slice 1 (synthetic data, ticket schema, readiness/missing-info checks), Slice 2 (priority estimation, LLM-backed classification), Slice 3 (knowledge-base retrieval, LLM-backed response drafting), Slice 4 (deterministic confidence scoring, human-review decision logic), Slice 5 (full triage pipeline orchestration), Slice 6 (FastAPI `/triage` endpoint), Slice 7 (Gradio demo UI), and Slice 8 (evaluation scenario suite) implemented. CI lands in a later slice.
+Status: Slice 1 (synthetic data, ticket schema, readiness/missing-info checks), Slice 2 (priority estimation, LLM-backed classification), Slice 3 (knowledge-base retrieval, LLM-backed response drafting), Slice 4 (deterministic confidence scoring, human-review decision logic), Slice 5 (full triage pipeline orchestration), Slice 6 (FastAPI `/triage` endpoint), Slice 7 (Gradio demo UI), Slice 8 (evaluation scenario suite), and Slice 9 (GitHub Actions CI) implemented. Release finalization lands in a later slice.
 
 ## Running the Pipeline Directly (Python)
 
@@ -33,6 +33,7 @@ print(result.model_dump_json(indent=2))
 ## Running Tests
 
 - `.venv\Scripts\python.exe -m pytest` runs the full suite, including the classifier, since its unit tests mock `LLMClient` and make no real network calls.
+- `pytest -m "not llm"` matches the GitHub Actions CI job (excludes the optional LLM eval smoke test).
 - `pytest -m llm` for genuinely LLM-dependent tests (evaluation smoke test hitting the real OpenAI API; requires `OPENAI_API_KEY`).
 
 ## UI Smoke Check (Slice 7)
