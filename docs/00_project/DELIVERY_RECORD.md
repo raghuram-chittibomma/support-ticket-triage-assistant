@@ -41,7 +41,7 @@ The MCP program was spun up mid-stream (2026-07-03) and dogfooded for pre-merge 
 | Product slices (application code) | 7 (#38–#46) |
 | Post-slice infrastructure | eval (#52), CI (#54), release (#55) |
 | Process correction PR | #53 (MCP review path over ad-hoc Bugbot) |
-| Fast pytest suite at release | 273 tests (`pytest -m "not llm"`, includes fixture baseline check) |
+| Fast pytest suite | 271 at `v0.1.0` tag; 273 after portfolio close-out (#56 adds fixture baseline tests) |
 | Independent Code Reviewer | Every merge PR; blocking bugs found in #40, #42, #43 (see `RELEASE_NOTES.md`) |
 
 ## Agent orchestration (build-time)
