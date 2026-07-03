@@ -24,3 +24,6 @@ dev = [
 [tool.pytest.ini_options]
 pythonpath = [".", "enterprise_sdlc_mcp"]
 testpaths = ["tests"]
+markers = [
+    "llm: tests that call the real OpenAI API (require OPENAI_API_KEY)",
+]
