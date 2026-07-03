@@ -133,3 +133,47 @@ class TestKeywordKBRetrieverBehavior:
         second = retriever.retrieve(ticket, Category.WIFI_NETWORK)
 
         assert first == second
+
+    def test_product_tag_bonus_can_decide_between_otherwise_tied_candidates(self):
+        """Regression test (independent Code Reviewer subagent finding on PR #42): the two
+        real Firmware Update disambiguation tests happen to share identical product_tags on
+        both candidates, so they never actually exercise the +3 product-tag bonus. This test
+        uses content with zero keyword overlap so only the product-tag bonus can decide."""
+        fake_articles = [
+            {
+                "doc_id": "KB-FAKE-A",
+                "title": "Fake article A",
+                "type": "faq",
+                "category_tags": ["Subwoofer Setup"],
+                "product_tags": ["RIDGE-SUB8"],
+                "content": "Completely unrelated placeholder filler wording only.",
+            },
+            {
+                "doc_id": "KB-FAKE-B",
+                "title": "Fake article B",
+                "type": "faq",
+                "category_tags": ["Subwoofer Setup"],
+                "product_tags": ["OTHER-SKU"],
+                "content": "Completely unrelated placeholder filler wording only.",
+            },
+        ]
+        retriever = KeywordKBRetriever(articles=fake_articles, max_results=1)
+        ticket = TicketInput(subject="Question", body="Not much overlap here.", product_sku="RIDGE-SUB8")
+
+        references = retriever.retrieve(ticket, Category.SUBWOOFER_SETUP)
+
+        assert references[0].doc_id == "KB-FAKE-A"
+
+    def test_disambiguation_still_works_without_a_product_sku(self):
+        ticket = TicketInput(
+            subject="Firmware update stuck",
+            body=(
+                "The firmware update gets stuck partway and fails every time I retry from "
+                "settings. I checked the version numbers involved."
+            ),
+        )
+        retriever = KeywordKBRetriever()
+
+        references = retriever.retrieve(ticket, Category.FIRMWARE_UPDATE)
+
+        assert references[0].doc_id == "KB-FW-010"

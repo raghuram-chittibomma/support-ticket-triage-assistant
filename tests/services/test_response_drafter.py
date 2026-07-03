@@ -93,3 +93,40 @@ class TestDraftResponseFabricationGuard:
         result = draft_response(_ticket(), Category.GENERAL_QUESTION, [], llm_client)
 
         assert result == llm_client.response
+
+
+class TestDraftResponseFabricationGuardRegressions:
+    """Regression tests for gaps found by the independent Code Reviewer subagent on PR #42:
+    the fabrication guard must not depend on the fabricated citation matching the exact
+    case or the exact "KB-XXX-NNN" numeric-suffix shape of real doc_ids."""
+
+    def test_lowercase_fabricated_citation_is_caught(self):
+        llm_client = FakeLLMClient("See our guide (kb-madeup-999) for help.")
+
+        result = draft_response(_ticket(), Category.WIFI_NETWORK, [_reference()], llm_client)
+
+        assert "kb-madeup-999" not in result.lower()
+        assert _reference().title in result
+
+    def test_fabricated_citation_with_no_numeric_suffix_is_caught(self):
+        llm_client = FakeLLMClient("Please consult (KB-TROUBLESHOOTING-GUIDE) for full steps.")
+
+        result = draft_response(_ticket(), Category.WIFI_NETWORK, [_reference()], llm_client)
+
+        assert "KB-TROUBLESHOOTING-GUIDE" not in result
+        assert _reference().title in result
+
+    def test_fabricated_citation_with_no_numeric_suffix_and_no_references_is_caught(self):
+        llm_client = FakeLLMClient("Please see (kb-nonexistent) for details.")
+
+        result = draft_response(_ticket(), Category.WIFI_NETWORK, [], llm_client)
+
+        assert "kb-nonexistent" not in result.lower()
+        assert "follow up" in result.lower()
+
+    def test_legitimately_cited_doc_id_in_different_case_is_not_flagged(self):
+        llm_client = FakeLLMClient("Please see our guide (kb-wifi-004) for the steps to follow.")
+
+        result = draft_response(_ticket(), Category.WIFI_NETWORK, [_reference()], llm_client)
+
+        assert result == llm_client.response

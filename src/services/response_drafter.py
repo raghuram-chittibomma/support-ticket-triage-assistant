@@ -13,7 +13,12 @@ import re
 from src.llm import LLMClient
 from src.schemas import Category, Reference, TicketInput
 
-_DOC_ID_PATTERN = re.compile(r"\bKB-[A-Z0-9]+(?:-[A-Z0-9]+)*-\d+\b")
+# Case-insensitive, and deliberately loose about trailing shape (no required numeric
+# suffix) — the goal is to catch anything that *looks like* a KB doc_id citation, not just
+# ones that mimic today's "KB-XXX-NNN" convention exactly. A stricter pattern (e.g.
+# requiring a trailing "-\d+") would let a fabricated citation like "(KB-TROUBLESHOOTING-
+# GUIDE)" through completely undetected.
+_DOC_ID_PATTERN = re.compile(r"\bKB-[A-Za-z0-9-]+\b", re.IGNORECASE)
 
 
 def _build_system_prompt() -> str:
@@ -66,7 +71,9 @@ def draft_response(
     references: list[Reference],
     llm_client: LLMClient,
 ) -> str:
-    allowed_doc_ids = {reference.doc_id for reference in references}
+    # Compared case-insensitively so a legitimately-cited real doc_id isn't flagged just
+    # because the model wrote it in a different case than it was given.
+    allowed_doc_ids = {reference.doc_id.upper() for reference in references}
 
     raw_response = llm_client.complete(
         system_prompt=_build_system_prompt(),
@@ -76,7 +83,7 @@ def draft_response(
     if not raw_response:
         return _fallback_response(references)
 
-    cited_doc_ids = set(_DOC_ID_PATTERN.findall(raw_response))
+    cited_doc_ids = {match.upper() for match in _DOC_ID_PATTERN.findall(raw_response)}
     fabricated_doc_ids = cited_doc_ids - allowed_doc_ids
     if fabricated_doc_ids:
         return _fallback_response(references)
