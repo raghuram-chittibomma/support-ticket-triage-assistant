@@ -1,6 +1,6 @@
 # Runbook — Support Ticket Triage Assistant
 
-Status: Slice 1 (synthetic data, ticket schema, readiness/missing-info checks), Slice 2 (priority estimation, LLM-backed classification), Slice 3 (knowledge-base retrieval, LLM-backed response drafting), Slice 4 (deterministic confidence scoring, human-review decision logic), Slice 5 (full triage pipeline orchestration), Slice 6 (FastAPI `/triage` endpoint), Slice 7 (Gradio demo UI), Slice 8 (evaluation scenario suite), and Slice 9 (GitHub Actions CI) implemented. Release finalization lands in a later slice.
+Status: **v0.1.0 released** (2026-07-03). Slices 1–9 complete: synthetic data and schema, full triage pipeline, FastAPI `/triage`, Gradio UI, evaluation scenario suite, and GitHub Actions CI (`pytest -m "not llm"` on every PR).
 
 ## Running the Pipeline Directly (Python)
 
