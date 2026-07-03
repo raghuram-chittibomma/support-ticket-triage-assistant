@@ -1,0 +1,19 @@
+---
+description: Pre-merge PR review must use Enterprise SDLC MCP, not Bugbot
+alwaysApply: true
+---
+
+# Pre-merge review — Enterprise SDLC MCP only
+
+When preparing to merge a PR (or when the user asks for an independent code review before merge):
+
+1. Fetch role and checklist from the **enterprise-sdlc** MCP server:
+   - `get_agent("code-reviewer")`
+   - `get_skill("pr-code-review")`
+   - Or MCP prompt: `independent_code_review`
+2. Launch an **independent subagent** with fresh context, passing the resolved MCP content plus the PR diff.
+3. Address or explicitly defer findings before merge.
+
+**Do not** default to Cursor's `review-bugbot` skill or the Bugbot subagent for this step unless the user explicitly requests Bugbot by name.
+
+Build-time agent definitions live in the MCP catalog, not in `.agents/`. See `AGENTS.md` and `docs/01_architecture/ENTERPRISE_SDLC_MCP.md`.
