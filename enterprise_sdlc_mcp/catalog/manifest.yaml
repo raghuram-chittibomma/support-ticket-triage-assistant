@@ -1,0 +1,83 @@
+version: "1.0"
+program: enterprise-sdlc
+description: Reusable build-time SDLC agent roles and skills for GitHub-first delivery.
+
+agents:
+  - id: product-analyst
+    title: Product Analyst
+    file: agents/product-analyst.md
+  - id: solution-architect
+    title: Solution Architect
+    file: agents/solution-architect.md
+  - id: implementation-planner
+    title: Implementation Planner
+    file: agents/implementation-planner.md
+  - id: test-eval-designer
+    title: Test/Eval Designer
+    file: agents/test-eval-designer.md
+  - id: code-reviewer
+    title: Code Reviewer
+    file: agents/code-reviewer.md
+  - id: refactor-reviewer
+    title: Refactor Reviewer
+    file: agents/refactor-reviewer.md
+  - id: documentation-agent
+    title: Documentation Agent
+    file: agents/documentation-agent.md
+  - id: release-manager
+    title: Release Manager
+    file: agents/release-manager.md
+
+skills:
+  - id: requirement-tightening
+    title: Requirement Tightening
+    file: skills/requirement-tightening.md
+    used_by: [product-analyst]
+  - id: github-backlog-creation
+    title: GitHub Backlog Creation
+    file: skills/github-backlog-creation.md
+    used_by: [implementation-planner]
+  - id: github-issue-quality-review
+    title: GitHub Issue Quality Review
+    file: skills/github-issue-quality-review.md
+    used_by: [product-analyst, implementation-planner]
+  - id: architecture-review
+    title: Architecture Review
+    file: skills/architecture-review.md
+    used_by: [solution-architect, refactor-reviewer]
+  - id: postgresql-schema-review
+    title: PostgreSQL Schema Review
+    file: skills/postgresql-schema-review.md
+    used_by: [solution-architect]
+  - id: database-migration-review
+    title: Database Migration Review
+    file: skills/database-migration-review.md
+    used_by: [solution-architect, code-reviewer]
+  - id: rag-retrieval-design-review
+    title: RAG/Retrieval Design Review
+    file: skills/rag-retrieval-design-review.md
+    used_by: [solution-architect]
+  - id: langgraph-workflow-review
+    title: LangGraph Workflow Review
+    file: skills/langgraph-workflow-review.md
+    used_by: [solution-architect]
+  - id: fastapi-service-review
+    title: FastAPI Service Review
+    file: skills/fastapi-service-review.md
+    used_by: [code-reviewer]
+  - id: test-eval-design
+    title: Test/Eval Design
+    file: skills/test-eval-design.md
+    used_by: [test-eval-designer]
+  - id: pr-code-review
+    title: PR/Code Review
+    file: skills/pr-code-review.md
+    used_by: [code-reviewer]
+  - id: release-readiness-review
+    title: Release Readiness Review
+    file: skills/release-readiness-review.md
+    used_by: [release-manager]
+  - id: readme-runbook-documentation
+    title: README/Runbook Documentation
+    file: skills/readme-runbook-documentation.md
+    used_by: [documentation-agent]

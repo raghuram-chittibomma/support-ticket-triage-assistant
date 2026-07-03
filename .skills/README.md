@@ -1,20 +1,13 @@
-# Reusable Build-Time Skills / Checklists
+# Project Overlay Skills (domain-specific)
 
-Reusable checklists applied by build-time SDLC agents (or the Main Orchestrator directly) during delivery of the Support Ticket Triage Assistant. These are process aids, not application code.
+Domain-specific checklists for the Support Ticket Triage Assistant. Generic SDLC skills live in the **Enterprise SDLC MCP** catalog — fetch via `get_skill("<id>")`.
 
-- [`requirement-tightening.md`](requirement-tightening.md)
-- [`github-backlog-creation.md`](github-backlog-creation.md)
-- [`github-issue-quality-review.md`](github-issue-quality-review.md)
-- [`architecture-review.md`](architecture-review.md)
-- [`postgresql-schema-review.md`](postgresql-schema-review.md)
-- [`database-migration-review.md`](database-migration-review.md)
-- [`synthetic-data-design.md`](synthetic-data-design.md)
+## Local overlay skills
+
 - [`hifi-audio-support-taxonomy-design.md`](hifi-audio-support-taxonomy-design.md)
 - [`ticket-readiness-rule-design.md`](ticket-readiness-rule-design.md)
-- [`rag-retrieval-design-review.md`](rag-retrieval-design-review.md)
-- [`langgraph-workflow-review.md`](langgraph-workflow-review.md)
-- [`fastapi-service-review.md`](fastapi-service-review.md)
-- [`test-eval-design.md`](test-eval-design.md)
-- [`pr-code-review.md`](pr-code-review.md)
-- [`release-readiness-review.md`](release-readiness-review.md)
-- [`readme-runbook-documentation.md`](readme-runbook-documentation.md)
+- [`synthetic-data-design.md`](synthetic-data-design.md)
+
+Fetch via MCP: `get_project_skill("<filename>")` or `list_project_skills()`.
+
+Enterprise catalog skills (architecture review, PR review, backlog creation, etc.) are **not** duplicated here.

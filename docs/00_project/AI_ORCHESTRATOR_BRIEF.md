@@ -75,7 +75,7 @@ Local repository docs are created **only** when: (1) GitHub has no suitable nati
 
 This project uses "agent" in two distinct senses that must never be conflated:
 
-**Build-time SDLC agents** (defined under `.agents/`) are reusable AI assistant roles that help *build and manage* this project: Product Analyst, Solution Architect, Implementation Planner, Test/Eval Designer, Code Reviewer, Refactor Reviewer, Documentation Agent, Release Manager. They are **not part of the deployed application**. They support the Main Orchestrator and do not independently set conflicting project direction. Most are advisory/document-producing; only the Test/Eval Designer writes code, and only under `tests/`/`evals/`.
+**Build-time SDLC agents** (served by the Enterprise SDLC MCP — see `docs/01_architecture/ENTERPRISE_SDLC_MCP.md`) are reusable AI assistant roles that help *build and manage* this project: Product Analyst, Solution Architect, Implementation Planner, Test/Eval Designer, Code Reviewer, Refactor Reviewer, Documentation Agent, Release Manager. They are **not part of the deployed application**. They support the Main Orchestrator and do not independently set conflicting project direction. Most are advisory/document-producing; only the Test/Eval Designer writes code, and only under `tests/`/`evals/`.
 
 **Runtime product components** (defined under `src/`) are parts of the actual triage application: ticket readiness checker, missing-information detector, ticket classifier, priority estimator, knowledge retriever, response drafter, confidence scorer, human-review decision logic, and the pipeline that orchestrates them.
 
@@ -102,7 +102,7 @@ All data in this repository — product catalog, customer personas, support tick
 
 ## 13. Expected Project Artifacts
 
-Local (version-controlled): this brief, `PROJECT_CHARTER.md`, `PRODUCT_BRIEF.md`, `ARCHITECTURE.md`, `DATA_MODEL.md`, ADRs, `TEST_STRATEGY.md`, `EVAL_STRATEGY.md`, `RUNBOOK.md`, `RELEASE_NOTES.md`, `AGENTS.md`, `.agents/*`, `.skills/*`.
+Local (version-controlled): this brief, `PROJECT_CHARTER.md`, `PRODUCT_BRIEF.md`, `ARCHITECTURE.md`, `DATA_MODEL.md`, ADRs, `TEST_STRATEGY.md`, `EVAL_STRATEGY.md`, `RUNBOOK.md`, `RELEASE_NOTES.md`, `AGENTS.md`, `sdlc.project.yaml`, domain overlay under `.skills/`. Enterprise agent roles and generic SDLC skills are served via Enterprise SDLC MCP (`enterprise_sdlc_mcp/`).
 
 GitHub-native: labels, milestones, Project board, issues, pull requests, releases.
 
@@ -113,7 +113,7 @@ GitHub-native: labels, milestones, Project board, issues, pull requests, release
 3. Issue broken into an implementation slice (Implementation Planner Agent assists).
 4. Main Orchestrator implements the slice on a feature branch named after the issue.
 5. Tests/evals added (Test/Eval Designer Agent assists).
-6. PR opened referencing `Closes #<issue>`; reviewed by an **independent Code Reviewer subagent** (fresh context, not the Main Orchestrator self-reviewing its own diff) — see `.agents/code-reviewer.md` Trigger Mechanism. Refactor Reviewer subagent invoked periodically or when structural concerns arise.
+6. PR opened referencing `Closes #<issue>`; reviewed by an **independent Code Reviewer subagent** (fresh context, not the Main Orchestrator self-reviewing its own diff) — via Enterprise SDLC MCP (`get_agent("code-reviewer")`). Refactor Reviewer subagent invoked periodically or when structural concerns arise.
 7. CI passes; findings addressed; PR merged; issue closed.
 8. Docs updated if architecture/behavior changed (Documentation Agent assists).
 9. Release cut and `RELEASE_NOTES.md` updated (Release Manager Agent assists).
@@ -137,4 +137,4 @@ This section should be revisited at each milestone; do not let it go stale.
 
 ## 17. How AI Agents and Skills Are Used During Delivery
 
-Build-time SDLC agent roles are defined under `.agents/` (see Section 8). Reusable checklists/skills that any agent or the Main Orchestrator can apply are defined under `.skills/` — e.g. requirement tightening, GitHub backlog creation, GitHub issue quality review, architecture review, synthetic data design, hi-fi audio support taxonomy design, ticket readiness rule design, FastAPI service review, test/eval design, PR/code review, release readiness review. Agents advise, draft, and review; the Main Orchestrator remains responsible for final direction and for any given slice's code changes.
+Build-time SDLC agent roles are served by the **Enterprise SDLC MCP** (see Section 8 and `docs/01_architecture/ENTERPRISE_SDLC_MCP.md`). Generic checklists/skills (requirement tightening, GitHub backlog creation, architecture review, PR review, etc.) come from the MCP catalog. Domain-specific skills remain in `.skills/` (e.g. hi-fi audio taxonomy, ticket readiness rules, synthetic data design). Agents advise, draft, and review; the Main Orchestrator remains responsible for final direction and for any given slice's code changes.

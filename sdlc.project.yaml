@@ -1,0 +1,34 @@
+display_name: Support Ticket Triage Assistant
+repo_root: .
+program: support-ticket-triage-assistant
+
+docs:
+  orchestrator_brief: docs/00_project/AI_ORCHESTRATOR_BRIEF.md
+  project_charter: docs/00_project/PROJECT_CHARTER.md
+  product_brief: docs/00_project/PRODUCT_BRIEF.md
+  architecture: docs/01_architecture/ARCHITECTURE.md
+  data_model: docs/01_architecture/DATA_MODEL.md
+  test_strategy: docs/02_testing/TEST_STRATEGY.md
+  eval_strategy: docs/02_testing/EVAL_STRATEGY.md
+  runbook: docs/03_operations/RUNBOOK.md
+  release_notes: docs/03_operations/RELEASE_NOTES.md
+
+paths:
+  source: src/
+  tests: tests/
+  evals: evals/
+  sample_data: data/sample/
+  knowledge_base: data/knowledge_base/
+  project_skills: .skills/
+  migrations: db/migrations/
+
+milestone:
+  current: v0.1 SDLC Demo
+
+extensions:
+  - LLMClient
+  - Retriever
+  - TriageRepository
+
+domain:
+  product_context: Synthetic AI support-ticket triage for fictional NorthPeak Audioworks
