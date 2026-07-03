@@ -67,23 +67,39 @@ Roles are advisory except the orchestrator (implementation) and the Code Reviewe
 
 | Gate | Mechanism | Blocking? |
 |------|-----------|-----------|
+| Lint | `ruff check .` | Yes (CI, same job as pytest) |
 | Deterministic logic | `pytest -m "not llm"` | Yes (CI) |
 | Fixture eval baseline | `evals/baselines/v0.1.0/fixture-baseline.json` | Yes (CI, from this close-out) |
-| Live LLM eval | `python -m evals.record_baseline --mode live` | No — manual; see `evals/baselines/QUALITY_BAR.md` |
-| Pre-merge review | Enterprise SDLC MCP Code Reviewer | Process (documented; branch protection optional) |
+| Live LLM eval | `evals/baselines/v0.1.0/live-baseline.json` | No — manual refresh; recorded 2026-07-03 (`gpt-4o-mini`) |
+| Pre-merge review | Enterprise SDLC MCP Code Reviewer | Process (documented) |
+| Branch protection | **pytest (fast suite)** required on `main` | Yes (GitHub, 2026-07-03) |
 
-**Note:** A live OpenAI baseline was not committed at v0.1.0 tag — only the reproducible fixture snapshot. Run `--mode live` locally when you have `OPENAI_API_KEY` and compare to `QUALITY_BAR.md`.
+**Live baseline (v0.1.0):** category/priority/missing-fields 100%; rubric check pass rate 99.2% (24/25 fully passed). Meets [`QUALITY_BAR.md`](../../evals/baselines/QUALITY_BAR.md). One rubric nit on `TCK-0018` (`addresses_stated_issue`) — see `live-baseline.md`.
 
 ## Backlog shape
 
 Requirements trace FR1–FR8 → user stories → technical tasks (`docs/00_project/PRODUCT_BRIEF.md`). Enabler epic [#29](https://github.com/raghuram-chittibomma/support-ticket-triage-assistant/issues/29) for synthetic data/schema. Deferred follow-ups: [#39](https://github.com/raghuram-chittibomma/support-ticket-triage-assistant/issues/39) (missing-info hardening), [#41](https://github.com/raghuram-chittibomma/support-ticket-triage-assistant/issues/41) (doc nit).
 
+## Known gaps vs AI-native production
+
+Honest scope boundary for portfolio readers comparing this repo to a staffed AI platform team. These are **documented deferrals**, not oversights.
+
+| Area | v0.1 portfolio | Typical AI-native production | Planned for v0.1.x? |
+|------|----------------|------------------------------|---------------------|
+| Code review gate | Orchestrator-triggered MCP Code Reviewer (fresh context in IDE) | Often bot + human; sometimes required check | No — by design for this demo; automating full agent review in Actions is v0.2+ |
+| Live eval in CI | Fixture baseline every PR; live snapshot at release | Live or sampled eval on schedule / pre-release | Optional manual `workflow_dispatch` later |
+| CI checks | pytest + ruff + Dependabot | + types, secrets scan, SAST | ruff + Dependabot added; mypy/secret scan deferred |
+| LLM observability | None (OpenAI client is a thin seam) | Token/cost/latency tracing (e.g. LangSmith) | Deferred — runtime story, not SDLC thesis |
+| Release automation | Hand-cut tag + release notes | release-please / semantic-release | Deferred — v0.1.0 was intentional close-out |
+| Staging / promotion | Single track: PR → `main` | dev → staging → prod | Out of scope per charter (no deployment) |
+| Adversarial evals | Synthetic happy-path tickets only | Prompt-injection / jailbreak suites | Deferred unless targeting safety roles |
+
+**Takeaway:** This repo demonstrates **delivery discipline** (backlog, slices, review, tests, evals, CI, branch protection). Closing the automation gaps above would strengthen a **platform/MLOps** narrative — a different portfolio emphasis.
+
 ## Owner actions not captured in git
 
-These remain manual if you want the portfolio story complete for external viewers:
-
-1. **Branch protection** — require **pytest (fast suite)** on `main` ([`.github/workflows/README.md`](../../.github/workflows/README.md))
-2. **Live eval snapshot** — `python -m evals.record_baseline --mode live --tag v0.1.0` and commit under `evals/baselines/v0.1.0/` if metrics meet `QUALITY_BAR.md`
+1. ~~**Branch protection**~~ — done (2026-07-03): **pytest (fast suite)** required on `main`
+2. ~~**Live eval snapshot**~~ — done (2026-07-03): [`live-baseline.json`](../../evals/baselines/v0.1.0/live-baseline.json) under `evals/baselines/v0.1.0/`
 3. **Demo recording** — short screen capture of `python -m src.ui` linked from README or GitHub Release
 
 ## Related docs

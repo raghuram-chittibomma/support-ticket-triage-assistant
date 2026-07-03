@@ -1,0 +1,1115 @@
+{
+  "summary": {
+    "ticket_count": 25,
+    "category_accuracy": 1.0,
+    "priority_accuracy": 1.0,
+    "missing_fields_accuracy": 1.0,
+    "rubric_summary": {
+      "scenarios": 25,
+      "fully_passed": 24,
+      "check_pass_rate": 0.9921259842519685
+    },
+    "confidence_calibration": {
+      "complete_ticket_count": 13,
+      "incomplete_ticket_count": 12,
+      "complete_human_review_rate": 0.07692307692307693,
+      "incomplete_human_review_rate": 1.0,
+      "complete_low_confidence_rate": 0.0,
+      "incomplete_low_confidence_rate": 0.25
+    }
+  },
+  "mismatches": [],
+  "scenarios": [
+    {
+      "ticket_id": "TCK-0001",
+      "category_match": true,
+      "priority_match": true,
+      "missing_fields_match": true,
+      "predicted_category": "Wi-Fi / Network Connectivity",
+      "predicted_priority": "High",
+      "predicted_missing_fields": [],
+      "confidence_level": "high",
+      "human_review_required": false,
+      "rubric": {
+        "passed_count": 5,
+        "total_count": 5,
+        "checks": [
+          {
+            "name": "non_empty_response",
+            "passed": true,
+            "detail": "suggested_response has at least 20 characters"
+          },
+          {
+            "name": "likely_issue_present",
+            "passed": true,
+            "detail": "likely_issue is present and substantive"
+          },
+          {
+            "name": "no_placeholders",
+            "passed": true,
+            "detail": "no TODO/TBD/placeholder tokens in suggested_response"
+          },
+          {
+            "name": "professional_tone",
+            "passed": true,
+            "detail": "no obvious profanity in suggested_response"
+          },
+          {
+            "name": "addresses_stated_issue",
+            "passed": true,
+            "detail": "ticket subject vocabulary appears in suggested_response"
+          }
+        ]
+      }
+    },
+    {
+      "ticket_id": "TCK-0002",
+      "category_match": true,
+      "priority_match": true,
+      "missing_fields_match": true,
+      "predicted_category": "Wi-Fi / Network Connectivity",
+      "predicted_priority": "Medium",
+      "predicted_missing_fields": [
+        "router_band",
+        "firmware_version"
+      ],
+      "confidence_level": "medium",
+      "human_review_required": true,
+      "rubric": {
+        "passed_count": 5,
+        "total_count": 5,
+        "checks": [
+          {
+            "name": "non_empty_response",
+            "passed": true,
+            "detail": "suggested_response has at least 20 characters"
+          },
+          {
+            "name": "likely_issue_present",
+            "passed": true,
+            "detail": "likely_issue is present and substantive"
+          },
+          {
+            "name": "no_placeholders",
+            "passed": true,
+            "detail": "no TODO/TBD/placeholder tokens in suggested_response"
+          },
+          {
+            "name": "professional_tone",
+            "passed": true,
+            "detail": "no obvious profanity in suggested_response"
+          },
+          {
+            "name": "addresses_stated_issue",
+            "passed": true,
+            "detail": "ticket subject vocabulary appears in suggested_response"
+          }
+        ]
+      }
+    },
+    {
+      "ticket_id": "TCK-0003",
+      "category_match": true,
+      "priority_match": true,
+      "missing_fields_match": true,
+      "predicted_category": "Bluetooth / Pairing",
+      "predicted_priority": "Medium",
+      "predicted_missing_fields": [],
+      "confidence_level": "high",
+      "human_review_required": false,
+      "rubric": {
+        "passed_count": 5,
+        "total_count": 5,
+        "checks": [
+          {
+            "name": "non_empty_response",
+            "passed": true,
+            "detail": "suggested_response has at least 20 characters"
+          },
+          {
+            "name": "likely_issue_present",
+            "passed": true,
+            "detail": "likely_issue is present and substantive"
+          },
+          {
+            "name": "no_placeholders",
+            "passed": true,
+            "detail": "no TODO/TBD/placeholder tokens in suggested_response"
+          },
+          {
+            "name": "professional_tone",
+            "passed": true,
+            "detail": "no obvious profanity in suggested_response"
+          },
+          {
+            "name": "addresses_stated_issue",
+            "passed": true,
+            "detail": "ticket subject vocabulary appears in suggested_response"
+          }
+        ]
+      }
+    },
+    {
+      "ticket_id": "TCK-0004",
+      "category_match": true,
+      "priority_match": true,
+      "missing_fields_match": true,
+      "predicted_category": "Bluetooth / Pairing",
+      "predicted_priority": "High",
+      "predicted_missing_fields": [
+        "paired_device",
+        "firmware_version"
+      ],
+      "confidence_level": "medium",
+      "human_review_required": true,
+      "rubric": {
+        "passed_count": 5,
+        "total_count": 5,
+        "checks": [
+          {
+            "name": "non_empty_response",
+            "passed": true,
+            "detail": "suggested_response has at least 20 characters"
+          },
+          {
+            "name": "likely_issue_present",
+            "passed": true,
+            "detail": "likely_issue is present and substantive"
+          },
+          {
+            "name": "no_placeholders",
+            "passed": true,
+            "detail": "no TODO/TBD/placeholder tokens in suggested_response"
+          },
+          {
+            "name": "professional_tone",
+            "passed": true,
+            "detail": "no obvious profanity in suggested_response"
+          },
+          {
+            "name": "addresses_stated_issue",
+            "passed": true,
+            "detail": "ticket subject vocabulary appears in suggested_response"
+          }
+        ]
+      }
+    },
+    {
+      "ticket_id": "TCK-0005",
+      "category_match": true,
+      "priority_match": true,
+      "missing_fields_match": true,
+      "predicted_category": "Firmware Update",
+      "predicted_priority": "Medium",
+      "predicted_missing_fields": [],
+      "confidence_level": "high",
+      "human_review_required": false,
+      "rubric": {
+        "passed_count": 5,
+        "total_count": 5,
+        "checks": [
+          {
+            "name": "non_empty_response",
+            "passed": true,
+            "detail": "suggested_response has at least 20 characters"
+          },
+          {
+            "name": "likely_issue_present",
+            "passed": true,
+            "detail": "likely_issue is present and substantive"
+          },
+          {
+            "name": "no_placeholders",
+            "passed": true,
+            "detail": "no TODO/TBD/placeholder tokens in suggested_response"
+          },
+          {
+            "name": "professional_tone",
+            "passed": true,
+            "detail": "no obvious profanity in suggested_response"
+          },
+          {
+            "name": "addresses_stated_issue",
+            "passed": true,
+            "detail": "ticket subject vocabulary appears in suggested_response"
+          }
+        ]
+      }
+    },
+    {
+      "ticket_id": "TCK-0006",
+      "category_match": true,
+      "priority_match": true,
+      "missing_fields_match": true,
+      "predicted_category": "Firmware Update",
+      "predicted_priority": "Low",
+      "predicted_missing_fields": [
+        "firmware_version"
+      ],
+      "confidence_level": "medium",
+      "human_review_required": true,
+      "rubric": {
+        "passed_count": 5,
+        "total_count": 5,
+        "checks": [
+          {
+            "name": "non_empty_response",
+            "passed": true,
+            "detail": "suggested_response has at least 20 characters"
+          },
+          {
+            "name": "likely_issue_present",
+            "passed": true,
+            "detail": "likely_issue is present and substantive"
+          },
+          {
+            "name": "no_placeholders",
+            "passed": true,
+            "detail": "no TODO/TBD/placeholder tokens in suggested_response"
+          },
+          {
+            "name": "professional_tone",
+            "passed": true,
+            "detail": "no obvious profanity in suggested_response"
+          },
+          {
+            "name": "addresses_stated_issue",
+            "passed": true,
+            "detail": "ticket subject vocabulary appears in suggested_response"
+          }
+        ]
+      }
+    },
+    {
+      "ticket_id": "TCK-0007",
+      "category_match": true,
+      "priority_match": true,
+      "missing_fields_match": true,
+      "predicted_category": "Sound Quality / Distortion",
+      "predicted_priority": "Medium",
+      "predicted_missing_fields": [],
+      "confidence_level": "high",
+      "human_review_required": false,
+      "rubric": {
+        "passed_count": 5,
+        "total_count": 5,
+        "checks": [
+          {
+            "name": "non_empty_response",
+            "passed": true,
+            "detail": "suggested_response has at least 20 characters"
+          },
+          {
+            "name": "likely_issue_present",
+            "passed": true,
+            "detail": "likely_issue is present and substantive"
+          },
+          {
+            "name": "no_placeholders",
+            "passed": true,
+            "detail": "no TODO/TBD/placeholder tokens in suggested_response"
+          },
+          {
+            "name": "professional_tone",
+            "passed": true,
+            "detail": "no obvious profanity in suggested_response"
+          },
+          {
+            "name": "addresses_stated_issue",
+            "passed": true,
+            "detail": "ticket subject vocabulary appears in suggested_response"
+          }
+        ]
+      }
+    },
+    {
+      "ticket_id": "TCK-0008",
+      "category_match": true,
+      "priority_match": true,
+      "missing_fields_match": true,
+      "predicted_category": "Sound Quality / Distortion",
+      "predicted_priority": "Medium",
+      "predicted_missing_fields": [
+        "volume_level",
+        "source_device"
+      ],
+      "confidence_level": "medium",
+      "human_review_required": true,
+      "rubric": {
+        "passed_count": 5,
+        "total_count": 5,
+        "checks": [
+          {
+            "name": "non_empty_response",
+            "passed": true,
+            "detail": "suggested_response has at least 20 characters"
+          },
+          {
+            "name": "likely_issue_present",
+            "passed": true,
+            "detail": "likely_issue is present and substantive"
+          },
+          {
+            "name": "no_placeholders",
+            "passed": true,
+            "detail": "no TODO/TBD/placeholder tokens in suggested_response"
+          },
+          {
+            "name": "professional_tone",
+            "passed": true,
+            "detail": "no obvious profanity in suggested_response"
+          },
+          {
+            "name": "addresses_stated_issue",
+            "passed": true,
+            "detail": "ticket subject vocabulary appears in suggested_response"
+          }
+        ]
+      }
+    },
+    {
+      "ticket_id": "TCK-0009",
+      "category_match": true,
+      "priority_match": true,
+      "missing_fields_match": true,
+      "predicted_category": "Amplifier / Speaker Compatibility",
+      "predicted_priority": "Low",
+      "predicted_missing_fields": [],
+      "confidence_level": "high",
+      "human_review_required": false,
+      "rubric": {
+        "passed_count": 5,
+        "total_count": 5,
+        "checks": [
+          {
+            "name": "non_empty_response",
+            "passed": true,
+            "detail": "suggested_response has at least 20 characters"
+          },
+          {
+            "name": "likely_issue_present",
+            "passed": true,
+            "detail": "likely_issue is present and substantive"
+          },
+          {
+            "name": "no_placeholders",
+            "passed": true,
+            "detail": "no TODO/TBD/placeholder tokens in suggested_response"
+          },
+          {
+            "name": "professional_tone",
+            "passed": true,
+            "detail": "no obvious profanity in suggested_response"
+          },
+          {
+            "name": "addresses_stated_issue",
+            "passed": true,
+            "detail": "ticket subject vocabulary appears in suggested_response"
+          }
+        ]
+      }
+    },
+    {
+      "ticket_id": "TCK-0010",
+      "category_match": true,
+      "priority_match": true,
+      "missing_fields_match": true,
+      "predicted_category": "Amplifier / Speaker Compatibility",
+      "predicted_priority": "Low",
+      "predicted_missing_fields": [
+        "speaker_model_or_spec"
+      ],
+      "confidence_level": "medium",
+      "human_review_required": true,
+      "rubric": {
+        "passed_count": 5,
+        "total_count": 5,
+        "checks": [
+          {
+            "name": "non_empty_response",
+            "passed": true,
+            "detail": "suggested_response has at least 20 characters"
+          },
+          {
+            "name": "likely_issue_present",
+            "passed": true,
+            "detail": "likely_issue is present and substantive"
+          },
+          {
+            "name": "no_placeholders",
+            "passed": true,
+            "detail": "no TODO/TBD/placeholder tokens in suggested_response"
+          },
+          {
+            "name": "professional_tone",
+            "passed": true,
+            "detail": "no obvious profanity in suggested_response"
+          },
+          {
+            "name": "addresses_stated_issue",
+            "passed": true,
+            "detail": "ticket subject vocabulary appears in suggested_response"
+          }
+        ]
+      }
+    },
+    {
+      "ticket_id": "TCK-0011",
+      "category_match": true,
+      "priority_match": true,
+      "missing_fields_match": true,
+      "predicted_category": "Subwoofer Setup",
+      "predicted_priority": "Low",
+      "predicted_missing_fields": [],
+      "confidence_level": "high",
+      "human_review_required": false,
+      "rubric": {
+        "passed_count": 6,
+        "total_count": 6,
+        "checks": [
+          {
+            "name": "non_empty_response",
+            "passed": true,
+            "detail": "suggested_response has at least 20 characters"
+          },
+          {
+            "name": "likely_issue_present",
+            "passed": true,
+            "detail": "likely_issue is present and substantive"
+          },
+          {
+            "name": "no_placeholders",
+            "passed": true,
+            "detail": "no TODO/TBD/placeholder tokens in suggested_response"
+          },
+          {
+            "name": "professional_tone",
+            "passed": true,
+            "detail": "no obvious profanity in suggested_response"
+          },
+          {
+            "name": "addresses_stated_issue",
+            "passed": true,
+            "detail": "ticket subject vocabulary appears in suggested_response"
+          },
+          {
+            "name": "citation_integrity",
+            "passed": true,
+            "detail": "every cited doc_id in suggested_response was retrieved"
+          }
+        ]
+      }
+    },
+    {
+      "ticket_id": "TCK-0012",
+      "category_match": true,
+      "priority_match": true,
+      "missing_fields_match": true,
+      "predicted_category": "Subwoofer Setup",
+      "predicted_priority": "Medium",
+      "predicted_missing_fields": [
+        "crossover_or_room"
+      ],
+      "confidence_level": "medium",
+      "human_review_required": true,
+      "rubric": {
+        "passed_count": 5,
+        "total_count": 5,
+        "checks": [
+          {
+            "name": "non_empty_response",
+            "passed": true,
+            "detail": "suggested_response has at least 20 characters"
+          },
+          {
+            "name": "likely_issue_present",
+            "passed": true,
+            "detail": "likely_issue is present and substantive"
+          },
+          {
+            "name": "no_placeholders",
+            "passed": true,
+            "detail": "no TODO/TBD/placeholder tokens in suggested_response"
+          },
+          {
+            "name": "professional_tone",
+            "passed": true,
+            "detail": "no obvious profanity in suggested_response"
+          },
+          {
+            "name": "addresses_stated_issue",
+            "passed": true,
+            "detail": "ticket subject vocabulary appears in suggested_response"
+          }
+        ]
+      }
+    },
+    {
+      "ticket_id": "TCK-0013",
+      "category_match": true,
+      "priority_match": true,
+      "missing_fields_match": true,
+      "predicted_category": "Product Defect / Hardware Issue",
+      "predicted_priority": "Medium",
+      "predicted_missing_fields": [],
+      "confidence_level": "high",
+      "human_review_required": false,
+      "rubric": {
+        "passed_count": 5,
+        "total_count": 5,
+        "checks": [
+          {
+            "name": "non_empty_response",
+            "passed": true,
+            "detail": "suggested_response has at least 20 characters"
+          },
+          {
+            "name": "likely_issue_present",
+            "passed": true,
+            "detail": "likely_issue is present and substantive"
+          },
+          {
+            "name": "no_placeholders",
+            "passed": true,
+            "detail": "no TODO/TBD/placeholder tokens in suggested_response"
+          },
+          {
+            "name": "professional_tone",
+            "passed": true,
+            "detail": "no obvious profanity in suggested_response"
+          },
+          {
+            "name": "addresses_stated_issue",
+            "passed": true,
+            "detail": "ticket subject vocabulary appears in suggested_response"
+          }
+        ]
+      }
+    },
+    {
+      "ticket_id": "TCK-0014",
+      "category_match": true,
+      "priority_match": true,
+      "missing_fields_match": true,
+      "predicted_category": "Product Defect / Hardware Issue",
+      "predicted_priority": "Medium",
+      "predicted_missing_fields": [
+        "purchase_date",
+        "steps_to_reproduce"
+      ],
+      "confidence_level": "medium",
+      "human_review_required": true,
+      "rubric": {
+        "passed_count": 5,
+        "total_count": 5,
+        "checks": [
+          {
+            "name": "non_empty_response",
+            "passed": true,
+            "detail": "suggested_response has at least 20 characters"
+          },
+          {
+            "name": "likely_issue_present",
+            "passed": true,
+            "detail": "likely_issue is present and substantive"
+          },
+          {
+            "name": "no_placeholders",
+            "passed": true,
+            "detail": "no TODO/TBD/placeholder tokens in suggested_response"
+          },
+          {
+            "name": "professional_tone",
+            "passed": true,
+            "detail": "no obvious profanity in suggested_response"
+          },
+          {
+            "name": "addresses_stated_issue",
+            "passed": true,
+            "detail": "ticket subject vocabulary appears in suggested_response"
+          }
+        ]
+      }
+    },
+    {
+      "ticket_id": "TCK-0015",
+      "category_match": true,
+      "priority_match": true,
+      "missing_fields_match": true,
+      "predicted_category": "Shipping / Damaged Delivery",
+      "predicted_priority": "Low",
+      "predicted_missing_fields": [],
+      "confidence_level": "high",
+      "human_review_required": false,
+      "rubric": {
+        "passed_count": 5,
+        "total_count": 5,
+        "checks": [
+          {
+            "name": "non_empty_response",
+            "passed": true,
+            "detail": "suggested_response has at least 20 characters"
+          },
+          {
+            "name": "likely_issue_present",
+            "passed": true,
+            "detail": "likely_issue is present and substantive"
+          },
+          {
+            "name": "no_placeholders",
+            "passed": true,
+            "detail": "no TODO/TBD/placeholder tokens in suggested_response"
+          },
+          {
+            "name": "professional_tone",
+            "passed": true,
+            "detail": "no obvious profanity in suggested_response"
+          },
+          {
+            "name": "addresses_stated_issue",
+            "passed": true,
+            "detail": "ticket subject vocabulary appears in suggested_response"
+          }
+        ]
+      }
+    },
+    {
+      "ticket_id": "TCK-0016",
+      "category_match": true,
+      "priority_match": true,
+      "missing_fields_match": true,
+      "predicted_category": "Shipping / Damaged Delivery",
+      "predicted_priority": "Low",
+      "predicted_missing_fields": [
+        "order_number",
+        "damage_description"
+      ],
+      "confidence_level": "low",
+      "human_review_required": true,
+      "rubric": {
+        "passed_count": 6,
+        "total_count": 6,
+        "checks": [
+          {
+            "name": "non_empty_response",
+            "passed": true,
+            "detail": "suggested_response has at least 20 characters"
+          },
+          {
+            "name": "likely_issue_present",
+            "passed": true,
+            "detail": "likely_issue is present and substantive"
+          },
+          {
+            "name": "no_placeholders",
+            "passed": true,
+            "detail": "no TODO/TBD/placeholder tokens in suggested_response"
+          },
+          {
+            "name": "professional_tone",
+            "passed": true,
+            "detail": "no obvious profanity in suggested_response"
+          },
+          {
+            "name": "addresses_stated_issue",
+            "passed": true,
+            "detail": "ticket subject vocabulary appears in suggested_response"
+          },
+          {
+            "name": "citation_integrity",
+            "passed": true,
+            "detail": "every cited doc_id in suggested_response was retrieved"
+          }
+        ]
+      }
+    },
+    {
+      "ticket_id": "TCK-0017",
+      "category_match": true,
+      "priority_match": true,
+      "missing_fields_match": true,
+      "predicted_category": "Returns / Refunds",
+      "predicted_priority": "Low",
+      "predicted_missing_fields": [],
+      "confidence_level": "high",
+      "human_review_required": false,
+      "rubric": {
+        "passed_count": 5,
+        "total_count": 5,
+        "checks": [
+          {
+            "name": "non_empty_response",
+            "passed": true,
+            "detail": "suggested_response has at least 20 characters"
+          },
+          {
+            "name": "likely_issue_present",
+            "passed": true,
+            "detail": "likely_issue is present and substantive"
+          },
+          {
+            "name": "no_placeholders",
+            "passed": true,
+            "detail": "no TODO/TBD/placeholder tokens in suggested_response"
+          },
+          {
+            "name": "professional_tone",
+            "passed": true,
+            "detail": "no obvious profanity in suggested_response"
+          },
+          {
+            "name": "addresses_stated_issue",
+            "passed": true,
+            "detail": "ticket subject vocabulary appears in suggested_response"
+          }
+        ]
+      }
+    },
+    {
+      "ticket_id": "TCK-0018",
+      "category_match": true,
+      "priority_match": true,
+      "missing_fields_match": true,
+      "predicted_category": "Returns / Refunds",
+      "predicted_priority": "Low",
+      "predicted_missing_fields": [
+        "order_number",
+        "return_reason"
+      ],
+      "confidence_level": "low",
+      "human_review_required": true,
+      "rubric": {
+        "passed_count": 4,
+        "total_count": 5,
+        "checks": [
+          {
+            "name": "non_empty_response",
+            "passed": true,
+            "detail": "suggested_response has at least 20 characters"
+          },
+          {
+            "name": "likely_issue_present",
+            "passed": true,
+            "detail": "likely_issue is present and substantive"
+          },
+          {
+            "name": "no_placeholders",
+            "passed": true,
+            "detail": "no TODO/TBD/placeholder tokens in suggested_response"
+          },
+          {
+            "name": "professional_tone",
+            "passed": true,
+            "detail": "no obvious profanity in suggested_response"
+          },
+          {
+            "name": "addresses_stated_issue",
+            "passed": false,
+            "detail": "ticket subject vocabulary appears in suggested_response"
+          }
+        ]
+      }
+    },
+    {
+      "ticket_id": "TCK-0019",
+      "category_match": true,
+      "priority_match": true,
+      "missing_fields_match": true,
+      "predicted_category": "Warranty / Registration",
+      "predicted_priority": "Low",
+      "predicted_missing_fields": [],
+      "confidence_level": "high",
+      "human_review_required": false,
+      "rubric": {
+        "passed_count": 5,
+        "total_count": 5,
+        "checks": [
+          {
+            "name": "non_empty_response",
+            "passed": true,
+            "detail": "suggested_response has at least 20 characters"
+          },
+          {
+            "name": "likely_issue_present",
+            "passed": true,
+            "detail": "likely_issue is present and substantive"
+          },
+          {
+            "name": "no_placeholders",
+            "passed": true,
+            "detail": "no TODO/TBD/placeholder tokens in suggested_response"
+          },
+          {
+            "name": "professional_tone",
+            "passed": true,
+            "detail": "no obvious profanity in suggested_response"
+          },
+          {
+            "name": "addresses_stated_issue",
+            "passed": true,
+            "detail": "ticket subject vocabulary appears in suggested_response"
+          }
+        ]
+      }
+    },
+    {
+      "ticket_id": "TCK-0020",
+      "category_match": true,
+      "priority_match": true,
+      "missing_fields_match": true,
+      "predicted_category": "Warranty / Registration",
+      "predicted_priority": "Low",
+      "predicted_missing_fields": [
+        "purchase_date",
+        "proof_of_purchase"
+      ],
+      "confidence_level": "medium",
+      "human_review_required": true,
+      "rubric": {
+        "passed_count": 5,
+        "total_count": 5,
+        "checks": [
+          {
+            "name": "non_empty_response",
+            "passed": true,
+            "detail": "suggested_response has at least 20 characters"
+          },
+          {
+            "name": "likely_issue_present",
+            "passed": true,
+            "detail": "likely_issue is present and substantive"
+          },
+          {
+            "name": "no_placeholders",
+            "passed": true,
+            "detail": "no TODO/TBD/placeholder tokens in suggested_response"
+          },
+          {
+            "name": "professional_tone",
+            "passed": true,
+            "detail": "no obvious profanity in suggested_response"
+          },
+          {
+            "name": "addresses_stated_issue",
+            "passed": true,
+            "detail": "ticket subject vocabulary appears in suggested_response"
+          }
+        ]
+      }
+    },
+    {
+      "ticket_id": "TCK-0021",
+      "category_match": true,
+      "priority_match": true,
+      "missing_fields_match": true,
+      "predicted_category": "Order / Account / Billing",
+      "predicted_priority": "High",
+      "predicted_missing_fields": [],
+      "confidence_level": "high",
+      "human_review_required": true,
+      "rubric": {
+        "passed_count": 5,
+        "total_count": 5,
+        "checks": [
+          {
+            "name": "non_empty_response",
+            "passed": true,
+            "detail": "suggested_response has at least 20 characters"
+          },
+          {
+            "name": "likely_issue_present",
+            "passed": true,
+            "detail": "likely_issue is present and substantive"
+          },
+          {
+            "name": "no_placeholders",
+            "passed": true,
+            "detail": "no TODO/TBD/placeholder tokens in suggested_response"
+          },
+          {
+            "name": "professional_tone",
+            "passed": true,
+            "detail": "no obvious profanity in suggested_response"
+          },
+          {
+            "name": "addresses_stated_issue",
+            "passed": true,
+            "detail": "ticket subject vocabulary appears in suggested_response"
+          }
+        ]
+      }
+    },
+    {
+      "ticket_id": "TCK-0022",
+      "category_match": true,
+      "priority_match": true,
+      "missing_fields_match": true,
+      "predicted_category": "Order / Account / Billing",
+      "predicted_priority": "Low",
+      "predicted_missing_fields": [
+        "order_number"
+      ],
+      "confidence_level": "medium",
+      "human_review_required": true,
+      "rubric": {
+        "passed_count": 5,
+        "total_count": 5,
+        "checks": [
+          {
+            "name": "non_empty_response",
+            "passed": true,
+            "detail": "suggested_response has at least 20 characters"
+          },
+          {
+            "name": "likely_issue_present",
+            "passed": true,
+            "detail": "likely_issue is present and substantive"
+          },
+          {
+            "name": "no_placeholders",
+            "passed": true,
+            "detail": "no TODO/TBD/placeholder tokens in suggested_response"
+          },
+          {
+            "name": "professional_tone",
+            "passed": true,
+            "detail": "no obvious profanity in suggested_response"
+          },
+          {
+            "name": "addresses_stated_issue",
+            "passed": true,
+            "detail": "ticket subject vocabulary appears in suggested_response"
+          }
+        ]
+      }
+    },
+    {
+      "ticket_id": "TCK-0023",
+      "category_match": true,
+      "priority_match": true,
+      "missing_fields_match": true,
+      "predicted_category": "Setup / Installation",
+      "predicted_priority": "Low",
+      "predicted_missing_fields": [],
+      "confidence_level": "high",
+      "human_review_required": false,
+      "rubric": {
+        "passed_count": 5,
+        "total_count": 5,
+        "checks": [
+          {
+            "name": "non_empty_response",
+            "passed": true,
+            "detail": "suggested_response has at least 20 characters"
+          },
+          {
+            "name": "likely_issue_present",
+            "passed": true,
+            "detail": "likely_issue is present and substantive"
+          },
+          {
+            "name": "no_placeholders",
+            "passed": true,
+            "detail": "no TODO/TBD/placeholder tokens in suggested_response"
+          },
+          {
+            "name": "professional_tone",
+            "passed": true,
+            "detail": "no obvious profanity in suggested_response"
+          },
+          {
+            "name": "addresses_stated_issue",
+            "passed": true,
+            "detail": "ticket subject vocabulary appears in suggested_response"
+          }
+        ]
+      }
+    },
+    {
+      "ticket_id": "TCK-0024",
+      "category_match": true,
+      "priority_match": true,
+      "missing_fields_match": true,
+      "predicted_category": "General Product Question",
+      "predicted_priority": "Low",
+      "predicted_missing_fields": [],
+      "confidence_level": "high",
+      "human_review_required": false,
+      "rubric": {
+        "passed_count": 5,
+        "total_count": 5,
+        "checks": [
+          {
+            "name": "non_empty_response",
+            "passed": true,
+            "detail": "suggested_response has at least 20 characters"
+          },
+          {
+            "name": "likely_issue_present",
+            "passed": true,
+            "detail": "likely_issue is present and substantive"
+          },
+          {
+            "name": "no_placeholders",
+            "passed": true,
+            "detail": "no TODO/TBD/placeholder tokens in suggested_response"
+          },
+          {
+            "name": "professional_tone",
+            "passed": true,
+            "detail": "no obvious profanity in suggested_response"
+          },
+          {
+            "name": "addresses_stated_issue",
+            "passed": true,
+            "detail": "ticket subject vocabulary appears in suggested_response"
+          }
+        ]
+      }
+    },
+    {
+      "ticket_id": "TCK-0025",
+      "category_match": true,
+      "priority_match": true,
+      "missing_fields_match": true,
+      "predicted_category": "Product Defect / Hardware Issue",
+      "predicted_priority": "Urgent",
+      "predicted_missing_fields": [
+        "steps_to_reproduce"
+      ],
+      "confidence_level": "low",
+      "human_review_required": true,
+      "rubric": {
+        "passed_count": 5,
+        "total_count": 5,
+        "checks": [
+          {
+            "name": "non_empty_response",
+            "passed": true,
+            "detail": "suggested_response has at least 20 characters"
+          },
+          {
+            "name": "likely_issue_present",
+            "passed": true,
+            "detail": "likely_issue is present and substantive"
+          },
+          {
+            "name": "no_placeholders",
+            "passed": true,
+            "detail": "no TODO/TBD/placeholder tokens in suggested_response"
+          },
+          {
+            "name": "professional_tone",
+            "passed": true,
+            "detail": "no obvious profanity in suggested_response"
+          },
+          {
+            "name": "addresses_stated_issue",
+            "passed": true,
+            "detail": "ticket subject vocabulary appears in suggested_response"
+          }
+        ]
+      }
+    }
+  ]
+}

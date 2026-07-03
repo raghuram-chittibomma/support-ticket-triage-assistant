@@ -65,9 +65,10 @@ Catalog lives under [`enterprise_sdlc_mcp/`](../../enterprise_sdlc_mcp/).
 
 Skim:
 
-- [`.github/workflows/ci.yml`](../../.github/workflows/ci.yml) — `pytest -m "not llm"` on every PR
-- [`evals/baselines/v0.1.0/fixture-baseline.json`](../../evals/baselines/v0.1.0/fixture-baseline.json) — pinned reproducible eval snapshot
-- [`evals/baselines/QUALITY_BAR.md`](../../evals/baselines/QUALITY_BAR.md) — acceptance thresholds for live LLM runs
+- [`.github/workflows/ci.yml`](../../.github/workflows/ci.yml) — `pytest -m "not llm"` on every PR; **branch protection** on `main` requires this check
+- [`evals/baselines/v0.1.0/fixture-baseline.json`](../../evals/baselines/v0.1.0/fixture-baseline.json) — pinned reproducible eval snapshot (CI)
+- [`evals/baselines/v0.1.0/live-baseline.json`](../../evals/baselines/v0.1.0/live-baseline.json) — live OpenAI snapshot at v0.1.0 (2026-07-03, `gpt-4o-mini`)
+- [`evals/baselines/QUALITY_BAR.md`](../../evals/baselines/QUALITY_BAR.md) — acceptance thresholds
 
 Optional clone check:
 

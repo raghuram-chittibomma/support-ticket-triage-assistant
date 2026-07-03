@@ -14,7 +14,7 @@ from evals.rubric import evaluate_response_rubric
 from evals.runner import run_eval_suite
 from src.llm import OpenAILLMClient
 from src.retrieval import KeywordKBRetriever
-from src.schemas import Category, Priority, ReadinessResult, Reference, TriageResult
+from src.schemas import Category, ReadinessResult, Reference, TriageResult
 from src.workflows.triage_pipeline import run_triage_pipeline
 
 

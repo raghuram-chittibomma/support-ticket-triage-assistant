@@ -3,7 +3,6 @@
 from __future__ import annotations
 
 import argparse
-import os
 import sys
 from datetime import datetime, timezone
 from pathlib import Path
@@ -47,8 +46,8 @@ def main(argv: list[str] | None = None) -> int:
     )
     args = parser.parse_args(argv)
 
-    if args.mode == "live" and not os.environ.get("OPENAI_API_KEY"):
-        print("OPENAI_API_KEY is required for --mode live", file=sys.stderr)
+    if args.mode == "live" and not settings.openai_api_key:
+        print("OPENAI_API_KEY is required for --mode live (set in .env or environment)", file=sys.stderr)
         return 1
 
     recorded_at = datetime.now(timezone.utc).strftime("%Y-%m-%dT%H:%M:%SZ")
