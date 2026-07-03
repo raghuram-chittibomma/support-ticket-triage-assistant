@@ -16,13 +16,14 @@ src/
   retrieval/      KeywordKBRetriever (#18, Slice 3)
   workflows/      run_triage_pipeline (#22, Slice 5) — single entry point sequencing every service above
   api/            FastAPI app: POST /triage, GET /health (#23, Slice 6)
+  ui/             Gradio demo UI (#24, Slice 7) — calls run_triage_pipeline in-process
 ```
 
 Still planned (see `docs/01_architecture/ARCHITECTURE.md`):
 
 ```
 src/
-  ui/             Gradio demo UI
+  (none — runtime application code complete for v0.1 demo; evals/ and CI remain)
 ```
 
 Do not place build-time SDLC agent definitions here — those live under `.agents/` at the repo root.
