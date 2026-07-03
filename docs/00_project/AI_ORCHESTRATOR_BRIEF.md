@@ -4,9 +4,9 @@
 |---|---|
 | Project name | Support Ticket Triage Assistant |
 | Fictional business | NorthPeak Audioworks (synthetic premium hi-fi audio company) |
-| Status | SDLC foundation established; no application code yet |
+| Status | v0.1.0 released (2026-07-03); delivery index in `docs/00_project/DELIVERY_RECORD.md` |
 | Repository | https://github.com/raghuram-chittibomma/support-ticket-triage-assistant |
-| Last reviewed | 2026-07-02 |
+| Last reviewed | 2026-07-03 |
 | Owner / Main Orchestrator | raghuram-chittibomma (single-user portfolio project) |
 
 This document is the durable handoff brief for the Main Orchestrator Agent and any future AI agent session working on this project. It preserves original intent so that context is not lost between chat sessions. It is **not** a backlog — for current work items and status, see the GitHub Project board and Issues linked below.
@@ -67,7 +67,7 @@ Local repository docs are created **only** when: (1) GitHub has no suitable nati
 | Architecture | `docs/01_architecture/ARCHITECTURE.md` + ADRs |
 | Data model | `docs/01_architecture/DATA_MODEL.md` |
 | Testing/evaluation strategy | `docs/02_testing/TEST_STRATEGY.md`, `EVAL_STRATEGY.md` |
-| Test/eval results | CI runs and `evals/` output (not restated in docs) |
+| Test/eval results | CI runs, `evals/baselines/` (pinned release snapshots), and ephemeral `data/generated/` reports |
 | Release | GitHub Releases/tags (facts) + `docs/03_operations/RELEASE_NOTES.md` (human-readable log) |
 | Project initiation/intent | This document |
 
@@ -102,7 +102,7 @@ All data in this repository — product catalog, customer personas, support tick
 
 ## 13. Expected Project Artifacts
 
-Local (version-controlled): this brief, `PROJECT_CHARTER.md`, `PRODUCT_BRIEF.md`, `ARCHITECTURE.md`, `DATA_MODEL.md`, ADRs, `TEST_STRATEGY.md`, `EVAL_STRATEGY.md`, `RUNBOOK.md`, `RELEASE_NOTES.md`, `AGENTS.md`, `sdlc.project.yaml`, domain overlay under `.skills/`. Enterprise agent roles and generic SDLC skills are served via Enterprise SDLC MCP (`enterprise_sdlc_mcp/`).
+Local (version-controlled): this brief, `PROJECT_CHARTER.md`, `PRODUCT_BRIEF.md`, `DELIVERY_RECORD.md` (v0.1 close-out index), `ARCHITECTURE.md`, `DATA_MODEL.md`, ADRs, `TEST_STRATEGY.md`, `EVAL_STRATEGY.md`, `RUNBOOK.md`, `RELEASE_NOTES.md`, `AGENTS.md`, `sdlc.project.yaml`, domain overlay under `.skills/`, eval release baselines under `evals/baselines/`. Enterprise agent roles and generic SDLC skills are served via Enterprise SDLC MCP (`enterprise_sdlc_mcp/`).
 
 GitHub-native: labels, milestones, Project board, issues, pull requests, releases.
 
