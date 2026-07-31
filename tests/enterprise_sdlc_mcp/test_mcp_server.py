@@ -29,7 +29,7 @@ def manifest_path() -> Path:
 def test_catalog_lists_agents_and_skills() -> None:
     catalog = load_catalog_manifest()
     assert len(catalog["agents"]) == 8
-    assert len(catalog["skills"]) == 13
+    assert len(catalog["skills"]) == 22
 
 
 def test_resolve_template_substitutes_project_paths(manifest_path: Path) -> None:
@@ -60,7 +60,7 @@ def test_get_skill_resolves_for_project(manifest_path: Path) -> None:
 
 def test_list_tools_return_entries() -> None:
     assert len(list_agents()) == 8
-    assert len(list_skills()) == 13
+    assert len(list_skills()) == 22
 
 
 def test_list_project_skills_finds_domain_overlay(manifest_path: Path) -> None:

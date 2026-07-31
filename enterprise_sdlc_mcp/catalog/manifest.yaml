@@ -81,3 +81,39 @@ skills:
     title: README/Runbook Documentation
     file: skills/readme-runbook-documentation.md
     used_by: [documentation-agent]
+  - id: cdk-stack-review
+    title: CDK Stack Review
+    file: skills/cdk-stack-review.md
+    used_by: [solution-architect, code-reviewer]
+  - id: iam-least-privilege-review
+    title: IAM Least-Privilege Review
+    file: skills/iam-least-privilege-review.md
+    used_by: [solution-architect, code-reviewer]
+  - id: synthetic-data-design
+    title: Synthetic Data Design
+    file: skills/synthetic-data-design.md
+    used_by: [product-analyst, test-eval-designer]
+  - id: eval-scenario-design
+    title: Eval Scenario Design
+    file: skills/eval-scenario-design.md
+    used_by: [test-eval-designer]
+  - id: llm-as-judge-rubric-design
+    title: LLM-as-Judge Rubric Design
+    file: skills/llm-as-judge-rubric-design.md
+    used_by: [test-eval-designer]
+  - id: bedrock-guardrails-review
+    title: Bedrock Guardrails Review
+    file: skills/bedrock-guardrails-review.md
+    used_by: [solution-architect, code-reviewer]
+  - id: prompt-caching-review
+    title: Prompt Caching Review
+    file: skills/prompt-caching-review.md
+    used_by: [solution-architect, code-reviewer]
+  - id: observability-dashboard-review
+    title: Observability Dashboard Review
+    file: skills/observability-dashboard-review.md
+    used_by: [solution-architect, release-manager]
+  - id: dynamodb-data-model-review
+    title: DynamoDB Data Model Review
+    file: skills/dynamodb-data-model-review.md
+    used_by: [solution-architect]
