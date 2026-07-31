@@ -134,3 +134,10 @@ First complete release of the NorthPeak Audioworks support-ticket triage assista
 ### How to run
 
 See `docs/03_operations/RUNBOOK.md`. Quick start: `python -m src.ui` (UI) or `uvicorn src.api.main:app` (API). Requires `OPENAI_API_KEY` for live classification/drafting.
+
+## Post-v0.1.0 — Enterprise SDLC MCP extraction
+
+**Type:** Build-time tooling (not runtime product). Issue [#65](https://github.com/raghuram-chittibomma/support-ticket-triage-assistant/issues/65), 2026-07-31. See `docs/00_project/DELIVERY_RECORD.md` and [ADR-003](../01_architecture/DECISIONS/ADR-003-extract-enterprise-sdlc-mcp.md).
+
+- Extracted `enterprise_sdlc_mcp/` (with git history) into the standalone, pip-installable repo [`enterprise-sdlc-mcp`](https://github.com/raghuram-chittibomma/enterprise-sdlc-mcp) (tagged `v0.1.0`), after a second real project (`supportrouter-aws`) started consuming it via a fragile cross-repo path into this repo's own venv.
+- This repo now installs the package editable into its own `.venv`; `.cursor/mcp.json` and `pyproject.toml` updated accordingly; 266 passing pytest tests (down from 273 — the 7 MCP-catalog tests moved to the new repo).

@@ -42,7 +42,7 @@ Architecture: [`docs/01_architecture/ENTERPRISE_SDLC_MCP.md`](docs/01_architectu
 - `tests/`, `evals/` — test and evaluation code.
 - `data/sample/`, `data/knowledge_base/`, `data/generated/` — synthetic data.
 - `scripts/` — synthetic data generation utilities.
-- `enterprise_sdlc_mcp/` — Enterprise SDLC MCP server and catalog (separate program from runtime product).
+- Enterprise SDLC MCP server and catalog — **standalone repo** [`enterprise-sdlc-mcp`](https://github.com/raghuram-chittibomma/enterprise-sdlc-mcp), installed editable into this repo's `.venv` (see `docs/01_architecture/ENTERPRISE_SDLC_MCP.md`). Not vendored here.
 - `.skills/` — **project overlay only** (domain-specific checklists for NorthPeak triage).
 - `sdlc.project.yaml` — project manifest for MCP placeholder resolution.
 
