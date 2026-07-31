@@ -104,18 +104,18 @@ Resolution is deterministic string substitution — no LLM involved.
    git clone https://github.com/raghuram-chittibomma/enterprise-sdlc-mcp.git ../enterprise-sdlc-mcp
    .venv/Scripts/python.exe -m pip install -e ../enterprise-sdlc-mcp   # .venv/bin/python on Linux/macOS
    ```
-2. `.cursor/mcp.json` runs the installed package from this repo's own `.venv` — no cross-repo path, no `PYTHONPATH`:
+2. `.cursor/mcp.json` runs the installed package from this repo's own `.venv`, using **absolute paths** — Cursor does not reliably resolve a relative `command` path against the workspace root on Windows (it silently falls back to the global interpreter on `PATH`, which doesn't have the package installed):
    ```json
    { "mcpServers": { "enterprise-sdlc": {
-       "command": ".venv/Scripts/python.exe",
+       "command": "C:\\Users\\<you>\\SDLC-Project\\.venv\\Scripts\\python.exe",
        "args": ["-m", "enterprise_sdlc_mcp.server"],
-       "env": { "SDLC_PROJECT_MANIFEST": "sdlc.project.yaml" }
+       "env": { "SDLC_PROJECT_MANIFEST": "C:\\Users\\<you>\\SDLC-Project\\sdlc.project.yaml" }
    } } }
    ```
 3. Main Orchestrator calls `get_agent("code-reviewer")` before merge instead of reading `.agents/code-reviewer.md`.
 4. Domain skills remain local; call `get_project_skill("hifi-audio-support-taxonomy-design.md")` when needed.
 
-Each consuming project (this repo, `supportrouter-aws`) installs the package into its **own** venv from its **own** local clone of `enterprise-sdlc-mcp` — never by pointing at another project's venv or folder.
+Each consuming project (this repo, `supportrouter-aws`) installs the package into its **own** venv from its **own** local clone of `enterprise-sdlc-mcp`, and its `.cursor/mcp.json` only ever references its **own** absolute paths — never another project's venv or folder.
 
 ## GitHub program differentiation
 
