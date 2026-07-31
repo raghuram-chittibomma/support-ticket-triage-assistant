@@ -41,7 +41,7 @@ flowchart LR
 | Backlog and status | [Issues](https://github.com/raghuram-chittibomma/support-ticket-triage-assistant/issues) · [Project board](https://github.com/users/raghuram-chittibomma/projects) |
 | Per-slice facts | [`RELEASE_NOTES.md`](docs/03_operations/RELEASE_NOTES.md) (includes reviewer findings) |
 | Eval baselines | [`evals/baselines/`](evals/baselines/) · [`QUALITY_BAR.md`](evals/baselines/QUALITY_BAR.md) |
-| Build-time agents | [`enterprise_sdlc_mcp/`](enterprise_sdlc_mcp/) · [`AGENTS.md`](AGENTS.md) |
+| Build-time agents | [`enterprise-sdlc-mcp`](https://github.com/raghuram-chittibomma/enterprise-sdlc-mcp) (standalone repo, installed via pip) · [`AGENTS.md`](AGENTS.md) |
 
 ## Start here
 
@@ -73,7 +73,6 @@ src/          runtime application (pipeline, API, Gradio UI)
 tests/        pytest unit/integration tests
 evals/        evaluation runner + release baselines under evals/baselines/
 data/         synthetic catalog, tickets, knowledge base
-enterprise_sdlc_mcp/  Enterprise SDLC MCP server (build-time, not runtime)
 .skills/      domain overlay skills only
 .github/      issue/PR templates and CI workflows
 ```

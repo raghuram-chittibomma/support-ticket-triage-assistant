@@ -6,9 +6,11 @@ This document describes the **Enterprise SDLC MCP** program: a reusable Model Co
 
 | Layer | What it is | Where it lives |
 |-------|------------|----------------|
-| **Enterprise catalog** | Parameterized agent roles and generic SDLC skills | `enterprise-sdlc-mcp/catalog/` served by MCP |
+| **Enterprise catalog** | Parameterized agent roles and generic SDLC skills | Standalone repo [`enterprise-sdlc-mcp`](https://github.com/raghuram-chittibomma/enterprise-sdlc-mcp), pip-installed editable into this repo's `.venv` |
 | **Project overlay** | Golden rules, domain docs, domain-specific skills | `AGENTS.md`, `docs/00_project/`, `.skills/` (domain only) |
 | **Runtime product** | Deployed application | `src/`, product `tests/`, `evals/` |
+
+The catalog was originally built and vendored directly in this repo (PR [#51](https://github.com/raghuram-chittibomma/support-ticket-triage-assistant/pull/51)). Once a second project ([`supportrouter-aws`](https://github.com/raghuram-chittibomma/supportrouter-aws)) started consuming it, it was extracted (with git history) into its own repo to remove a fragile cross-repo coupling — see [ADR-003](DECISIONS/ADR-003-extract-enterprise-sdlc-mcp.md).
 
 Build-time agents (Code Reviewer, Solution Architect, etc.) are **not** runtime components. The MCP server delivers *what* each role checks; `AGENTS.md` still governs *when* (e.g. independent Code Reviewer before merge).
 
@@ -18,7 +20,7 @@ Build-time agents (Code Reviewer, Solution Architect, etc.) are **not** runtime 
 
 **Agents (8):** product-analyst, solution-architect, implementation-planner, test-eval-designer, code-reviewer, refactor-reviewer, documentation-agent, release-manager.
 
-**Skills (13):** requirement-tightening, github-backlog-creation, github-issue-quality-review, architecture-review, postgresql-schema-review, database-migration-review, rag-retrieval-design-review, langgraph-workflow-review, fastapi-service-review, test-eval-design, pr-code-review, release-readiness-review, readme-runbook-documentation.
+**Skills (22):** requirement-tightening, github-backlog-creation, github-issue-quality-review, architecture-review, postgresql-schema-review, database-migration-review, rag-retrieval-design-review, langgraph-workflow-review, fastapi-service-review, test-eval-design, pr-code-review, release-readiness-review, readme-runbook-documentation, plus 9 added for the `supportrouter-aws` AWS/eval stack: cdk-stack-review, iam-least-privilege-review, synthetic-data-design, eval-scenario-design, llm-as-judge-rubric-design, bedrock-guardrails-review, prompt-caching-review, observability-dashboard-review, dynamodb-data-model-review.
 
 Catalog markdown uses `{{project.*}}` placeholders resolved at serve time from a project manifest.
 
@@ -97,12 +99,23 @@ Resolution is deterministic string substitution — no LLM involved.
 
 ## Consumption in Cursor
 
-1. Enable MCP server in `.cursor/mcp.json` (points at `enterprise-sdlc-mcp` package).
-2. Set `SDLC_PROJECT_MANIFEST` to the repo's `sdlc.project.yaml` (configured in mcp.json `env`).
+1. One-time local setup: clone the catalog as a sibling directory and install it editable into this repo's own venv:
+   ```bash
+   git clone https://github.com/raghuram-chittibomma/enterprise-sdlc-mcp.git ../enterprise-sdlc-mcp
+   .venv/Scripts/python.exe -m pip install -e ../enterprise-sdlc-mcp   # .venv/bin/python on Linux/macOS
+   ```
+2. `.cursor/mcp.json` runs the installed package from this repo's own `.venv` — no cross-repo path, no `PYTHONPATH`:
+   ```json
+   { "mcpServers": { "enterprise-sdlc": {
+       "command": ".venv/Scripts/python.exe",
+       "args": ["-m", "enterprise_sdlc_mcp.server"],
+       "env": { "SDLC_PROJECT_MANIFEST": "sdlc.project.yaml" }
+   } } }
+   ```
 3. Main Orchestrator calls `get_agent("code-reviewer")` before merge instead of reading `.agents/code-reviewer.md`.
 4. Domain skills remain local; call `get_project_skill("hifi-audio-support-taxonomy-design.md")` when needed.
 
-Use the project's Python interpreter (e.g. activate `.venv` first, or point `command` at `.venv/Scripts/python.exe` on Windows / `.venv/bin/python` on Linux/macOS if Cursor does not pick up the venv automatically).
+Each consuming project (this repo, `supportrouter-aws`) installs the package into its **own** venv from its **own** local clone of `enterprise-sdlc-mcp` — never by pointing at another project's venv or folder.
 
 ## GitHub program differentiation
 
@@ -112,10 +125,10 @@ Enterprise SDLC MCP work is tracked separately from ticket-triage product slices
 - **Milestone:** `Enterprise SDLC MCP v1` (or epic under that program)
 - Product triage work keeps existing `component:*`, `phase:*`, and `v0.1 SDLC Demo` milestone labels.
 
-## Future extraction
+## Extraction (done)
 
-The `enterprise-sdlc-mcp/` directory is structured to become a standalone repository or installable package. This repo acts as the first consumer and reference implementation.
+Extracted to [`enterprise-sdlc-mcp`](https://github.com/raghuram-chittibomma/enterprise-sdlc-mcp) once `supportrouter-aws` became a second real consumer — see [ADR-003](DECISIONS/ADR-003-extract-enterprise-sdlc-mcp.md). This repo remains the reference implementation and first consumer; the standalone repo owns the catalog going forward.
 
 ## ADR status
 
-This is a delivery-architecture decision for build-time tooling only. No runtime triage behavior changes. If the MCP catalog becomes the sole source for agent definitions across multiple repos, record ADR-003.
+This is a delivery-architecture decision for build-time tooling only. No runtime triage behavior changes. Recorded as [ADR-003](DECISIONS/ADR-003-extract-enterprise-sdlc-mcp.md).

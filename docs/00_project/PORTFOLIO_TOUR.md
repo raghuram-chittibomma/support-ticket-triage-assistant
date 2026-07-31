@@ -57,7 +57,7 @@ You should leave with:
 - Build-time SDLC roles (MCP) ≠ runtime pipeline components (`src/`)
 - Pre-merge review path: fresh-context Code Reviewer via MCP ([#53](https://github.com/raghuram-chittibomma/support-ticket-triage-assistant/pull/53) codified this)
 
-Catalog lives under [`enterprise_sdlc_mcp/`](../../enterprise_sdlc_mcp/).
+Catalog was built here (PR #51), then extracted to its own repo once a second project started consuming it: [`enterprise-sdlc-mcp`](https://github.com/raghuram-chittibomma/enterprise-sdlc-mcp) (ADR-003).
 
 ---
 

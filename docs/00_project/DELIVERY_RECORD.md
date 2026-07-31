@@ -17,9 +17,9 @@ The **primary portfolio artifact** is the delivery process: GitHub-first backlog
 | Program | Milestone / label | Outcome |
 |---------|-------------------|---------|
 | **Triage product demo** | `v0.1 SDLC Demo` | Pipeline, API, Gradio UI, eval runner — [release v0.1.0](https://github.com/raghuram-chittibomma/support-ticket-triage-assistant/releases/tag/v0.1.0) |
-| **Enterprise SDLC MCP** | `program:enterprise-sdlc` | Reusable build-time agents/skills via MCP — [PR #51](https://github.com/raghuram-chittibomma/support-ticket-triage-assistant/pull/51) |
+| **Enterprise SDLC MCP** | `program:enterprise-sdlc` | Reusable build-time agents/skills via MCP — [PR #51](https://github.com/raghuram-chittibomma/support-ticket-triage-assistant/pull/51); extracted to its own repo 2026-07-31 ([ADR-003](../01_architecture/DECISIONS/ADR-003-extract-enterprise-sdlc-mcp.md)) |
 
-The MCP program was spun up mid-stream (2026-07-03) and dogfooded for pre-merge review from [PR #53](https://github.com/raghuram-chittibomma/support-ticket-triage-assistant/pull/53) onward.
+The MCP program was spun up mid-stream (2026-07-03) and dogfooded for pre-merge review from [PR #53](https://github.com/raghuram-chittibomma/support-ticket-triage-assistant/pull/53) onward. It outgrew this repo once a second real project ([`supportrouter-aws`](https://github.com/raghuram-chittibomma/supportrouter-aws)) started consuming the same catalog — see [Enterprise SDLC MCP extraction](#enterprise-sdlc-mcp-extraction-2026-07-31) below.
 
 ## Timeline (from git)
 
@@ -30,6 +30,8 @@ The MCP program was spun up mid-stream (2026-07-03) and dogfooded for pre-merge 
 | 2026-07-03 | Slices 3–7 merged ([#42](https://github.com/raghuram-chittibomma/support-ticket-triage-assistant/pull/42)–[#46](https://github.com/raghuram-chittibomma/support-ticket-triage-assistant/pull/46)) |
 | 2026-07-03 | Enterprise SDLC MCP v1 ([#51](https://github.com/raghuram-chittibomma/support-ticket-triage-assistant/pull/51)); eval suite ([#52](https://github.com/raghuram-chittibomma/support-ticket-triage-assistant/pull/52)); CI ([#54](https://github.com/raghuram-chittibomma/support-ticket-triage-assistant/pull/54)); release ([#55](https://github.com/raghuram-chittibomma/support-ticket-triage-assistant/pull/55)) |
 | 2026-07-03 | Tag `v0.1.0` published |
+| 2026-07-31 | Portfolio share phases 1–2 merged ([#57](https://github.com/raghuram-chittibomma/support-ticket-triage-assistant/pull/57), [#58](https://github.com/raghuram-chittibomma/support-ticket-triage-assistant/pull/58)) |
+| 2026-07-31 | Enterprise SDLC MCP extracted to its own repo ([issue #65](https://github.com/raghuram-chittibomma/support-ticket-triage-assistant/issues/65), [ADR-003](../01_architecture/DECISIONS/ADR-003-extract-enterprise-sdlc-mcp.md)) |
 
 **Calendar span:** two days of active delivery (foundation + ten product/delivery slices + MCP program), single orchestrator with build-time agent roles.
 
@@ -76,6 +78,17 @@ Roles are advisory except the orchestrator (implementation) and the Code Reviewe
 
 **Live baseline (v0.1.0):** category/priority/missing-fields 100%; rubric check pass rate 99.2% (24/25 fully passed). Meets [`QUALITY_BAR.md`](../../evals/baselines/QUALITY_BAR.md). One rubric nit on `TCK-0018` (`addresses_stated_issue`) — see `live-baseline.md`.
 
+## Enterprise SDLC MCP extraction (2026-07-31)
+
+The Enterprise SDLC MCP catalog was built and vendored in this repo ([PR #51](https://github.com/raghuram-chittibomma/support-ticket-triage-assistant/pull/51)), which anticipated eventual extraction once a second consumer existed (`docs/01_architecture/ENTERPRISE_SDLC_MCP.md`). That happened: a separate portfolio project, [`supportrouter-aws`](https://github.com/raghuram-chittibomma/supportrouter-aws), started consuming the same catalog — but by pointing its `.cursor/mcp.json` directly at this repo's own `.venv` and folder path, a fragile cross-repo coupling that would break if this repo moved.
+
+Resolution ([issue #65](https://github.com/raghuram-chittibomma/support-ticket-triage-assistant/issues/65), [ADR-003](../01_architecture/DECISIONS/ADR-003-extract-enterprise-sdlc-mcp.md)):
+
+- Extracted `enterprise_sdlc_mcp/` with git history (`git subtree split`) into [`enterprise-sdlc-mcp`](https://github.com/raghuram-chittibomma/enterprise-sdlc-mcp), packaged as a proper installable Python package (`pyproject.toml`, console-script entry point, own test suite, own CI), tagged `v0.1.0`.
+- This repo now installs it editable (`pip install -e ../enterprise-sdlc-mcp`) into its own `.venv`; `.cursor/mcp.json` runs it with no `PYTHONPATH` or cross-repo path.
+- Nine catalog skills that existed only on local disk (added for `supportrouter-aws`'s AWS/eval stack, never committed) were committed to git history before extraction so nothing was lost.
+- Fast pytest suite: 266 (down from 273 — the 7 MCP-catalog tests moved to the new repo's own suite).
+
 ## Backlog shape
 
 Requirements trace FR1–FR8 → user stories → technical tasks (`docs/00_project/PRODUCT_BRIEF.md`). Enabler epic [#29](https://github.com/raghuram-chittibomma/support-ticket-triage-assistant/issues/29) for synthetic data/schema. Deferred follow-ups: [#39](https://github.com/raghuram-chittibomma/support-ticket-triage-assistant/issues/39) (missing-info hardening), [#41](https://github.com/raghuram-chittibomma/support-ticket-triage-assistant/issues/41) (doc nit).
@@ -105,6 +118,7 @@ Honest scope boundary for portfolio readers comparing this repo to a staffed AI 
 ## Related docs
 
 - [`PORTFOLIO_TOUR.md`](PORTFOLIO_TOUR.md) — guided path for external reviewers (start here when sharing)
+- [ADR-003](../01_architecture/DECISIONS/ADR-003-extract-enterprise-sdlc-mcp.md) — Enterprise SDLC MCP extraction to its own repo
 - [`AI_ORCHESTRATOR_BRIEF.md`](AI_ORCHESTRATOR_BRIEF.md) — operating rules for agents
 - [`RELEASE_NOTES.md`](../03_operations/RELEASE_NOTES.md) — per-slice factual log (includes reviewer findings)
 - [`evals/baselines/README.md`](../../evals/baselines/README.md) — baseline policy
