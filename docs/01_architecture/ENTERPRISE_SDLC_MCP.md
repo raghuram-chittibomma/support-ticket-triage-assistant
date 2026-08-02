@@ -18,11 +18,17 @@ Build-time agents (Code Reviewer, Solution Architect, etc.) are **not** runtime 
 
 ### Enterprise catalog (MCP)
 
-**Agents (8):** product-analyst, solution-architect, implementation-planner, test-eval-designer, code-reviewer, refactor-reviewer, documentation-agent, release-manager.
+As of catalog `0.5.0` (this repo installs it editable from `../enterprise-sdlc-mcp`; check `pip show enterprise-sdlc-mcp` for the currently-installed version):
 
-**Skills (22):** requirement-tightening, github-backlog-creation, github-issue-quality-review, architecture-review, postgresql-schema-review, database-migration-review, rag-retrieval-design-review, langgraph-workflow-review, fastapi-service-review, test-eval-design, pr-code-review, release-readiness-review, readme-runbook-documentation, plus 9 added for the `supportrouter-aws` AWS/eval stack: cdk-stack-review, iam-least-privilege-review, synthetic-data-design, eval-scenario-design, llm-as-judge-rubric-design, bedrock-guardrails-review, prompt-caching-review, observability-dashboard-review, dynamodb-data-model-review.
+**Agents (9):** product-analyst, solution-architect, implementation-planner, test-eval-designer, code-reviewer, refactor-reviewer, documentation-agent, release-manager, dependency-upgrade-agent (new: plans/executes dependency and runtime version upgrades as an isolated, tracked workflow — not yet exercised in this repo, but available).
 
-Catalog markdown uses `{{project.*}}` placeholders resolved at serve time from a project manifest.
+**Skills (29):** requirement-tightening, github-backlog-creation, github-issue-quality-review, architecture-review, postgresql-schema-review, database-migration-review, rag-retrieval-design-review, langgraph-workflow-review, fastapi-service-review, test-eval-design, pr-code-review, release-readiness-review, readme-runbook-documentation, plus 9 added for the `supportrouter-aws` AWS/eval stack (cdk-stack-review, iam-least-privilege-review, synthetic-data-design, eval-scenario-design, llm-as-judge-rubric-design, bedrock-guardrails-review, prompt-caching-review, observability-dashboard-review, dynamodb-data-model-review), plus 7 added in a later tightening pass: application-security-review, dependency-supply-chain-review, cicd-pipeline-review, api-contract-review, incident-postmortem-review, frontend-accessibility-review, cloud-infra-review.
+
+Every skill declares an `applies_when` tag (`always`, or a stack tag like `fastapi`/`llm-product`/`rag`) via `list_skills()`, so a project can tell which ones actually apply to it. For this repo: `fastapi`, `api`, `rag`, and `llm-product`-tagged skills apply; `postgresql`-tagged ones don't yet (deferred per ADR-001); `aws`/`bedrock`/`dynamodb`/`infra`-tagged ones don't apply (that's `supportrouter-aws`'s stack). `pr-code-review` was substantially rewritten (severity model, evidence rule, output format) — see the catalog's own changelog for details; this repo's required review path (below) already calls it dynamically via `get_skill`, so no local change was needed to pick that up.
+
+Every agent also declares a machine-readable `permissions` block (`code_modify`: `none`/`scoped`/`conditional`, plus a `write_paths` allowlist) via `list_agents()`, alongside its existing prose "Code-Modify Permission" section — useful if this repo ever wants a CI gate that checks a PR's changed files against what its authoring role was meant to touch.
+
+Catalog markdown uses `{{project.*}}` placeholders resolved at serve time from a project manifest. Run the `validate_manifest` MCP tool against this repo's own `sdlc.project.yaml` to check for gaps before they leak into a resolved prompt.
 
 ### Project overlay (local)
 
@@ -74,13 +80,14 @@ Resolution is deterministic string substitution — no LLM involved.
 
 | Tool | Description |
 |------|-------------|
-| `list_agents` | Catalog agent IDs, titles, and one-line purpose |
+| `list_agents` | Catalog agent IDs, titles, source file, and `permissions` (`code_modify` tier + `write_paths` allowlist) |
 | `get_agent` | Resolved agent role markdown for a project |
-| `list_skills` | Catalog skill IDs and titles |
+| `list_skills` | Catalog skill IDs, titles, and `applies_when` tags |
 | `get_skill` | Resolved skill checklist for a project |
 | `list_project_skills` | Domain skills from project overlay path |
 | `get_project_skill` | Read a project-local skill file |
-| `get_project_manifest` | Parsed and validated project manifest |
+| `get_project_manifest` | Parsed project manifest |
+| `validate_manifest` | Report which core/conditional `{{project.*}}` keys this repo's manifest is missing |
 
 ### Resources
 
@@ -96,6 +103,7 @@ Resolution is deterministic string substitution — no LLM involved.
 |--------|-----|
 | `independent_code_review` | Launch Code Reviewer subagent with resolved role + pr-code-review skill |
 | `architecture_review` | Launch Solution Architect / Refactor Reviewer review pass |
+| `launch_role` | Generic: launch any agent id with any comma-separated list of skill ids and free-text context |
 
 ## Consumption in Cursor
 
